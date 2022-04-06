@@ -1,0 +1,21 @@
+name: CI
+on: [pull_request]
+
+jobs:
+  lint:
+    strategy:
+      matrix:
+        node-version: ["14.x", "16.x"]
+        platform: [ubuntu-18.04]
+    runs-on: ${{ matrix.platform }}
+    name: "lint in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: lint
+        run: |
+          yarn install --immutable
+          yarn lint

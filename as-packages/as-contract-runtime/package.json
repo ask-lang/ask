@@ -1,0 +1,19 @@
+{
+  "name": "as-contract-runtime",
+  "version": "0.2.0",
+  "description": "as version of contract runtime primitives",
+  "author": "yjhmelody <yjh465402634@gmail.com>",
+  "license": "MIT",
+  "main": "index.ts",
+  "keywords": ["substrate", "blockchain", "wasm", "smart-contract", "assemblyscript", "runtime"],
+  "scripts": {
+    "checks": "asc ./index.ts --noEmit --measure",
+    "test": "echo 'no test'"
+  },
+  "releaseFiles": [
+    "index.ts",
+    "assembly/",
+    "README.md",
+    "package.json"
+  ]
+}
