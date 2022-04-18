@@ -1,0 +1,40 @@
+{
+  "name": "ask-lang",
+  "version": "0.1.0",
+  "description": "Ask lang sdk",
+  "main": "index.ts",
+  "license": "MIT",
+  "author": "yjhmelody <yjh465402634@gmail.com>",
+  "keywords": [
+    "assemblyscript",
+    "ask",
+    "wasm",
+    "smart-contract",
+    "contract-metadata",
+    "substrate"
+  ],
+  "dependencies": {
+    "as-bignum": "^0.2.18",
+    "as-buffers": "*",
+    "as-contract-runtime": "^0.2",
+    "as-serde": "^0.1.1",
+    "as-serde-scale": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/blake2": "^4.0.1",
+    "@types/node": "17.0.23",
+    "assemblyscript": "^0.19",
+    "ts-node": "^10",
+    "typescript": "^4.6"
+  },
+  "scripts": {
+    "checks": "asc ./index.ts --noEmit --measure",
+    "test": "asp --verbose"
+  },
+  "files": [
+    "README.md",
+    "assembly",
+    "index.ts",
+    "index.d.ts"
+  ]
+}
