@@ -10,13 +10,15 @@ export class StaticBuffer {
      */
     static readonly DEFAULT_BUFFER_SIZE: u32 = 1024 * 16;
 
+    /**
+     * The four bytes for storing `size` value.
+     */
     private readonly _sizePtr: StaticArray<u8> = new StaticArray<u8>(4);
     @unsafe
     readonly buffer: StaticArray<u8>;
 
     constructor(bufferSize: u32 = StaticBuffer.DEFAULT_BUFFER_SIZE) {
         this.buffer = new StaticArray<u8>(bufferSize as i32);
-        writeBufferSize(this._sizePtr, bufferSize);
     }
 
     /**
@@ -35,7 +37,7 @@ export class StaticBuffer {
      */
     @inline
     isFull(): bool {
-        return readBufferSize(this._sizePtr) == this.buffer.length;
+        return readBufferSize(this._sizePtr) == (this.buffer.length as u32);
     }
 
     /**
@@ -68,17 +70,13 @@ export class StaticBuffer {
 }
 
 
-// @ts-ignore
-@inline
-function writeBufferSize(buf: StaticArray<u8>, size: u32): void {
+export function writeBufferSize(buf: StaticArray<u8>, size: u32): void {
     for (let i = 0; i < 4; i++) {
         buf[i] = ((size >> (i * 8)) & 0xff) as u8;
     }
 }
 
-// @ts-ignore
-@inline
-function readBufferSize(buf: StaticArray<u8>): u32 {
+export function readBufferSize(buf: StaticArray<u8>): u32 {
     let v: u32 = 0;
     for (let i = 3; i >= 0; i--) {
         v = ((buf[i] as u32) << (i * 8)) | v;
