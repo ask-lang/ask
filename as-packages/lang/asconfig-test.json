@@ -1,0 +1,9 @@
+{
+    "options": {
+        "transform": ["as-serde-transform"],
+        "importMemory": true,
+        "runtime": "stub",
+        "use": "abort=",
+        "disable": ["Sign-extension"]
+    }
+}
