@@ -2,6 +2,7 @@ import { IMessage } from ".";
 
 /**
  * IContract represents a callable and deployable class which will be used as a substrate contract instance.
+ * It will be impled for class with `@contract` decorated.
  */
 export interface IContract {
     /**
