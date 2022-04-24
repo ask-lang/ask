@@ -1,7 +1,9 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches:
+    - main
+    - ci-**
   pull_request:
 
 jobs:
@@ -22,3 +24,20 @@ jobs:
         run: |
           yarn install --immutable
           yarn lint
+  test:
+    strategy:
+      matrix:
+        node-version: ["14.x", "16.x"]
+        platform: [ubuntu-18.04]
+    runs-on: ${{ matrix.platform }}
+    name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: test
+        run: |
+          yarn install --immutable
+          yarn test
