@@ -1,0 +1,70 @@
+import { seal0 } from "as-contract-runtime";
+import { BytesBuffer, ScaleDeserializer } from "as-serde-scale";
+import { StaticBuffer } from "../internal";
+import { IMessage } from "../interfaces/message";
+
+// A global static buffer for storing transaction message.
+const messageBuffer = new StaticBuffer();
+// Selector is 4 bytes.
+const SELECTOR_BUFFER_SIZE: i32 = 4;
+
+/**
+ * Message represents a contract call data from request. 
+ * 
+ * It's internal used by ask-transform.
+ */
+export class Message implements IMessage {
+    // This contains input first 4 bytes as selector.
+    private readonly selector: StaticArray<u8> = new StaticArray<u8>(
+        SELECTOR_BUFFER_SIZE
+    );
+
+    // The rest bytes for message args.
+    @unsafe
+    private readonly argsBytes: BytesBuffer;
+
+    // TODO: add fillFromEnv method instead of constructor
+    constructor() {
+        seal0.seal_input(messageBuffer.bufferPtr, messageBuffer.sizePtr);
+        memory.copy(
+            changetype<usize>(this.selector),
+            changetype<usize>(messageBuffer.bufferPtr),
+            SELECTOR_BUFFER_SIZE
+        );
+        this.argsBytes = BytesBuffer.wrap(messageBuffer.buffer);
+        this.argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
+    }
+
+    /**
+     * Determine whether the message is the call of the selector
+     * @param selector 4 Bytes array
+     * @returns
+     */
+    isSelector(selector: StaticArray<u8>): bool {
+        // @ts-ignore
+        if (this.selector.length != selector.length) {
+            return false;
+        }
+        return this._isSelectorStatic(selector);
+    }
+
+    private _isSelectorStatic(selector: StaticArray<u8>): bool {
+        return (
+            memory.compare(
+                changetype<usize>(this.selector),
+                changetype<usize>(selector),
+                SELECTOR_BUFFER_SIZE
+            ) == 0
+        );
+    }
+
+    /**
+     * Consume part of message argument bytes and return the decoded SCALE type value.
+     * 
+     * Panic occurs when bytes are consumed out of index.
+     * @returns arg value
+     */
+    getArg<T>(): T {
+        return ScaleDeserializer.deserialize<T>(this.argsBytes);
+    }
+}
