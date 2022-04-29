@@ -83,5 +83,3 @@ export function readBufferSize(buf: StaticArray<u8>): u32 {
     }
     return v;
 }
-
-
