@@ -3,7 +3,7 @@ import { ISerialize, IDeserialize } from "as-serde";
 
 /**
  * A class represents random function result.
- * 
+ *
  * Contains hash and blockNumber.
  */
 @serialize({ omitName: true })
