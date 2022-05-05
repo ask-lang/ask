@@ -23,7 +23,7 @@ export class StaticBuffer {
 
     /**
      * Reset altered buffer size value to the inner buffer actual size.
-     * @param size 
+     * @param size
      */
     @inline
     resetBufferSize(size: u32 = this.buffer.length): void {
@@ -31,9 +31,9 @@ export class StaticBuffer {
     }
 
     /**
-     * Return true if size buffer value is equal to inner buffer length. 
+     * Return true if size buffer value is equal to inner buffer length.
      * It's used to determine that should StaticBuffer expand memory size.
-     * @returns 
+     * @returns
      */
     @inline
     isFull(): bool {
@@ -68,7 +68,6 @@ export class StaticBuffer {
     //     );
     // }
 }
-
 
 export function writeBufferSize(buf: StaticArray<u8>, size: u32): void {
     for (let i = 0; i < 4; i++) {

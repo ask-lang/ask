@@ -7,13 +7,13 @@ import { IMessage } from ".";
 export interface IContract {
     /**
      * Deploy a contract according to message. It will be called by main deploy function.
-     * @param message 
+     * @param message
      */
     deploy<M extends IMessage>(message: M): i32;
 
     /**
      * Call a contract message function according to message. It will be called by main call function.
-     * @param message 
+     * @param message
      */
     call<M extends IMessage>(message: M): i32;
 }

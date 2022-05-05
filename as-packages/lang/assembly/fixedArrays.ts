@@ -1,5 +1,8 @@
 import { ISerialize, IDeserialize, Serializer, Deserializer } from "as-serde";
 
+/**
+ * A fixed array which can be serialized with a fixed length without prefix length encoding.
+ */
 export abstract class FixedArray<T> implements ISerialize, IDeserialize {
     [key: number]: T;
 
