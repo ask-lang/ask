@@ -5,7 +5,7 @@ import { IHash128, IHash256 } from "../interfaces";
 // @ts-ignore
 @lazy
     const ERR_INPUT_TYPE =
-    "Input type must be Array<u8> or StaticArray<u8> or FixedArray";
+    "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
 
 function invoke_hash<Output = Array<u8>>(
     inputPtr: usize,
