@@ -192,3 +192,26 @@ export declare function seal_call_runtime(callPtr: Ptr, callLen: Size): ReturnCo
 // @ts-ignore
 @external("__unstable__", "seal_ecdsa_recover")
 export declare function seal_ecdsa_recover(callPtr: Ptr, callLen: Size): ReturnCode;
+
+
+// Calculates Ethereum address from the ECDSA compressed public key and stores
+// it into the supplied buffer.
+//
+// # Parameters
+//
+// - `key_ptr`: a pointer to the ECDSA compressed public key. Should be decodable as a 33 bytes value.
+//		Traps otherwise.
+// - `out_ptr`: the pointer into the linear memory where the output
+//                 data is placed. The function will write the result
+//                 directly into this buffer.
+//
+// The value is stored to linear memory at the address pointed to by `out_ptr`.
+// If the available space at `out_ptr` is less than the size of the value a trap is triggered.
+//
+// # Errors
+//
+// `ReturnCode::EcdsaRecoverFailed`
+
+// @ts-ignore
+@external("__unstable__", "seal_ecdsa_to_eth_address")
+export declare function seal_ecdsa_to_eth_address(keyPtr: Ptr, outPtr: Ptr): ReturnCode;
