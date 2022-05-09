@@ -4,13 +4,14 @@ import { ConstructorSpec } from "..";
 describe("Decoder", () => {
     it("ConstructorSpec", () => {
         const json = {
-            name: ["foo"],
+            label: "foo",
             selector: "0x075bcd15",
+            payable: false,
             args: [],
             docs: [""],
         };
 
-        const spec = new ConstructorSpec(["foo"], "0x075bcd15");
+        const spec = new ConstructorSpec("foo", "0x075bcd15");
         expect(spec.toMetadata()).toStrictEqual(json);
     });
 });

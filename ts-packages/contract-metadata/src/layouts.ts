@@ -7,7 +7,6 @@ import {
     IHashingStrategy,
 } from "./specs";
 
-
 export enum LayoutKind {
     Cell,
     Hash,

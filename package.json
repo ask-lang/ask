@@ -11,7 +11,8 @@
     "substrate"
   ],
   "workspaces": [
-    "as-packages/*"
+    "as-packages/*",
+    "ts-packages/*"
   ],
   "author": "yjhmelody <yjh465402634@gmail.com>",
   "license": "MIT",

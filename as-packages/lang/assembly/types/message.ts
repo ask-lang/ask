@@ -9,8 +9,8 @@ const messageBuffer = new StaticBuffer();
 const SELECTOR_BUFFER_SIZE: i32 = 4;
 
 /**
- * Message represents a contract call data from request. 
- * 
+ * Message represents a contract call data from request.
+ *
  * It's internal used by ask-transform.
  */
 export class Message implements IMessage {
@@ -60,7 +60,7 @@ export class Message implements IMessage {
 
     /**
      * Consume part of message argument bytes and return the decoded SCALE type value.
-     * 
+     *
      * Panic occurs when bytes are consumed out of index.
      * @returns arg value
      */

@@ -8,28 +8,38 @@ import {
     IEventSpec,
     IMessageParamSpec,
     IMessageSpec,
+    IMetadataVersioned,
     ITypeSpec,
 } from "./specs";
 import { Type } from "./types";
 import { ISource } from "./specs";
-import { METADATA_VERSION, ToMetadata } from ".";
+import { MetadataVersion, ToMetadata } from ".";
+
+export class VersionedContractMetadata implements ToMetadata {
+    constructor(
+        private readonly contractMetadata: ContractMetadata,
+        private readonly source: Source,
+        private readonly contract: Contract
+    ) {}
+
+    toMetadata(): IMetadataVersioned {
+        return {
+            [MetadataVersion.V3]: this.contractMetadata.toMetadata(),
+            source: this.source.toMetadata(),
+            contract: this.contract.toMetadata(),
+        };
+    }
+}
 
 export class ContractMetadata implements ToMetadata {
-    public readonly metadataVersion: string = METADATA_VERSION;
-
     constructor(
-        public readonly source: Source,
-        public readonly contract: Contract,
-        public readonly spec: ContractSpec,
-        public readonly types: Array<Type>,
-        public readonly storage: Layout
+        private readonly spec: ContractSpec,
+        private readonly types: Array<Type>,
+        private readonly storage: Layout
     ) {}
 
     toMetadata(): IContractMetadata {
         return {
-            metadataVersion: this.metadataVersion,
-            source: this.source,
-            contract: this.contract.toMetadata(),
             spec: this.spec.toMetadata(),
             types: this.types.map((t) => t.toMetadata()),
             storage: this.storage.toMetadata(),
@@ -39,9 +49,9 @@ export class ContractMetadata implements ToMetadata {
 
 export class Source implements ToMetadata {
     constructor(
-        public readonly hash: string,
-        public readonly language: string,
-        public readonly compiler: string
+        private readonly hash: string,
+        private readonly language: string,
+        private readonly compiler: string
     ) {}
 
     toMetadata(): ISource {
@@ -109,12 +119,12 @@ export class Contract implements ToMetadata {
 export class ContractSpec implements ToMetadata {
     constructor(
         /// The set of constructors of the contract.
-        public readonly constructors: Array<ConstructorSpec>,
+        private readonly constructors: Array<ConstructorSpec>,
         /// The external messages of the contract.
-        public readonly messages: Array<MessageSpec>,
+        private readonly messages: Array<MessageSpec>,
         /// The events of the contract.
-        public readonly events: Array<EventSpec>,
-        public readonly docs: Array<string> = [""]
+        private readonly events: Array<EventSpec>,
+        private readonly docs: Array<string> = [""]
     ) {}
 
     toMetadata(): IContractSpec {
@@ -128,18 +138,26 @@ export class ContractSpec implements ToMetadata {
 }
 
 export class ConstructorSpec implements ToMetadata {
+    private payable = false;
+
     constructor(
-        public readonly name: string[],
-        public readonly selector: string,
-        public readonly args: ArgumentSpec[] = [],
-        public readonly docs: string[] = [""]
+        private readonly label: string,
+        private readonly selector: string,
+        private readonly args: ArgumentSpec[] = [],
+        private readonly docs: string[] = [""]
     ) {}
+
+    setPayable(payable = true): this {
+        this.payable = payable;
+        return this;
+    }
 
     toMetadata(): IConstructorSpec {
         return {
             args: this.args.map((arg) => arg.toMetadata()),
             docs: this.docs,
-            name: this.name,
+            label: this.label,
+            payable: this.payable,
             selector: this.selector,
         };
     }
@@ -149,11 +167,11 @@ export class MessageSpec implements ToMetadata {
     private mutates = false;
     private payable = false;
     constructor(
-        public readonly name: string[],
-        public readonly selector: string,
-        public readonly args: ArgumentSpec[] = [],
-        public readonly returnType: TypeSpec | null = null,
-        public readonly docs: string[] = [""]
+        private readonly label: string,
+        private readonly selector: string,
+        private readonly args: ArgumentSpec[] = [],
+        private readonly returnType: TypeSpec | null = null,
+        private readonly docs: string[] = [""]
     ) {}
 
     setMutates(mutates = true): this {
@@ -173,7 +191,7 @@ export class MessageSpec implements ToMetadata {
             args: this.args.map((arg) => arg.toMetadata()),
             returnType: this.returnType?.toMetadata() || null,
             docs: this.docs,
-            name: this.name,
+            label: this.label,
             selector: this.selector,
         };
     }
@@ -181,10 +199,10 @@ export class MessageSpec implements ToMetadata {
 
 export class EventSpec implements ToMetadata {
     constructor(
-        public readonly id: number,
-        public readonly name: string,
-        public readonly args: EventParamSpec[],
-        public readonly docs: string[] = [""]
+        private readonly id: number,
+        private readonly name: string,
+        private readonly args: EventParamSpec[],
+        private readonly docs: string[] = [""]
     ) {}
 
     toMetadata(): IEventSpec {
@@ -199,10 +217,10 @@ export class EventSpec implements ToMetadata {
 
 export class EventParamSpec implements ToMetadata {
     constructor(
-        public readonly name: string,
-        public readonly type: TypeSpec,
-        public readonly indexed: boolean,
-        public readonly docs: string[] = [""]
+        private readonly name: string,
+        private readonly type: TypeSpec,
+        private readonly indexed: boolean,
+        private readonly docs: string[] = [""]
     ) {}
 
     toMetadata(): IEventParamSpec {
@@ -216,7 +234,10 @@ export class EventParamSpec implements ToMetadata {
 }
 
 export class ArgumentSpec implements ToMetadata {
-    constructor(public readonly type: TypeSpec, public readonly name: string) {}
+    constructor(
+        private readonly type: TypeSpec,
+        private readonly name: string
+    ) {}
 
     toMetadata(): IMessageParamSpec {
         return {
@@ -228,8 +249,8 @@ export class ArgumentSpec implements ToMetadata {
 
 export class TypeSpec implements ToMetadata {
     constructor(
-        public readonly type: number,
-        public readonly displayName: string
+        private readonly type: number,
+        private readonly displayName: string
     ) {}
 
     toMetadata(): ITypeSpec {

@@ -1,10 +1,20 @@
+import { MetadataVersion } from ".";
+
+/**
+ * Describes a contract.
+ */
 export interface IContractMetadata {
-    readonly metadataVersion: string;
-    readonly source: ISource;
-    readonly contract: IContract;
+    /// Describes a contract.
     readonly spec: IContractSpec;
+    /// The layout of the storage data structure
     readonly storage: ILayout;
     readonly types: Array<ITypeDef>;
+}
+
+export interface IMetadataVersioned {
+    readonly source: ISource;
+    readonly contract: IContract;
+    readonly [MetadataVersion.V3]: IContractMetadata;
 }
 
 export interface ISource {
@@ -126,6 +136,9 @@ export interface IContract {
     readonly license: string | null;
 }
 
+/**
+ * Describes a contract.
+ */
 export interface IContractSpec extends Docs {
     /**
      * The set of constructors of the contract.
@@ -141,14 +154,25 @@ export interface IContractSpec extends Docs {
     readonly events: Array<IEventSpec>;
 }
 
-export interface IConstructorSpec extends NameSelectorSpec, Docs {
+/**
+ * Describes a constructor of a contract.
+ */
+export interface IConstructorSpec extends LabelSelectorSpec, Docs {
+    /**
+     * If the message is payable by the caller.
+     */
+    readonly payable: boolean;
     /**
      * The parameters of the deploy handler.
      */
     readonly args: Array<IMessageParamSpec>;
 }
 
-export interface IMessageSpec extends NameSelectorSpec, Docs {
+/**
+ * Describes a contract message.
+ */
+
+export interface IMessageSpec extends LabelSelectorSpec, Docs {
     /**
      * If the message is allowed to mutate the contract state.
      */
@@ -167,7 +191,10 @@ export interface IMessageSpec extends NameSelectorSpec, Docs {
     readonly returnType: ITypeSpec | null;
 }
 
-export interface IEventSpec extends NameSpec, Docs {
+/**
+ * Describes an event definition.
+ */
+export interface IEventSpec extends LabelSpec, Docs {
     /**
      * The event id.
      */
@@ -178,7 +205,10 @@ export interface IEventSpec extends NameSpec, Docs {
     readonly args: Array<IEventParamSpec>;
 }
 
-export interface IEventParamSpec extends NameSpec, Docs {
+/**
+ *  Describes a pair of parameter label and type.
+ */
+export interface IEventParamSpec extends LabelSpec, Docs {
     /**
      * If the event parameter is indexed.
      */
@@ -189,7 +219,7 @@ export interface IEventParamSpec extends NameSpec, Docs {
     readonly type: ITypeSpec;
 }
 
-export interface IMessageParamSpec extends NameSpec {
+export interface IMessageParamSpec extends LabelSpec {
     /**
      * The type of the parameter.
      */
@@ -207,20 +237,19 @@ export interface ITypeSpec {
     readonly displayName: string[];
 }
 
-interface NameSelectorSpec {
+interface LabelSelectorSpec {
     /**
-     * The name of the message and some optional prefixes.
-     * In case of interface provided messages and constructors the prefix
-     * by convention in ask is the name of the interface.
+     * The label of the constructor.
+     * In case of a trait provided constructor the label is prefixed with the trait label.
      */
-    readonly name: Array<string>;
+    readonly label: string;
     /**
      * The selector hash of the message.
      */
     readonly selector: string;
 }
 
-interface NameSpec {
+interface LabelSpec {
     /**
      * The name of the parameter.
      */
