@@ -252,6 +252,64 @@ export declare function seal_caller(outPtr: Ptr, outLenPtr: Ptr): void;
 @external("seal0", "seal_is_contract")
 export declare function seal_is_contract(accountPtr: Ptr): u32;
 
+// Retrieve the code hash for a specified contract address.
+//
+// # Parameters
+//
+// - `account_ptr`: a pointer to the address in question.
+//   Should be decodable as an `T::AccountId`. Traps otherwise.
+// - `out_ptr`: pointer to the linear memory where the returning value is written to.
+// - `out_len_ptr`: in-out pointer into linear memory where the buffer length
+//   is read from and the value length is written to.
+//
+// # Errors
+//
+// `ReturnCode::KeyNotFound`
+// @ts-ignore
+@external("seal0", "seal_code_hash")
+export declare function seal_code_hash(accountPtr: Ptr, outPtr: Ptr, outLenPtr: Ptr): ReturnCode;
+
+
+// Retrieve the code hash of the currently executing contract.
+//
+// # Parameters
+//
+// - `out_ptr`: pointer to the linear memory where the returning value is written to.
+// - `out_len_ptr`: in-out pointer into linear memory where the buffer length
+//   is read from and the value length is written to.
+// @ts-ignore
+@external("seal0", "seal_own_code_hash")
+export declare function seal_own_code_hash(accountPtr: Ptr, outLenPtr: Ptr): void;
+
+// Replace the contract code at the specified address with new code.
+//
+// # Note
+//
+// There are a couple of important considerations which must be taken into account when
+// using this API:
+//
+// 1. The storage at the code address will remain untouched. This means that contract developers
+// must ensure that the storage layout of the new code is compatible with that of the old code.
+//
+// 2. Contracts using this API can't be assumed as having deterministic addresses. Said another way,
+// when using this API you lose the guarantee that an address always identifies a specific code hash.
+//
+// 3. If a contract calls into itself after changing its code the new call would use
+// the new code. However, if the original caller panics after returning from the sub call it
+// would revert the changes made by `seal_set_code_hash` and the next caller would use
+// the old code.
+//
+// # Parameters
+//
+// - `code_hash_ptr`: A pointer to the buffer that contains the new code hash.
+//
+// # Errors
+//
+// `ReturnCode::CodeNotFound`
+// @ts-ignore
+@external("seal0", "seal_set_code_hash")
+export declare function seal_set_code_hash(codeHashPtr: Ptr): u32;
+
 // Checks whether the caller of the current contract is the origin of the whole call stack.
 //
 // Prefer this over `seal_is_contract` when checking whether your contract is being called by a contract
