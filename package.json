@@ -14,7 +14,7 @@
     "as-packages/*",
     "ts-packages/*"
   ],
-  "author": "yjhmelody <yjh465402634@gmail.com>",
+  "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
