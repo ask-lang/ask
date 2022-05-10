@@ -144,7 +144,7 @@ export class ConstructorSpec implements ToMetadata {
         private readonly label: string,
         private readonly selector: string,
         private readonly args: ArgumentSpec[] = [],
-        private readonly docs: string[] = [""]
+        private readonly docs: string[] = []
     ) {}
 
     setPayable(payable = true): this {
@@ -171,7 +171,7 @@ export class MessageSpec implements ToMetadata {
         private readonly selector: string,
         private readonly args: ArgumentSpec[] = [],
         private readonly returnType: TypeSpec | null = null,
-        private readonly docs: string[] = [""]
+        private readonly docs: string[] = []
     ) {}
 
     setMutates(mutates = true): this {
