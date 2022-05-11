@@ -8,6 +8,77 @@ import {
     forwardPushPacked,
 } from "./index";
 
+/**
+ * Pulls an instance of type `T` from the contract storage using spread layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being pulled from.
+ *
+ * # Note
+ * - The routine assumes that the instance has previously been stored to
+ * the contract storage using spread layout.
+ * - Users should prefer using this function directly instead of using the
+ * methods on [`SpreadLayout`].
+ * @param rootKey
+ * @returns
+ */
+export function pullSpreadRoot<T extends SpreadLayout, K extends IKey>(
+    rootKey: K
+): T {
+    // @ts-ignore
+    const key: K = rootKey.clone();
+    return pullSpread<T, K>(key);
+}
+
+/**
+ * Pushes the entity to the contract storage using spread layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being pushed to.
+ *
+ * # Note
+ * - The routine will push the given entity to the contract storage using
+ * spread layout.
+ * - Users should prefer using this function directly instead of using the
+ * methods on [`SpreadLayout`].
+ * @param value
+ * @param rootKey
+ */
+export function pushSpreadRoot<T extends SpreadLayout, K extends IKey>(
+    value: T,
+    rootKey: K
+): void {
+    // TODO:
+    // @ts-ignore
+    const key: K = rootKey.clone();
+    pushSpread<T, K>(value, key);
+}
+
+/**
+ * Clears the entity from the contract storage using spread layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being cleared from.
+ *
+ * # Note
+ *
+ * - The routine assumes that the instance has previously been stored to
+ * the contract storage using spread layout.
+ *
+ * - Users should prefer using this function directly instead of using the
+ * methods on [`SpreadLayout`].
+ * @param value
+ * @param rootKey
+ */
+export function clearSpreadRoot<T extends SpreadLayout, K extends IKey>(
+    value: T,
+    rootKey: K
+): void {
+    // @ts-ignore
+    const key: K = rootKey.clone();
+    clearSpread<T, K>(value, key);
+}
+
 export function pullSpread<T extends SpreadLayout, K extends IKey>(key: K): T {
     let dummy: T;
     if (!isReference<T>() || false) {
@@ -61,14 +132,6 @@ export function pullSpread<T extends SpreadLayout, K extends IKey>(key: K): T {
     }
 }
 
-export function pullSpreadRoot<T extends SpreadLayout, K extends IKey>(
-    rootKey: K
-): T {
-    // @ts-ignore
-    const key: K = rootKey.clone();
-    return pullSpread<T, K>(key);
-}
-
 export function pushSpread<T extends SpreadLayout, K extends IKey>(
     value: T,
     key: K
@@ -120,16 +183,6 @@ export function pushSpread<T extends SpreadLayout, K extends IKey>(
     }
 }
 
-export function pushSpreadRoot<T extends SpreadLayout, K extends IKey>(
-    value: T,
-    rootKey: K
-): void {
-    // TODO:
-    // @ts-ignore
-    const key: K = rootKey.clone();
-    pushSpread<T, K>(value, key);
-}
-
 export function clearSpread<T extends SpreadLayout, K extends IKey>(
     value: T,
     key: K
@@ -179,13 +232,4 @@ export function clearSpread<T extends SpreadLayout, K extends IKey>(
         // @ts-ignore
         value.clearSpread<K>(key);
     }
-}
-
-export function clearSpreadRoot<T extends SpreadLayout, K extends IKey>(
-    value: T,
-    rootKey: K
-): void {
-    // @ts-ignore
-    const key: K = rootKey.clone();
-    clearSpread<T, K>(value, key);
 }

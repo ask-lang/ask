@@ -180,7 +180,6 @@ export class EnvInstance implements TypedEnvBackend {
         return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(storageBuffer.buffer));
     }
 
-    // TODO: support topics
     emitEvent<E extends IEvent>(event: E): void {
         const id = event.eventId();
         // we use a new ScaleSerializer here

@@ -5,7 +5,21 @@ import { FixedArray } from "../fixedArrays";
 import { ReturnCode } from "as-contract-runtime";
 import { StorageResult } from "../types";
 
-// @ts-ignore
+/**
+ * Pulls an instance of type `T` from the contract storage using packed layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being pulled from.
+ *
+ * # Note
+ *
+ * - The routine assumes that the instance has previously been stored to
+ * the contract storage using packed layout.
+ * - Users should prefer using this function directly instead of using the
+ * methods on [`PackedLayout`].
+ * @param key
+ * @returns
+ */
 export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
     key: K
 ): T {
@@ -14,7 +28,39 @@ export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
     return value;
 }
 
-// @ts-ignore
+/**
+ * Clears the entity from the contract storage using spread layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being cleared from.
+ * @param value
+ * @param key
+ * @returns
+ */
+export function clearPackedRoot<T extends PackedLayout, K extends IKey>(
+    value: T,
+    key: K
+): T {
+    clearPacked(value, key);
+    env().clearContractStroage<K>(key);
+    return value;
+}
+
+/**
+ * Pulls an instance of type `T` from the contract storage using packed layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being pulled from.
+ *
+ * # Note
+ *
+ * - The routine assumes that the instance has previously been stored to
+ * the contract storage using packed layout.
+ * - Users should prefer using this function directly instead of using the
+ * methods on [`PackedLayout`].
+ * @param key
+ * @returns
+ */
 export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
     key: K
 ): StorageResult<T> {
@@ -23,6 +69,30 @@ export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
         pullPacked<T, K>(value.value, key);
     }
     return value;
+}
+
+/**
+ * Pushes the entity to the contract storage using packed layout.
+ *
+ * The root key denotes the offset into the contract storage where the
+ * instance of type `T` is being pushed to.
+ *
+ * # Note
+ *
+ * - The routine will push the given entity to the contract storage using
+ * packed layout.
+ * - Users should prefer using this function directly instead of using the
+ * trait methods on [`PackedLayout`].
+ * @param value
+ * @param key
+ */
+export function pushPackedRoot<T extends PackedLayout, K extends IKey>(
+    value: T,
+    key: K
+): void {
+    pushPacked<T, K>(value, key);
+    // @ts-ignore
+    env().setContractStorage<K, T>(key, value);
 }
 
 // TODO: maybe we don't need to call recursively for packedLayout.
@@ -94,16 +164,6 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
         // @ts-ignore
         value.pullPacked(key);
     }
-}
-
-// @ts-ignore
-export function pushPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): void {
-    pushPacked<T, K>(value, key);
-    // @ts-ignore
-    env().setContractStorage<K, T>(key, value);
 }
 
 // TODO: maybe we don't need to call recursively for packedLayout.
@@ -186,16 +246,6 @@ export function pushPacked<T, K extends IKey>(value: T, key: K): void {
         // @ts-ignore
         value.pushPacked(key);
     }
-}
-
-// @ts-ignore
-export function clearPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): T {
-    clearPacked(value, key);
-    env().clearContractStroage<K>(key);
-    return value;
 }
 
 // TODO: maybe we don't need to call recursively for packedLayout.
