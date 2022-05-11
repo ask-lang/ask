@@ -2,7 +2,7 @@
   "name": "as-contract-runtime",
   "version": "0.2.0",
   "description": "as version of contract runtime primitives",
-  "author": "yjhmelody <yjh465402634@gmail.com>",
+  "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "main": "index.ts",
   "keywords": ["substrate", "blockchain", "wasm", "smart-contract", "assemblyscript", "runtime"],
