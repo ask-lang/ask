@@ -4,7 +4,7 @@
   "description": "Ask lang sdk",
   "main": "index.ts",
   "license": "MIT",
-  "author": "yjhmelody <yjh465402634@gmail.com>",
+  "author": "Ask! Authors <https://github.com/ask-lang>",
   "keywords": [
     "assemblyscript",
     "ask",
