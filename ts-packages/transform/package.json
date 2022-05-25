@@ -1,0 +1,40 @@
+{
+  "name": "ask-transform",
+  "version": "0.1.0",
+  "description": "AssemblyScript transformer for building ask projects",
+  "main": "dist/index.js",
+  "author": "Ask! Authors <https://github.com/ask-lang>",
+  "license": "MIT",
+  "keywords": [
+    "AssemblyScript",
+    "ask",
+    "wasm",
+    "smart-contract",
+    "contract-metadata",
+    "substrate"
+  ],
+  "scripts": {
+    "checks": "tsc -p tsconfig.json --noEmit",
+    "build": "rm -rf dist/* && tsc -p tsconfig.json",
+    "test": "jest ."
+  },
+  "peerDependencies": {
+    "assemblyscript": "^0.19",
+    "visitor-as": "0.8"
+  },
+  "dependencies": {
+    "assemblyscript": "^0.19",
+    "contract-metadata": "0.2",
+    "visitor-as": "0.8",
+    "lodash": "4.17",
+    "debug": "^4.3",
+    "blakejs": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/lodash": "4.14",
+    "jest": "^27",
+    "@types/debug": "^4.1.7",
+    "ts-jest": "^27"
+  }
+}
