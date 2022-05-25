@@ -15,7 +15,7 @@ import { DecoratorNode } from "assemblyscript";
 import blake from "blakejs";
 
 /**
- * Ask supported decorators
+ * Ask supported decorators.
  */
 export enum ContractDecoratorKind {
     SpreadLayout = "spreadLayout",
@@ -33,13 +33,17 @@ export enum ContractDecoratorKind {
     // TODO: add document decorator
 }
 
+/**
+ * Any decorators that support addition config 
+ * should extend this interface.
+ */
 export interface AskNode {
     /** contract Kind of this node. */
     readonly contractKind: ContractDecoratorKind;
 }
 
 /**
- *
+ * Transform a hex string value to a JS literal array value string.
  * @param hex a hex with optional prefix
  * @returns
  */
@@ -47,12 +51,12 @@ export function hexToArrayString(hex: string, byteLength = 4): string {
     if (hex.startsWith("0x")) {
         hex = hex.substring(2);
     }
-    const selectorHexArray = [];
+    const hexArray = [];
     for (let i = 0; i < byteLength * 2; i += 2) {
-        selectorHexArray.push("0x" + hex.substring(i, i + 2));
+        hexArray.push("0x" + hex.substring(i, i + 2));
     }
 
-    return `[${selectorHexArray.join(", ")}]`;
+    return `[${hexArray.join(", ")}]`;
 }
 
 function getParamsTypeName(fn: FunctionTypeNode): string[] {
@@ -70,15 +74,47 @@ export function hexSelector(selector: string | null, methodName: string): string
     return "0x" + blake.blake2bHex(methodName, undefined, 32).substring(0, 8);
 }
 
+/**
+ * A decorator AST interface that support contract calling.
+ */
 export interface ContractMethodNode extends AskNode {
+    /**
+     * Whether this method could mutate contract storage
+     */
     readonly mutates: boolean;
     // TODO: we should define three value for payable: mustPay/mustNotPay/optionalPay
+    /**
+     * Whether this method could pay addition balance.
+     */
     readonly payable: boolean;
+    /**
+     * The contract method name.
+     */
     readonly methodName: string;
+    /**
+     * The contract method selector name.
+     * 
+     * Used by codegen.
+     */
     readonly selectorName: string;
+    /**
+     * The contract selector.
+     * @returns
+     */
     hexSelector(): string;
+    /**
+     * The arguments the method received.
+     */
     paramsTypeName(): string[];
+    /**
+     * The value the method return.
+     */
     returnTypeName(): string;
+    /**
+     * The method documents.
+     * 
+     * Not used now.
+     */
     docs(): string[];
 }
 
