@@ -16,7 +16,7 @@
   "scripts": {
     "checks": "tsc -p tsconfig.json --noEmit",
     "build": "rm -rf dist/* && tsc -p tsconfig.json",
-    "test": "jest ."
+    "test": "yarn build && jest ."
   },
   "peerDependencies": {
     "assemblyscript": "^0.19",
