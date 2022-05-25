@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "assemblyscript": "^0.19",
-    "contract-metadata": "0.2",
+    "contract-metadata": "^0.2",
     "visitor-as": "0.8",
     "lodash": "4.17",
     "debug": "^4.3",

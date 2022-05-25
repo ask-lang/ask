@@ -1,4 +1,5 @@
 import * as metadata from "contract-metadata";
+
 export interface AskConfig {
     /**
      * If true, all warnings will be errors when transforming code.
