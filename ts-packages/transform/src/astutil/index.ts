@@ -36,7 +36,7 @@ export function genNamedTypeNode(
 }
 
 /**
- * Add `implement inteface` to a class.
+ * Add an interface to be implemented to a class.
  * @param node class needed to implement a interface
  * @param interfaceName The interface path
  * @returns node
@@ -56,7 +56,7 @@ export function addImplement(
 }
 
 /**
- * Add one more `implement inteface` to a class.
+ * Add interface list to be implemented to a class.
  * @param node class needed to implement a interface
  * @param interfaceNames The interface path list
  * @returns node
