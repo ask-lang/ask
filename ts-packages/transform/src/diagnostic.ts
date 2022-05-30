@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DiagnosticEmitter, DiagnosticCategory } from "visitor-as/as";
 
+/**
+ * A util class to control diagnostic mode.
+ */
 export class DiagnosticMode {
     warning: any = null;
     warningRelated: any = null;

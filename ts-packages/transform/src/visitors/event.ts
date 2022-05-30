@@ -25,6 +25,7 @@ const METHOD_EVENT_ID = "eventId";
  * Note: Don't reuse a visitor if you have not reset the inner state.
  */
 export class EventVisitor extends TransformVisitor {
+    // TODO: design topic
     private topicNum = 0;
     private eventId: number | null = null;
     private hasBase: bool = false;

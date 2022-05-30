@@ -59,21 +59,6 @@ export function hexToArrayString(hex: string, byteLength = 4): string {
     return `[${hexArray.join(", ")}]`;
 }
 
-function getParamsTypeName(fn: FunctionTypeNode): string[] {
-    return fn.parameters.map((p) => p.type.range.toString());
-}
-
-function getReturnTypeName(fn: FunctionTypeNode): string {
-    return fn.returnType.range.toString();
-}
-
-export function hexSelector(selector: string | null, methodName: string): string {
-    if (selector != null) {
-        return selector;
-    }
-    return "0x" + blake.blake2bHex(methodName, undefined, 32).substring(0, 8);
-}
-
 /**
  * A decorator AST interface that support contract calling.
  */
@@ -303,29 +288,6 @@ export class ConstructorDeclaration implements ContractMethodNode {
     }
 }
 
-function extractSelector(
-    emitter: DiagnosticEmitter,
-    selector: string | undefined,
-    node: MethodDeclaration,
-    decorator: DecoratorNode
-): string | null {
-    if (selector) {
-        selector = selector.substring(1, selector.length - 1);
-        if (selector.length == 10 && !isNaN(+selector)) {
-            return selector;
-        } else {
-            emitter.errorRelated(
-                DiagnosticCode.User_defined_0,
-                node.range,
-                decorator.range,
-                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`
-            );
-            return null;
-        }
-    }
-    return null;
-}
-
 /**
  * EventDeclaration represents a `@event` info
  */
@@ -379,4 +341,42 @@ export class EventDeclaration implements AskNode {
         }
         return new EventDeclaration(id, utils.cloneNode(node));
     }
+}
+
+function getParamsTypeName(fn: FunctionTypeNode): string[] {
+    return fn.parameters.map((p) => p.type.range.toString());
+}
+
+function getReturnTypeName(fn: FunctionTypeNode): string {
+    return fn.returnType.range.toString();
+}
+
+function hexSelector(selector: string | null, methodName: string): string {
+    if (selector != null) {
+        return selector;
+    }
+    return "0x" + blake.blake2bHex(methodName, undefined, 32).substring(0, 8);
+}
+
+function extractSelector(
+    emitter: DiagnosticEmitter,
+    selector: string | undefined,
+    node: MethodDeclaration,
+    decorator: DecoratorNode
+): string | null {
+    if (selector) {
+        selector = selector.substring(1, selector.length - 1);
+        if (selector.length == 10 && !isNaN(+selector)) {
+            return selector;
+        } else {
+            emitter.errorRelated(
+                DiagnosticCode.User_defined_0,
+                node.range,
+                decorator.range,
+                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`
+            );
+            return null;
+        }
+    }
+    return null;
 }

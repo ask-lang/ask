@@ -16,7 +16,9 @@ import { removeExported } from "../util";
 
 /**
  * ExportEraser remove all `export` flags for current source.
- * It's used to remove all export items in entrypoint file excluding whiltelist (`call` and `deploy` functions)
+ * 
+ * It's used to remove all export items in entrypoint file excluding whiltelist (`call` and `deploy` functions).
+ * Thus a contract source also could be a normal lib.
  */
 export class ExportEraser extends TransformVisitor {
     constructor(

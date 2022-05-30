@@ -1,5 +1,6 @@
 /**
- * Some util function to determinate or extract properties of AST node
+ * Some util function to determinate or extract properties of AST node.
+ * 
  */
 import {
     ClassDeclaration,
@@ -23,6 +24,8 @@ import {
     Range,
 } from "assemblyscript";
 import { ContractDecoratorKind } from "./ast";
+
+// TODO: maybe we can extract it as a common util package.
 
 export function removeExported(node: { flags: CommonFlags }): void {
     node.flags = node.flags & ~CommonFlags.EXPORT;
@@ -259,6 +262,11 @@ export function extractDecorator(
     return dec ? dec : null;
 }
 
+/**
+ * A general format config for decorator.
+ * 
+ * It's no-nested json which value must be string.
+ */
 export class DecoratorConfig extends Map<string, string> {
     constructor(public readonly decorator: DecoratorNode) {
         super();

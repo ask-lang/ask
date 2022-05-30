@@ -36,7 +36,7 @@ export function genNamedTypeNode(
 }
 
 /**
- *
+ * Add `implement inteface` to a class.
  * @param node class needed to implement a interface
  * @param interfaceName The interface path
  * @returns node
@@ -56,6 +56,22 @@ export function addImplement(
 }
 
 /**
+ * Add one more `implement inteface` to a class.
+ * @param node class needed to implement a interface
+ * @param interfaceNames The interface path list
+ * @returns node
+ */
+export function addImplements(
+    node: ClassDeclaration,
+    interfaceNames: string[],
+): ClassDeclaration {
+    for (let name of interfaceNames) {
+        addImplement(node, name);
+    }
+    return node;
+}
+
+/**
  * append `@serialize` to a declaration
  * @param range node range
  * @param decl declaration node
@@ -66,6 +82,7 @@ export function addSerializeDecorator(decl: {
 }): void {
     const decName = "serialize";
     if (!hasDecorator(decl.decorators, decName)) {
+        // we can reduce code size by this conifg.
         const cfg = `{omitName: true}`;
         let expr = SimpleParser.parseExpression(cfg);
         assert(expr.kind == NodeKind.LITERAL);
@@ -84,6 +101,7 @@ export function addDeserializeDecorator(decl: {
 }): void {
     const decName = "deserialize";
     if (!hasDecorator(decl.decorators, decName)) {
+        // we can reduce code size by this conifg.
         const cfg = `{omitName: true}`;
         let expr = SimpleParser.parseExpression(cfg);
         assert(expr.kind == NodeKind.LITERAL);
@@ -161,7 +179,7 @@ export function genNamespcae(
 }
 
 /**
- * gen a import statement such as `import * as __lang from "ask-lang"`
+ * Genetate an import statement, e.g.`import * as __lang from "ask-lang"`
  * @param namespace imported namespaced
  * @param path module path
  * @param range
