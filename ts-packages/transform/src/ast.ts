@@ -351,7 +351,7 @@ function getReturnTypeName(fn: FunctionTypeNode): string {
     return fn.returnType.range.toString();
 }
 
-function hexSelector(selector: string | null, methodName: string): string {
+export function hexSelector(selector: string | null, methodName: string): string {
     if (selector != null) {
         return selector;
     }
