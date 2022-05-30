@@ -1,0 +1,25 @@
+{
+    "targets": {
+        "debug": {
+            "sourceMap": true,
+            "debug": true
+        },
+        "release": {
+            "sourceMap": false,
+            "optimizeLevel": 3,
+            "shrinkLevel": 2,
+            "converge": false,
+            "noAssert": false
+        }
+    },
+    "options": {
+        "transform": ["ask-transform", "as-serde-transform"],
+        "importMemory": true,
+        "initialMemory": 2,
+        "maximumMemory": 16,
+        "noExportMemory": true,
+        "runtime": "stub",
+        "use": "abort=",
+        "disable": ["Sign-extension"]
+    }
+}
