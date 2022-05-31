@@ -17,13 +17,11 @@ export function env(): EnvInstance {
 // @ts-ignore
 @lazy const defaultEnv: EnvInstance = new EnvInstance();
 
-
 /**
  * When a message payable is false, transform will call this function to deny payment.
  * 
  * Note: Ask user do need to call this directly.
  */
-
 export function denyPayment<B>(): void {
     // payment must be 0.
     assert(instantiate<B>() == defaultEnv.transferredBalance<B>());
