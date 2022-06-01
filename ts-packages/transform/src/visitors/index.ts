@@ -4,3 +4,4 @@ export * from "./event";
 export * from "./spreadlayout";
 export * from "./packedlayout";
 export * from "./exportEraser";
+export * from "./transform";
