@@ -142,3 +142,26 @@ export declare function seal_instantiate(
 export declare function seal_terminate(
     beneficiaryPtr: Ptr,
 ): void;
+
+// Set the value at the given key in the contract storage.
+//
+// The value length must not exceed the maximum defined by the contracts module parameters.
+// Specifying a `value_len` of zero will store an empty value.
+//
+// # Parameters
+//
+// - `key_ptr`: pointer into the linear memory where the location to store the value is placed.
+// - `value_ptr`: pointer into the linear memory where the value to set is placed.
+// - `value_len`: the length of the value in bytes.
+//
+// # Return Value
+//
+// Returns the size of the pre-existing value at the specified key if any. Otherwise
+// `SENTINEL` is returned as a sentinel value.
+// @ts-ignore
+@external("seal0", "seal_set_storage")
+export declare function seal_set_storage(
+    keyPtr: Ptr,
+    valuePtr: Ptr,
+    valueSize: Size
+): Size;
