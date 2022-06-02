@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { newOptions, newProgram } from "visitor-as/as";
-import { EnvConfig, defaultEnvConfig } from '../config';
+import { EnvConfig, defaultEnvConfig } from "../config";
 import { EnvTypeVisitor } from "../visitors";
-import { checkVisitor } from './testutil';
+import { checkVisitor } from "./testutil";
 
 export function testEnvConfig(): EnvConfig {
     return defaultEnvConfig();
@@ -30,7 +30,10 @@ type Timestamp = __lang.Timestamp;
 @envType
 type BlockNumber = __lang.BlockNumber;
   `.trim();
-        const visitor = new EnvTypeVisitor(newProgram(newOptions()), testEnvConfig());
+        const visitor = new EnvTypeVisitor(
+            newProgram(newOptions()),
+            testEnvConfig()
+        );
         checkVisitor(visitor, code, expected);
     });
 
@@ -39,7 +42,10 @@ type BlockNumber = __lang.BlockNumber;
 @envType
 type Account = A;
 `.trim();
-        const visitor = new EnvTypeVisitor(newProgram(newOptions()), testEnvConfig());
-        checkVisitor(visitor, code, '', false, true);
+        const visitor = new EnvTypeVisitor(
+            newProgram(newOptions()),
+            testEnvConfig()
+        );
+        checkVisitor(visitor, code, "", false, true);
     });
 });

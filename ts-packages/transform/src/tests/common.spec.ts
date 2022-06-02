@@ -1,5 +1,4 @@
-import {hexSelector} from "../ast";
-
+import { hexSelector } from "../ast";
 
 describe("hexSelector", () => {
     it("selector should be blake2-256", () => {
@@ -10,7 +9,7 @@ describe("hexSelector", () => {
             ["get", "0x2f865bd9"],
         ];
 
-        for(let c of cases) {
+        for (let c of cases) {
             let res = hexSelector(null, c[0]);
             expect(res).toBe(c[1]);
         }
