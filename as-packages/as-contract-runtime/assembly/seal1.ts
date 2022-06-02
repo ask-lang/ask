@@ -38,10 +38,7 @@ export declare function seal_random(
 // space at `out_ptr` is less than the size of the value a trap is triggered.
 // @ts-ignore
 @external("seal1", "seal_now")
-export declare function seal_now(
-    outPtr: Ptr,
-    outLenPtr: Ptr
-): void;
+export declare function seal_now(outPtr: Ptr, outLenPtr: Ptr): void;
 
 // Deprecated
 // @ts-ignore
@@ -57,10 +54,7 @@ export declare function seal_restore_to(
 // Deprecated
 // @ts-ignore
 @external("seal1", "seal_set_rent_allowance")
-export declare function seal_set_rent_allowance(
-    valuePtr: Ptr,
-): void;
-
+export declare function seal_set_rent_allowance(valuePtr: Ptr): void;
 
 // Instantiate a contract with the specified code hash.
 //
@@ -121,7 +115,6 @@ export declare function seal_instantiate(
     saltLen: Size,
 ): ReturnCode;
 
-
 // Remove the calling account and transfer remaining balance.
 //
 // This function never returns. Either the termination was successful and the
@@ -139,9 +132,7 @@ export declare function seal_instantiate(
 // - The deletion queue is full.
 // @ts-ignore
 @external("seal1", "seal_terminate")
-export declare function seal_terminate(
-    beneficiaryPtr: Ptr,
-): void;
+export declare function seal_terminate(beneficiaryPtr: Ptr): void;
 
 // Set the value at the given key in the contract storage.
 //

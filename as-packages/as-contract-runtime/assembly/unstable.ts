@@ -64,10 +64,18 @@ export declare function seal_clear_storage(keyPtr: Ptr): Size;
 // `ReturnCode::BelowSubsistenceThreshold`
 // `ReturnCode::TransferFailed`
 // `ReturnCode::NotCallable`
-
 // @ts-ignore
 @external("__unstable__", "seal_call")
-export declare function seal_call(flags: u32, calleePtr: Ptr, gas: u64, valuePtr: Ptr, inputDataPtr: Ptr, inputDataLen: Size, outputPtr: Ptr, outputLenPtr: Ptr): ReturnCode;
+export declare function seal_call(
+	flags: u32,
+	calleePtr: Ptr,
+	gas: u64,
+	valuePtr: Ptr,
+	inputDataPtr: Ptr,
+	inputDataLen: Size,
+	outputPtr: Ptr,
+	outputLenPtr: Ptr
+): ReturnCode;
 
 // Call some dispatchable of the runtime.
 //
@@ -106,7 +114,6 @@ export declare function seal_call(flags: u32, calleePtr: Ptr, gas: u64, valuePtr
 //
 // This function is unstable and subject to change (or removal) in the future. Do not
 // deploy a contract using it to a production chain.
-
 // @ts-ignore
 @external("__unstable__", "seal_call_runtime")
 export declare function seal_call_runtime(callPtr: Ptr, callLen: Size): ReturnCode;

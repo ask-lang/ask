@@ -269,7 +269,6 @@ export declare function seal_is_contract(accountPtr: Ptr): u32;
 @external("seal0", "seal_code_hash")
 export declare function seal_code_hash(accountPtr: Ptr, outPtr: Ptr, outLenPtr: Ptr): ReturnCode;
 
-
 // Retrieve the code hash of the currently executing contract.
 //
 // # Parameters
@@ -354,6 +353,7 @@ export declare function seal_weight_to_fee(
     outPtr: Ptr,
     outLenPtr: Ptr
 ): void;
+
 // Stores the amount of gas left into the supplied buffer.
 //
 // The value is stored to linear memory at the address pointed to by `outPtr`.
@@ -409,10 +409,7 @@ export declare function seal_random(
 // The data is encoded as T::Balance.
 // @ts-ignore
 @external("seal0", "seal_value_transferred")
-export declare function seal_value_transferred(
-    outPtr: Ptr,
-    outLenPtr: Ptr
-): void;
+export declare function seal_value_transferred(outPtr: Ptr, outLenPtr: Ptr): void;
 
 // Load the latest block timestamp into the supplied buffer
 //
@@ -443,10 +440,7 @@ export declare function seal_minimum_balance(outPtr: Ptr, outLenPtr: Ptr): void;
 // There is no longer a tombstone deposit. This function always returns 0.
 // @ts-ignore
 @external("seal0", "seal_tombstone_deposit")
-export declare function seal_tombstone_deposit(
-    outPtr: Ptr,
-    outLenPtr: Ptr
-): void;
+export declare function seal_tombstone_deposit(outPtr: Ptr, outLenPtr: Ptr): void;
 
 // Try to restore the given destination contract sacrificing the caller.
 //
@@ -518,10 +512,7 @@ export declare function seal_deposit_event(
 // compatibility. Consider switching to the newest version of this function.
 // @ts-ignore
 @external("seal0", "seal_set_rent_allowance")
-export declare function seal_set_rent_allowance(
-    valuePtr: Ptr,
-    valueLen: Size
-): void;
+export declare function seal_set_rent_allowance(valuePtr: Ptr, valueLen: Size): void;
 
 
 // Derpeacted
@@ -672,7 +663,6 @@ export declare function seal_call_chain_extension(
     output_len_ptr: Ptr
 ): u32;
 
-
 // Emit a custom debug message.
 //
 // No newlines are added to the supplied message.
@@ -693,7 +683,6 @@ export declare function seal_call_chain_extension(
 // @ts-ignore
 @external("seal0", "seal_debug_message")
 export declare function seal_debug_message(strPtr: Ptr, strLen: Size): ReturnCode;
-
 
 // Call some dispatchable of the runtime.
 //
@@ -759,7 +748,6 @@ export declare function seal_ecdsa_recover(callPtr: Ptr, callLen: Size): ReturnC
 @external("seal0", "seal_ecdsa_to_eth_address")
 export declare function seal_ecdsa_to_eth_address(keyPtr: Ptr, outPtr: Ptr): ReturnCode;
 
-
 // Checks whether there is a value stored under the given key.
 //
 // # Parameters
@@ -772,6 +760,4 @@ export declare function seal_ecdsa_to_eth_address(keyPtr: Ptr, outPtr: Ptr): Ret
 // `SENTINEL` is returned as a sentinel value.
 // @ts-ignore
 @external("seal0", "seal_set_storage")
-export declare function seal_contains_storage(
-    keyPtr: Ptr,
-): Size;
+export declare function seal_contains_storage(keyPtr: Ptr): Size;

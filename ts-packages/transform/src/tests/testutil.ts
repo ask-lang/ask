@@ -1,16 +1,16 @@
 import { TransformVisitor, ASTBuilder } from "visitor-as";
-import { Parser, Node, DiagnosticEmitter } from 'assemblyscript';
+import { Parser, Node, DiagnosticEmitter } from "assemblyscript";
 import { hasWarningMessage, hasErrorMessage } from "../diagnostic";
 
-
-export function checkVisitor<Visitor extends TransformVisitor & { emitter: DiagnosticEmitter }>(
+export function checkVisitor<
+    Visitor extends TransformVisitor & { emitter: DiagnosticEmitter }
+>(
     visitor: Visitor,
     code: string,
     expected: string,
     warn = false,
     error = false
 ): void {
-
     const parser = new Parser();
     parser.parseFile(code, "index.ts", true);
     const res = visitor.visit(parser.sources[0]);

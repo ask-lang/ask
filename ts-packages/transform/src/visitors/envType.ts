@@ -13,7 +13,6 @@ import { ContractDecoratorKind } from "../ast";
 
 const log = debug("EnvTypeVisitor");
 
-
 /**
  * EnvTypeVisitor is used to transform all env types to confiured types.
  * It should be used only inside `@contract` class and `@storage` class.
@@ -38,7 +37,9 @@ export class EnvTypeVisitor extends TransformVisitor {
         const alias = this.config[node.name.text as EnvType];
         if (alias) {
             node.type = genNamedTypeNode(node.type.range, alias);
-            log(`${node.range.source.internalPath}: replace type '${node.name.text}' with type '${alias}'`);
+            log(
+                `${node.range.source.internalPath}: replace type '${node.name.text}' with type '${alias}'`
+            );
         } else {
             this.emitter.errorRelated(
                 DiagnosticCode.User_defined_0,

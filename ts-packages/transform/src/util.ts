@@ -1,6 +1,6 @@
 /**
  * Some util function to determinate or extract properties of AST node.
- * 
+ *
  */
 import {
     ClassDeclaration,
@@ -264,7 +264,7 @@ export function extractDecorator(
 
 /**
  * A general format config for decorator.
- * 
+ *
  * It's no-nested json which value must be string.
  */
 export class DecoratorConfig extends Map<string, string> {

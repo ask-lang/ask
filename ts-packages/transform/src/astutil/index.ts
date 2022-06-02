@@ -63,7 +63,7 @@ export function addImplement(
  */
 export function addImplements(
     node: ClassDeclaration,
-    interfaceNames: string[],
+    interfaceNames: string[]
 ): ClassDeclaration {
     for (let name of interfaceNames) {
         addImplement(node, name);
