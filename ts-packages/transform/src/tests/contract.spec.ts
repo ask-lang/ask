@@ -1,13 +1,8 @@
 import { ASTBuilder } from "visitor-as";
-import {
-    FunctionDeclaration,
-    newProgram,
-    newOptions,
-} from "assemblyscript";
+import { FunctionDeclaration, newProgram, newOptions } from "assemblyscript";
 import { ContractVisitor } from "../visitors";
 import { defaultConfig } from "../config";
 import { checkVisitor } from "./testutil";
-
 
 // Note: in tests we have to use two spaces as ident because of ASTBuilder.
 describe("ContractVisitor", () => {

@@ -38,10 +38,7 @@ export declare function seal_random(
 // space at `out_ptr` is less than the size of the value a trap is triggered.
 // @ts-ignore
 @external("seal1", "seal_now")
-export declare function seal_now(
-    outPtr: Ptr,
-    outLenPtr: Ptr
-): void;
+export declare function seal_now(outPtr: Ptr, outLenPtr: Ptr): void;
 
 // Deprecated
 // @ts-ignore
@@ -57,10 +54,7 @@ export declare function seal_restore_to(
 // Deprecated
 // @ts-ignore
 @external("seal1", "seal_set_rent_allowance")
-export declare function seal_set_rent_allowance(
-    valuePtr: Ptr,
-): void;
-
+export declare function seal_set_rent_allowance(valuePtr: Ptr): void;
 
 // Instantiate a contract with the specified code hash.
 //
@@ -121,7 +115,6 @@ export declare function seal_instantiate(
     saltLen: Size,
 ): ReturnCode;
 
-
 // Remove the calling account and transfer remaining balance.
 //
 // This function never returns. Either the termination was successful and the
@@ -139,6 +132,27 @@ export declare function seal_instantiate(
 // - The deletion queue is full.
 // @ts-ignore
 @external("seal1", "seal_terminate")
-export declare function seal_terminate(
-    beneficiaryPtr: Ptr,
-): void;
+export declare function seal_terminate(beneficiaryPtr: Ptr): void;
+
+// Set the value at the given key in the contract storage.
+//
+// The value length must not exceed the maximum defined by the contracts module parameters.
+// Specifying a `value_len` of zero will store an empty value.
+//
+// # Parameters
+//
+// - `key_ptr`: pointer into the linear memory where the location to store the value is placed.
+// - `value_ptr`: pointer into the linear memory where the value to set is placed.
+// - `value_len`: the length of the value in bytes.
+//
+// # Return Value
+//
+// Returns the size of the pre-existing value at the specified key if any. Otherwise
+// `SENTINEL` is returned as a sentinel value.
+// @ts-ignore
+@external("seal0", "seal_set_storage")
+export declare function seal_set_storage(
+    keyPtr: Ptr,
+    valuePtr: Ptr,
+    valueSize: Size
+): Size;

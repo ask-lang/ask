@@ -63,6 +63,6 @@ class Transfer2 extends Transfer {
     value3: u32;
 }
 `.trim();
-        checkEventVisitor(code, '', false, true);
+        checkEventVisitor(code, "", false, true);
     });
 });

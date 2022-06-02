@@ -34,7 +34,7 @@ export enum ContractDecoratorKind {
 }
 
 /**
- * Any decorators that support addition config 
+ * Any decorators that support addition config
  * should extend this interface.
  */
 export interface AskNode {
@@ -78,7 +78,7 @@ export interface ContractMethodNode extends AskNode {
     readonly methodName: string;
     /**
      * The contract method selector name.
-     * 
+     *
      * Used by codegen.
      */
     readonly selectorName: string;
@@ -97,7 +97,7 @@ export interface ContractMethodNode extends AskNode {
     returnTypeName(): string;
     /**
      * The method documents.
-     * 
+     *
      * Not used now.
      */
     docs(): string[];
@@ -351,7 +351,10 @@ function getReturnTypeName(fn: FunctionTypeNode): string {
     return fn.returnType.range.toString();
 }
 
-export function hexSelector(selector: string | null, methodName: string): string {
+export function hexSelector(
+    selector: string | null,
+    methodName: string
+): string {
     if (selector != null) {
         return selector;
     }

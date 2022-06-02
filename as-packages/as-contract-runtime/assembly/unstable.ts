@@ -1,21 +1,5 @@
 import { Ptr, Size, ReturnCode } from ".";
 
-// Checks whether there is a value stored under the given key.
-//
-// # Parameters
-//
-// - `key_ptr`: pointer into the linear memory where the key of the requested value is placed.
-//
-// # Return Value
-//
-// Returns the size of the pre-existing value at the specified key if any. Otherwise
-// `SENTINEL` is returned as a sentinel value.
-// @ts-ignore
-@external("__unstable__", "seal_set_storage")
-export declare function seal_contains_storage(
-    keyPtr: Ptr,
-): Size;
-
 // Retrieve and remove the value under the given key from storage.
 //
 // # Parameters
@@ -35,29 +19,6 @@ export declare function seal_take_storage(
     outPtr: Ptr,
     outLenPtr: Ptr,
 ): ReturnCode;
-
-// Set the value at the given key in the contract storage.
-//
-// The value length must not exceed the maximum defined by the contracts module parameters.
-// Specifying a `value_len` of zero will store an empty value.
-//
-// # Parameters
-//
-// - `key_ptr`: pointer into the linear memory where the location to store the value is placed.
-// - `value_ptr`: pointer into the linear memory where the value to set is placed.
-// - `value_len`: the length of the value in bytes.
-//
-// # Return Value
-//
-// Returns the size of the pre-existing value at the specified key if any. Otherwise
-// `SENTINEL` is returned as a sentinel value.
-// @ts-ignore
-@external("__unstable__", "seal_set_storage")
-export declare function seal_set_storage(
-    keyPtr: Ptr,
-    valuePtr: Ptr,
-    valueSize: Size
-): Size;
 
 // Clear the value at the given key in the contract storage.
 //
@@ -103,10 +64,18 @@ export declare function seal_clear_storage(keyPtr: Ptr): Size;
 // `ReturnCode::BelowSubsistenceThreshold`
 // `ReturnCode::TransferFailed`
 // `ReturnCode::NotCallable`
-
 // @ts-ignore
 @external("__unstable__", "seal_call")
-export declare function seal_call(flags: u32, calleePtr: Ptr, gas: u64, valuePtr: Ptr, inputDataPtr: Ptr, inputDataLen: Size, outputPtr: Ptr, outputLenPtr: Ptr): ReturnCode;
+export declare function seal_call(
+	flags: u32,
+	calleePtr: Ptr,
+	gas: u64,
+	valuePtr: Ptr,
+	inputDataPtr: Ptr,
+	inputDataLen: Size,
+	outputPtr: Ptr,
+	outputLenPtr: Ptr
+): ReturnCode;
 
 // Call some dispatchable of the runtime.
 //
@@ -145,73 +114,6 @@ export declare function seal_call(flags: u32, calleePtr: Ptr, gas: u64, valuePtr
 //
 // This function is unstable and subject to change (or removal) in the future. Do not
 // deploy a contract using it to a production chain.
-
 // @ts-ignore
 @external("__unstable__", "seal_call_runtime")
 export declare function seal_call_runtime(callPtr: Ptr, callLen: Size): ReturnCode;
-
-
-// Call some dispatchable of the runtime.
-//
-// This function decodes the passed in data as the overarching `Call` type of the
-// runtime and dispatches it. The weight as specified in the runtime is charged
-// from the gas meter. Any weight refunds made by the dispatchable are considered.
-//
-// The filter specified by `Config::CallFilter` is attached to the origin of
-// the dispatched call.
-//
-// # Parameters
-//
-// - `input_ptr`: the pointer into the linear memory where the input data is placed.
-// - `input_len`: the length of the input data in bytes.
-//
-// # Return Value
-//
-// Returns `ReturnCode::Success` when the dispatchable was succesfully executed and
-// returned `Ok`. When the dispatchable was exeuted but returned an error
-// `ReturnCode::CallRuntimeReturnedError` is returned. The full error is not
-// provided because it is not guaranteed to be stable.
-//
-// # Comparison with `ChainExtension`
-//
-// Just as a chain extension this API allows the runtime to extend the functionality
-// of contracts. While making use of this function is generelly easier it cannot be
-// used in call cases. Consider writing a chain extension if you need to do perform
-// one of the following tasks:
-//
-// - Return data.
-// - Provide functionality **exclusively** to contracts.
-// - Provide custom weights.
-// - Avoid the need to keep the `Call` data structure stable.
-//
-// # Unstable
-//
-// This function is unstable and subject to change (or removal) in the future. Do not
-// deploy a contract using it to a production chain.
-
-// @ts-ignore
-@external("__unstable__", "seal_ecdsa_recover")
-export declare function seal_ecdsa_recover(callPtr: Ptr, callLen: Size): ReturnCode;
-
-
-// Calculates Ethereum address from the ECDSA compressed public key and stores
-// it into the supplied buffer.
-//
-// # Parameters
-//
-// - `key_ptr`: a pointer to the ECDSA compressed public key. Should be decodable as a 33 bytes value.
-//		Traps otherwise.
-// - `out_ptr`: the pointer into the linear memory where the output
-//                 data is placed. The function will write the result
-//                 directly into this buffer.
-//
-// The value is stored to linear memory at the address pointed to by `out_ptr`.
-// If the available space at `out_ptr` is less than the size of the value a trap is triggered.
-//
-// # Errors
-//
-// `ReturnCode::EcdsaRecoverFailed`
-
-// @ts-ignore
-@external("__unstable__", "seal_ecdsa_to_eth_address")
-export declare function seal_ecdsa_to_eth_address(keyPtr: Ptr, outPtr: Ptr): ReturnCode;
