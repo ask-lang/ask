@@ -75,7 +75,7 @@ export class AskTransform extends TransformVisitor {
                     metadataContract,
                 };
             } catch (e) {
-                throw new SyntaxError (
+                throw new SyntaxError(
                     `Ask-lang: Error occurred when parse config: ${cfgPath}`
                 );
             }
