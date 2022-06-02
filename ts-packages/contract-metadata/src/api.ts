@@ -199,8 +199,8 @@ export class MessageSpec implements ToMetadata {
 
 export class EventSpec implements ToMetadata {
     constructor(
-        private readonly id: number,
-        private readonly name: string,
+        public readonly id: number,
+        public readonly name: string,
         private readonly args: EventParamSpec[],
         private readonly docs: string[] = [""]
     ) {}
