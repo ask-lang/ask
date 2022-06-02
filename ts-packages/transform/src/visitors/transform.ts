@@ -108,11 +108,11 @@ export class AskTransform extends TransformVisitor {
     }
 
     private genPackedLayout(node: ClassDeclaration): ClassDeclaration {
+        this.hasAskDecorator = true;
         const packedLayoutVisitor = new PackedLayoutVisitor(
             this.parser,
             this.config
         );
-        this.hasAskDecorator = true;
         node = packedLayoutVisitor.visitClassDeclaration(node);
         return node;
     }
