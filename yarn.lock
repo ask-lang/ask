@@ -92,9 +92,9 @@
     nearley "^2.20.1"
 
 "@assemblyscript/loader@^0.20":
-  version "0.20.7"
-  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.20.7.tgz#35ed905a9204a0118ec52085893b7ffa51c7c5cb"
-  integrity sha512-1OD3ZPg4ao7Z1bBUA6rdRl1Y2ZZ5cbmQxEFaqMkW5v1ZysvK1urI0LCMIINlG074y3LYyq964cCYD5sHMqS2Jw==
+  version "0.20.10"
+  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.20.10.tgz#f1d60890ed9f04b3aa605d61dc5ffb3107b5e660"
+  integrity sha512-bE4l0dkQNU+qL8Cl3bYnJCsJJSkQ3fbsiGfCssP1MCAUxkdQjOHzDmSJF0ZpNSPp3w/PQwnVx6V1njLFVY/Dzw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
