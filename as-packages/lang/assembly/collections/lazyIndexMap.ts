@@ -96,7 +96,7 @@ export class LazyIndexMap<V> implements SpreadLayout {
     }
 
     /**
-     * Removes and returns the value at the given index.
+     * Deletes and returns the value at the given index.
      *
      * It assumes that the value is existed.
      * @param index
