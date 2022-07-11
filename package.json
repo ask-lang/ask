@@ -36,7 +36,7 @@
     "assemblyscript": "^0.19",
     "eslint": "^8.12",
     "jest": "^27",
-    "lerna": "^4.0.0",
+    "lerna": "^5.1.8",
     "prettier": "^2.6",
     "source-map-support": "^0.5.21",
     "ts-jest": "^27",
