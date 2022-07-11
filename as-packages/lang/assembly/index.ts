@@ -6,6 +6,7 @@ export * from "./env";
 export * from "./crypto";
 export * from "./collections";
 export * from "./interfaces";
+export * from "./types";
 
 import * as __internal from "./internal";
 export { instantiateRaw, __internal };
