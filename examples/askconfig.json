@@ -1,0 +1,18 @@
+{
+    "metadataContract": {
+        "name": "Example",
+        "version": "0.1.0",
+        "authors": ["yjhmelody"],
+        "license": "MIT"
+    },
+    "strict": true,
+    "env": {
+        "AccountId": "__lang.AccountId",
+        "Balance": "__lang.u128",
+        "Timestamp": "u64",
+        "BlockNumber": "u32"
+    },
+    "event": {
+        "maxTopicNum": 2
+    }
+}
