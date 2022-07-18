@@ -1,0 +1,13 @@
+{
+  "name": "ask-examples",
+  "version": "0.0.1",
+  "author": "Ask! Authors <https://github.com/ask-lang>",
+  "license": "MIT",
+  "dependencies": {
+    "ask-lang": "*"
+  },
+  "scripts": {
+    "test": "echo no test",
+    "build": "asc --config ./asconfig.json"
+  }
+}

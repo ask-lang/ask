@@ -12,7 +12,8 @@
   ],
   "workspaces": [
     "as-packages/*",
-    "ts-packages/*"
+    "ts-packages/*",
+    "examples"
   ],
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
