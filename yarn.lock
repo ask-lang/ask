@@ -1990,9 +1990,9 @@ arrify@^2.0.1:
   integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
 as-bignum@^0.2.18:
-  version "0.2.18"
-  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.18.tgz#61ed4dd07d4a62107bde227fdb4370190217bf0b"
-  integrity sha512-5LODrOr7wvS643oh7PHfyRtbBO9vCcU69vNNvrqh5yovrApM9nRHDeT5XcqnaSI8TqK9ZhN12qhZnq4rdIGcwQ==
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.21.tgz#393d5568749fb89625ebcd2a06518b82f9db9a51"
+  integrity sha512-VvjDsGYjLnmBnumBdgiIZ+bck48AzkvXPkbsFZdcSaBKNyMjHqrRlCwNZGf1Fj9WUd2QdmVOBURiEYnE7Ee/8w==
 
 as-buffers@*, as-buffers@^0.1.2:
   version "0.1.2"
