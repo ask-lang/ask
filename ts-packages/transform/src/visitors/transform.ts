@@ -28,6 +28,7 @@ import {
     Module,
     DiagnosticCode,
 } from "assemblyscript";
+import { MetadataGenerator } from "../metadata/generator";
 
 const log = debug("AskTransform");
 
@@ -247,7 +248,20 @@ export class AskTransform extends TransformVisitor {
 
     afterCompile(_module: Module): void {
         log("Enter afterCompile ...");
-        // TODO: add metadata generator
+        this.mode.change(this.parser);
+
+        const generator = new MetadataGenerator(
+            this.program,
+            this.config.metadataContract!
+        );
+        const metadata = generator.generate();
+        log(metadata);
+        fs.writeFileSync(
+            "./metadata.json",
+            JSON.stringify(metadata, (_k, v) => (v != null ? v : undefined), 2)
+        );
+
+        this.mode.change(this.parser);
         log("Exit afterCompile ...");
     }
 }

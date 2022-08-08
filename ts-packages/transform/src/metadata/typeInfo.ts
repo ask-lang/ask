@@ -22,6 +22,9 @@ export class CompositeTypeInfo extends TypeInfo {
     }
 }
 
+/**
+ * AssemblyScript has no native fixed array. So we define these types by hand.
+ */
 export class ArrayTypeInfo extends TypeInfo {
     constructor(
         type: Type,
@@ -34,7 +37,7 @@ export class ArrayTypeInfo extends TypeInfo {
 }
 
 /**
- * string and arrays are SequenceTypeInfo types.
+ * string and arrays in AssemblyScript are SequenceTypeInfo types.
  */
 export class SequenceTypeInfo extends TypeInfo {
     constructor(

@@ -2004,7 +2004,12 @@ as-bignum@^0.2.18:
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.21.tgz#393d5568749fb89625ebcd2a06518b82f9db9a51"
   integrity sha512-VvjDsGYjLnmBnumBdgiIZ+bck48AzkvXPkbsFZdcSaBKNyMjHqrRlCwNZGf1Fj9WUd2QdmVOBURiEYnE7Ee/8w==
 
-as-buffers@*, as-buffers@^0.1.2:
+as-bignum@^0.2.21:
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.23.tgz#626e358721504291d35db4ce5c80693630048ad3"
+  integrity sha512-0+GiwHNwyw0lXI+6uzOI6ReNOEsqKihdLJuOYJeqEOfXcIqwtSixLcQ7h9UQaMrroktW/Idmqj2TinpcWTxxJA==
+
+as-buffers@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.1.2.tgz#dbc22598521fe889e367fcaba2db5c6764c3d9f2"
   integrity sha512-cbe2kJayvso9JGfnRhYDe9bnxv79ky3JK/VepKKY6vVrJ78tBaDThN4EZjzP2F7VR88ha90ScGGuJNHy2rjDZA==

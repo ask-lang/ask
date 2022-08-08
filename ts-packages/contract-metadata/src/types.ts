@@ -40,6 +40,9 @@ export enum PrimitiveType {
     U64 = "u64",
     U128 = "u128",
 }
+export class TypeWithId {
+    constructor(public id: number, public type: Type) {}
+}
 
 export interface Type extends ToMetadata {
     typeKind(): TypeKind;

@@ -12,13 +12,13 @@ export * from "./api";
  */
 export enum MetadataVersion {
     /// Version 0 placeholder. Represents the original non-versioned metadata format.
-    V0,
+    V0 = "V0",
     /// Version 1 of the contract metadata.
-    V1,
+    V1 = "V1",
     /// Version 2 of the contract metadata.
-    V2,
+    V2 = "V2",
     /// Version 3 of the contract metadata.
-    V3,
+    V3 = "V3",
 }
 
 export interface ToMetadata {
