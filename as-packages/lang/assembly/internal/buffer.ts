@@ -19,6 +19,8 @@ export class StaticBuffer {
 
     constructor(bufferSize: u32 = StaticBuffer.DEFAULT_BUFFER_SIZE) {
         this.buffer = new StaticArray<u8>(bufferSize as i32);
+        // Note: must set before use
+        writeBufferSize(this._sizePtr, bufferSize);
     }
 
     /**

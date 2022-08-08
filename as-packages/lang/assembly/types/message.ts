@@ -45,10 +45,10 @@ export class Message implements IMessage {
         if (this.selector.length != selector.length) {
             return false;
         }
-        return this._isSelectorStatic(selector);
+        return this._isSelector(selector);
     }
 
-    private _isSelectorStatic(selector: StaticArray<u8>): bool {
+    private _isSelector(selector: StaticArray<u8>): bool {
         return (
             memory.compare(
                 changetype<usize>(this.selector),
