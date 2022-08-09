@@ -35,6 +35,7 @@ export type ITypeDef =
 
 interface Def<T> {
     readonly def: T;
+    readonly path: null | Array<string>;
 }
 
 export type ILayout = IStructLayout | ICellLayout | IHashLayout | IArrayLayout | null;
@@ -107,12 +108,12 @@ export type ICompositeDef = Def<{
     readonly composite: {
         readonly fields: Array<IField>;
     };
-    readonly path: Array<string>;
+    // readonly path: Array<string>;
 }>;
 
 export type IVariantDef = Def<{
     readonly variants: Array<IVariant>;
-    readonly path: Array<string>;
+    // readonly path: Array<string>;
 }>;
 
 export interface IVariant {

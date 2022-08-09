@@ -274,7 +274,8 @@ export class MetadataGenerator {
                 return ret;
             }
         });
-        return new CompositeDef(fields);
+        let path = info.type ? info.type.toString() : "unknown";
+        return new CompositeDef(fields).setPath([path]);
     }
 
     private genMessages(resolver: TypeResolver): MessageSpec[] {
