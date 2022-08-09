@@ -1,6 +1,6 @@
 {
-  "name": "ask-lang",
-  "version": "0.1.0",
+  "name": "@ask-lang/ask-lang",
+  "version": "0.4.0-rc0",
   "description": "Ask lang sdk",
   "main": "index.ts",
   "license": "MIT",

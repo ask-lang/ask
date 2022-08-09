@@ -1,6 +1,6 @@
 {
-  "name": "ask-transform",
-  "version": "0.1.0",
+  "name": "@ask-lang/ask-transform",
+  "version": "0.4.0-rc0",
   "description": "AssemblyScript transformer for building ask projects",
   "main": "dist/index.js",
   "author": "Ask! Authors <https://github.com/ask-lang>",
