@@ -26,7 +26,6 @@
     "test:as:summary": "asp --summary",
     "build": "yarn workspace contract-metadata build && yarn workspace @ask-lang/ask-transform build"
   },
-  "private": true,
   "devDependencies": {
     "@as-pect/cli": "^6.2",
     "@assemblyscript/loader": "^0.20",
