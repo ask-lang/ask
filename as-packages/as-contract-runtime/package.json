@@ -1,6 +1,6 @@
 {
   "name": "@ask-lang/as-contract-runtime",
-  "version": "0.2.0",
+  "version": "0.4.0-rc0",
   "description": "as version of contract runtime primitives",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",

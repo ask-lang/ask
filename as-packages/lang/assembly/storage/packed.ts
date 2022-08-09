@@ -2,7 +2,7 @@ import { i128, u128 } from "as-bignum";
 import { PackedLayout, IKey } from "../interfaces";
 import { env } from "../env";
 import { FixedArray } from "../fixedArrays";
-import { ReturnCode } from "as-contract-runtime";
+import { ReturnCode } from "@ask-lang/as-contract-runtime";
 import { StorageResult } from "../types";
 
 /**

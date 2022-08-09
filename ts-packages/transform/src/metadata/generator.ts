@@ -34,8 +34,8 @@ import {
     SequenceDef,
     ArrayDef,
     VersionedContractMetadata,
-} from "contract-metadata";
-import * as metadata from "contract-metadata";
+} from "@ask-lang/contract-metadata";
+import * as metadata from "@ask-lang/contract-metadata";
 import { ASK_VERSION } from "../consts";
 import {
     extractConfigFromDecorator,

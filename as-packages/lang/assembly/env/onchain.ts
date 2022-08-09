@@ -1,4 +1,4 @@
-import { seal0, seal1, ReturnCode } from "as-contract-runtime";
+import { seal0, seal1, ReturnCode } from "@ask-lang/as-contract-runtime";
 import { ScaleSerializer, ScaleDeserializer, BytesBuffer } from "as-serde-scale";
 import { IEvent, IKey, TypedEnvBackend } from "../interfaces";
 import { RandomResult, StorageResult } from "../types";
