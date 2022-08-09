@@ -1,10 +1,9 @@
-import { seal0 } from "as-contract-runtime";
 import { BytesBuffer, ScaleDeserializer } from "as-serde-scale";
-import { StaticBuffer } from "../internal";
+import { StaticBuffer } from ".";
 import { IMessage } from "../interfaces/message";
 
-// A global static buffer for storing transaction message.
-const messageBuffer = new StaticBuffer();
+// A global static buffer for storing transaction message or host function io.
+const GLOBAL_BUFFER = new StaticBuffer();
 // Selector is 4 bytes.
 const SELECTOR_BUFFER_SIZE: i32 = 4;
 
@@ -25,13 +24,14 @@ export class Message implements IMessage {
 
     // TODO: add fillFromEnv method instead of constructor
     constructor() {
-        seal0.seal_input(messageBuffer.bufferPtr, messageBuffer.sizePtr);
+        GLOBAL_BUFFER.input();
+
         memory.copy(
             changetype<usize>(this.selector),
-            changetype<usize>(messageBuffer.bufferPtr),
+            changetype<usize>(GLOBAL_BUFFER.bufferPtr),
             SELECTOR_BUFFER_SIZE
         );
-        this.argsBytes = BytesBuffer.wrap(messageBuffer.buffer);
+        this.argsBytes = BytesBuffer.wrap(GLOBAL_BUFFER.buffer);
         this.argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
     }
 

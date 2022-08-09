@@ -1,3 +1,5 @@
+import { seal0 } from "as-contract-runtime";
+
 // TODO: we need support larger input data
 export let STORAGE_BUFFER_SIZE: i32 = 1024;
 
@@ -12,6 +14,9 @@ export class StaticBuffer {
 
     /**
      * The four bytes for storing `size` value.
+     * 
+     * When be reset, it means the buffer size.
+     * When be set by host function, it means the used buffer size.
      */
     private readonly _sizePtr: StaticArray<u8> = new StaticArray<u8>(4);
     @unsafe
@@ -19,8 +24,11 @@ export class StaticBuffer {
 
     constructor(bufferSize: u32 = StaticBuffer.DEFAULT_BUFFER_SIZE) {
         this.buffer = new StaticArray<u8>(bufferSize as i32);
-        // Note: must set before use
-        writeBufferSize(this._sizePtr, bufferSize);
+    }
+
+    input(): void {
+        this.resetBufferSize();
+        seal0.seal_input(this.bufferPtr, this.sizePtr);
     }
 
     /**

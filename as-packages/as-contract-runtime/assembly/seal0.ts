@@ -196,7 +196,16 @@ export declare function seal_terminate(
     _beneficiaryLen: Size
 ): void;
 
-// Read message's input from host.
+// Stores the input passed by the caller into the supplied buffer.
+//
+// The value is stored to linear memory at the address pointed to by `out_ptr`.
+// `out_len_ptr` must point to a u32 value that describes the available space at
+// `out_ptr`. This call overwrites it with the size of the value. If the available
+// space at `out_ptr` is less than the size of the value a trap is triggered.
+//
+// # Note
+//
+// This function traps if the input was previously forwarded by a `seal_call`.
 // @ts-ignore
 @external("seal0", "seal_input")
 export declare function seal_input(bufPtr: Ptr, bufLenPtr: Ptr): void;
