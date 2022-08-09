@@ -11,7 +11,7 @@ import {
     IMetadataVersioned,
     ITypeSpec,
 } from "./specs";
-import { Type } from "./types";
+import { TypeWithId } from "./types";
 import { ISource } from "./specs";
 import { MetadataVersion, ToMetadata } from ".";
 
@@ -24,9 +24,9 @@ export class VersionedContractMetadata implements ToMetadata {
 
     toMetadata(): IMetadataVersioned {
         return {
-            [MetadataVersion.V3]: this.contractMetadata.toMetadata(),
             source: this.source.toMetadata(),
             contract: this.contract.toMetadata(),
+            [MetadataVersion.V3]: this.contractMetadata.toMetadata(),
         };
     }
 }
@@ -34,15 +34,20 @@ export class VersionedContractMetadata implements ToMetadata {
 export class ContractMetadata implements ToMetadata {
     constructor(
         private readonly spec: ContractSpec,
-        private readonly types: Array<Type>,
-        private readonly storage: Layout
+        private readonly types: Array<TypeWithId>,
+        private readonly storage: Layout | null,
     ) {}
 
     toMetadata(): IContractMetadata {
         return {
             spec: this.spec.toMetadata(),
-            types: this.types.map((t) => t.toMetadata()),
-            storage: this.storage.toMetadata(),
+            types: this.types.map((t) =>  {
+                return {
+                    id: t.id, 
+                    type: t.type.toMetadata(),
+                };
+            }),
+            storage: this.storage && this.storage.toMetadata(),
         };
     }
 }
@@ -200,7 +205,7 @@ export class MessageSpec implements ToMetadata {
 export class EventSpec implements ToMetadata {
     constructor(
         public readonly id: number,
-        public readonly name: string,
+        public readonly label: string,
         private readonly args: EventParamSpec[],
         private readonly docs: string[] = [""]
     ) {}
@@ -208,7 +213,7 @@ export class EventSpec implements ToMetadata {
     toMetadata(): IEventSpec {
         return {
             id: this.id,
-            name: this.name,
+            label: this.label,
             args: this.args.map((arg) => arg.toMetadata()),
             docs: this.docs,
         };
@@ -217,7 +222,7 @@ export class EventSpec implements ToMetadata {
 
 export class EventParamSpec implements ToMetadata {
     constructor(
-        private readonly name: string,
+        private readonly label: string,
         private readonly type: TypeSpec,
         private readonly indexed: boolean,
         private readonly docs: string[] = [""]
@@ -225,7 +230,7 @@ export class EventParamSpec implements ToMetadata {
 
     toMetadata(): IEventParamSpec {
         return {
-            name: this.name,
+            label: this.label,
             indexed: this.indexed,
             type: this.type.toMetadata(),
             docs: this.docs,
@@ -236,13 +241,13 @@ export class EventParamSpec implements ToMetadata {
 export class ArgumentSpec implements ToMetadata {
     constructor(
         private readonly type: TypeSpec,
-        private readonly name: string
+        private readonly label: string
     ) {}
 
     toMetadata(): IMessageParamSpec {
         return {
             type: this.type.toMetadata(),
-            name: this.name,
+            label: this.label,
         };
     }
 }

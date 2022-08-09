@@ -26,7 +26,6 @@ import {
     TypeSpec,
     PrimitiveDef,
     Contract,
-    StructLayout,
     IMetadataVersioned,
     CompositeDef,
     ConstructorSpec,
@@ -127,7 +126,7 @@ export class MetadataGenerator {
         const metadata = new ContractMetadata(
             spec,
             types,
-            new StructLayout([])
+            null,
         );
 
         let versioned = new VersionedContractMetadata(
@@ -153,9 +152,9 @@ export class MetadataGenerator {
         return contractSpec;
     }
 
-    private genTypes(resolver: TypeResolver): metadata.Type[] {
+    private genTypes(resolver: TypeResolver): metadata.TypeWithId[] {
         log(this.genTypes.name);
-        const typeSpecs: metadata.Type[] = [];
+        const typeSpecs: metadata.TypeWithId[] = [];
         const types = resolver.resolvedTypes();
         types.forEach((info) => {
             // TODO: support other types
@@ -163,7 +162,7 @@ export class MetadataGenerator {
                 case metadata.TypeKind.Primitive: {
                     const typeInfo = info as PrimitiveTypeInfo;
                     const def = new PrimitiveDef(typeInfo.primitiveName);
-                    typeSpecs[info.index] = def;
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
@@ -174,7 +173,7 @@ export class MetadataGenerator {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         types.get(typeInfo.elem)!.index
                     );
-                    typeSpecs[info.index] = def;
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
@@ -191,16 +190,17 @@ export class MetadataGenerator {
                             unamedTypeInfo.kind == metadata.TypeKind.Composite,
                             `Ask-lang: unamed type is not a composite type`
                         );
-                        typeSpecs[unamedTypeInfo.index] = this.genCompositeType(
+                        let ty = new metadata.TypeWithId(unamedTypeInfo.index, this.genCompositeType(
                             resolver,
                             unamedTypeInfo as CompositeTypeInfo
-                        );
+                        ));
+                        typeSpecs[unamedTypeInfo.index] = ty;
                         const def = new SequenceDef(unamedTypeInfo.index);
-                        typeSpecs[info.index] = def;
+                        typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     } else {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         const def = new SequenceDef(types.get(elem)!.index);
-                        typeSpecs[info.index] = def;
+                        typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     }
                     break;
                 }
@@ -210,7 +210,7 @@ export class MetadataGenerator {
                         resolver,
                         info as CompositeTypeInfo
                     );
-                    typeSpecs[info.index] = def;
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
@@ -223,7 +223,7 @@ export class MetadataGenerator {
             }
         });
         // type index is starting from 1
-        typeSpecs.splice(0, 1);
+        // typeSpecs.splice(0, 1);
         return typeSpecs;
     }
 
@@ -274,7 +274,8 @@ export class MetadataGenerator {
                 return ret;
             }
         });
-        return new CompositeDef(fields);
+        let path = info.type ? info.type.toString() : "unknown";
+        return new CompositeDef(fields).setPath([path]);
     }
 
     private genMessages(resolver: TypeResolver): MessageSpec[] {

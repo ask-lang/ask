@@ -39,7 +39,7 @@ export class Contract {
         this.data.flag = flag;
     }
 
-    @message({ mutates: false})
+    @message({ mutates: true })
     flip(): void {
         this.data.flag = !this.data.flag;
         let event = new FlipEvent(this.data.flag);

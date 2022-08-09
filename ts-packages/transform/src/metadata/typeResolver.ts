@@ -32,7 +32,8 @@ export type TypeInfoMap = Map<Type | Type[], TypeInfo>;
  * TypeResolver resolve an entrypoint contract type infos, and collect some useful type infos.
  */
 export class TypeResolver {
-    private currentIndex = 1;
+    // Note: the index is started from zero.
+    private currentIndex = 0;
     // Visited types
     // Note: all types occurred in metadata are classes(including primitive type, because we use Bool/UInt32 ...)
     private readonly types: TypeInfoMap = new Map();

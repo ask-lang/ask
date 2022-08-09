@@ -8,7 +8,7 @@ export interface IContractMetadata {
     readonly spec: IContractSpec;
     /// The layout of the storage data structure
     readonly storage: ILayout;
-    readonly types: Array<ITypeDef>;
+    readonly types: Array<ITypeWithIdDef>;
 }
 
 export interface IMetadataVersioned {
@@ -23,6 +23,8 @@ export interface ISource {
     readonly compiler: string;
 }
 
+export type ITypeWithIdDef = {id: number, type: ITypeDef};
+
 export type ITypeDef =
     | IPrimitiveDef
     | ITupleDef
@@ -33,9 +35,10 @@ export type ITypeDef =
 
 interface Def<T> {
     readonly def: T;
+    readonly path: null | Array<string>;
 }
 
-export type ILayout = IStructLayout | ICellLayout | IHashLayout | IArrayLayout;
+export type ILayout = IStructLayout | ICellLayout | IHashLayout | IArrayLayout | null;
 
 export type IStructLayout = {
     readonly struct: {
@@ -105,12 +108,12 @@ export type ICompositeDef = Def<{
     readonly composite: {
         readonly fields: Array<IField>;
     };
-    readonly path: Array<string>;
+    // readonly path: Array<string>;
 }>;
 
 export type IVariantDef = Def<{
     readonly variants: Array<IVariant>;
-    readonly path: Array<string>;
+    // readonly path: Array<string>;
 }>;
 
 export interface IVariant {
@@ -253,7 +256,7 @@ interface LabelSpec {
     /**
      * The name of the parameter.
      */
-    readonly name: string;
+    readonly label: string;
 }
 
 interface Docs {

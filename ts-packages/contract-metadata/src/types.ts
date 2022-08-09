@@ -40,6 +40,9 @@ export enum PrimitiveType {
     U64 = "u64",
     U128 = "u128",
 }
+export class TypeWithId {
+    constructor(public id: number, public type: Type) {}
+}
 
 export interface Type extends ToMetadata {
     typeKind(): TypeKind;
@@ -59,6 +62,7 @@ export class PrimitiveDef implements Type {
             def: {
                 primitive: this.primitive,
             },
+            path: null,
         };
     }
 }
@@ -77,6 +81,7 @@ export class TupleDef implements Type {
                     fields: this.fields,
                 },
             },
+            path: null,
         };
     }
 }
@@ -96,6 +101,7 @@ export class ArrayDef implements Type {
                     type: this.type,
                 },
             },
+            path: null,
         };
     }
 }
@@ -114,6 +120,7 @@ export class SequenceDef implements Type {
                     type: this.type,
                 },
             },
+            path: null,
         };
     }
 }
@@ -136,8 +143,8 @@ export class CompositeDef implements Type {
                 composite: {
                     fields: this.fields.map((f) => f.toMetadata()),
                 },
-                path: this.path,
             },
+            path: this.path.length > 0 ? this.path : null,
         };
     }
 }
@@ -159,8 +166,8 @@ export class VariantDef implements Type {
         return {
             def: {
                 variants: this.variants.map((v) => v.toMetadata()),
-                path: this.path,
             },
+            path: this.path.length > 0 ? this.path : null,
         };
     }
 }

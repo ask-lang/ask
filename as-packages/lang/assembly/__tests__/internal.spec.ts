@@ -11,12 +11,10 @@ describe("StaticBuffer", () => {
 
     it("is full when input max len data", () => {
         let len = 1024;
-        let data = new StaticArray<u8>(len);
         let buf = new StaticBuffer(len);
         expect(buf.buffer.length).toBe(len);
         expect(buf.isFull()).toBeFalsy("should be empty");
         writeBufferSize(changetype<StaticArray<u8>>(buf.sizePtr), len);
-        memory.copy(buf.bufferPtr, changetype<usize>(data), len);
         expect(buf.isFull()).toBeTruthy("Should be full");
     });
 });

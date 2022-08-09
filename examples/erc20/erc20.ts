@@ -180,7 +180,7 @@ export class ERC20 {
             this.storage.balances.set(account, amount);
         } else {
             // @ts-ignore
-            const leftValue = balance + amount;
+            const leftValue = (balance as u128) + amount;
             this.storage.balances.set(account, leftValue);
         }
 
