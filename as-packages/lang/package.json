@@ -16,7 +16,7 @@
   "dependencies": {
     "as-bignum": "^0.2.21",
     "as-buffers": "^0.1.2",
-    "as-contract-runtime": "^0.2",
+    "as-contract-runtime": "^0.2.0",
     "as-serde": "^0.1.1",
     "as-serde-scale": "^0.1.2"
   },

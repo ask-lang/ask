@@ -5,7 +5,14 @@
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "main": "index.ts",
-  "keywords": ["substrate", "blockchain", "wasm", "smart-contract", "assemblyscript", "runtime"],
+  "keywords": [
+    "substrate",
+    "blockchain",
+    "wasm",
+    "smart-contract",
+    "assemblyscript",
+    "runtime"
+  ],
   "scripts": {
     "checks": "asc ./index.ts --noEmit --measure",
     "test": "echo 'no test'"

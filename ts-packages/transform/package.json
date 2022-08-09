@@ -24,17 +24,17 @@
   },
   "dependencies": {
     "assemblyscript": "^0.19",
+    "blakejs": "^1.1.0",
     "contract-metadata": "^0.2",
-    "visitor-as": "0.8",
-    "lodash": "4.17",
     "debug": "^4.3",
-    "blakejs": "^1.1.0"
+    "lodash": "4.17",
+    "visitor-as": "0.8"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/jest": "^27.4.1",
     "@types/lodash": "4.14",
     "jest": "^27",
-    "@types/debug": "^4.1.7",
     "ts-jest": "^27"
   }
 }
