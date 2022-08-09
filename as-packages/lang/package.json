@@ -13,6 +13,10 @@
     "contract-metadata",
     "substrate"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "dependencies": {
     "as-bignum": "^0.2.21",
     "as-buffers": "^0.1.2",

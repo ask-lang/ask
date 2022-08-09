@@ -10,6 +10,10 @@
     "contract-metadata",
     "substrate"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "workspaces": [
     "as-packages/*",
     "ts-packages/*"
@@ -24,8 +28,9 @@
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",
     "test:as:summary": "asp --summary",
-    "build": "yarn workspace contract-metadata build && yarn workspace @ask-lang/ask-transform build"
+    "build": "yarn workspace @ask-lang/contract-metadata build && yarn workspace @ask-lang/ask-transform build"
   },
+  "private": true,
   "devDependencies": {
     "@as-pect/cli": "^6.2",
     "@assemblyscript/loader": "^0.20",

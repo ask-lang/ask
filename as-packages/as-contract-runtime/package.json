@@ -1,5 +1,5 @@
 {
-  "name": "as-contract-runtime",
+  "name": "@ask-lang/as-contract-runtime",
   "version": "0.2.0",
   "description": "as version of contract runtime primitives",
   "author": "Ask! Authors <https://github.com/ask-lang>",
@@ -13,6 +13,10 @@
     "assemblyscript",
     "runtime"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "scripts": {
     "checks": "asc ./index.ts --noEmit --measure",
     "test": "echo 'no test'"
