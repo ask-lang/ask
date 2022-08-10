@@ -1,4 +1,4 @@
-import { seal0 } from "as-contract-runtime";
+import { seal0 } from "@ask-lang/as-contract-runtime";
 
 // TODO: we need support larger input data
 export let STORAGE_BUFFER_SIZE: i32 = 1024;

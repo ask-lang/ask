@@ -1,6 +1,6 @@
 {
   "name": "@ask-lang/ask",
-  "version": "0.1.0",
+  "version": "0.4.0-rc0",
   "description": "compile assemblyscript to substrate wasm contract",
   "keywords": [
     "assemblyscript",
@@ -10,10 +10,13 @@
     "contract-metadata",
     "substrate"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "workspaces": [
     "as-packages/*",
-    "ts-packages/*",
-    "examples"
+    "ts-packages/*"
   ],
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
@@ -25,7 +28,7 @@
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",
     "test:as:summary": "asp --summary",
-    "build": "yarn workspace contract-metadata build && yarn workspace ask-transform build"
+    "build": "yarn workspace @ask-lang/contract-metadata build && yarn workspace @ask-lang/ask-transform build"
   },
   "private": true,
   "devDependencies": {
@@ -44,5 +47,8 @@
     "ts-jest": "^27",
     "ts-node": "^10.7",
     "typescript": "^4.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

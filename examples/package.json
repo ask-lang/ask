@@ -1,8 +1,12 @@
 {
   "name": "ask-examples",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "dependencies": {
     "ask-lang": "*"
   },

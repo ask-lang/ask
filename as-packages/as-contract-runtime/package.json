@@ -1,11 +1,22 @@
 {
-  "name": "as-contract-runtime",
-  "version": "0.2.0",
+  "name": "@ask-lang/as-contract-runtime",
+  "version": "0.4.0-rc0",
   "description": "as version of contract runtime primitives",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "main": "index.ts",
-  "keywords": ["substrate", "blockchain", "wasm", "smart-contract", "assemblyscript", "runtime"],
+  "keywords": [
+    "substrate",
+    "blockchain",
+    "wasm",
+    "smart-contract",
+    "assemblyscript",
+    "runtime"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ask-lang/ask.git"
+  },
   "scripts": {
     "checks": "asc ./index.ts --noEmit --measure",
     "test": "echo 'no test'"

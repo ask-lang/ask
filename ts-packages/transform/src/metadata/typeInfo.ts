@@ -1,4 +1,4 @@
-import * as metadata from "contract-metadata";
+import * as metadata from "@ask-lang/contract-metadata";
 import { Field, Type } from "visitor-as/as";
 
 /**
