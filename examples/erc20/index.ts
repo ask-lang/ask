@@ -1,4 +1,4 @@
-import {AccountId, u128 } from "ask-lang";
+import {AccountId, u128 } from "@ask-lang/ask-lang";
 import { ERC20 } from "./ERC20";
 
 @contract

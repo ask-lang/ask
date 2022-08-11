@@ -1,4 +1,4 @@
-import {HashKeccak256, AccountId, Mapping } from "ask-lang";
+import {HashKeccak256, AccountId, Mapping } from "@ask-lang/ask-lang";
 
 @contract()
 export class Contract {

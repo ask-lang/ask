@@ -2,7 +2,7 @@ import { IKey } from "../../interfaces";
 import { SpreadLayout } from "../../interfaces";
 import { Key } from "../../types";
 import { EntryState, StorageEntry } from "./storageEntry";
-import { pullPackedRoot } from "ask-lang";
+import { pullPackedRoot } from "@ask-lang/ask-lang";
 import { pushPackedRoot, clearPackedRoot } from "../../storage/packed";
 import { instantiateRaw } from "../..";
 

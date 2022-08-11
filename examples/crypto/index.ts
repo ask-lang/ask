@@ -9,7 +9,7 @@ import {
     keccak256,
     sha2x256,
     Hash
-} from "ask-lang";
+} from "@ask-lang/ask-lang";
 
 @contract
 export class Contract {

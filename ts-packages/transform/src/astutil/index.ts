@@ -179,7 +179,7 @@ export function genNamespcae(
 }
 
 /**
- * Genetate an import statement, e.g.`import * as __lang from "ask-lang"`
+ * Genetate an import statement, e.g.`import * as __lang from "@ask-lang/ask-lang"`
  * @param namespace imported namespaced
  * @param path module path
  * @param range

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { env, Pack } from "ask-lang";
+import { env, Pack } from "@ask-lang/ask-lang";
 
 @event({ id: 1 })
 export class FlipEvent {

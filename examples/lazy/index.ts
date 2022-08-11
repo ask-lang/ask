@@ -1,4 +1,4 @@
-import { Lazy } from "ask-lang";
+import { Lazy } from "@ask-lang/ask-lang";
 
 @contract()
 export class Contract {

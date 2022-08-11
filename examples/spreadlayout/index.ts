@@ -1,4 +1,4 @@
-import {} from "ask-lang";
+import {} from "@ask-lang/ask-lang";
 
 @spreadLayout
 export class Flipper {

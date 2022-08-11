@@ -1,4 +1,4 @@
-import { Vector } from "ask-lang";
+import { Vector } from "@ask-lang/ask-lang";
 
 @contract()
 export class Contract {
