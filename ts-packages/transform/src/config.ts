@@ -1,4 +1,4 @@
-import * as metadata from "contract-metadata";
+import * as metadata from "ask-contract-metadata";
 
 export interface AskConfig {
     /**

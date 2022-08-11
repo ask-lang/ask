@@ -2,7 +2,7 @@ import { ScaleSerializer } from "as-serde-scale";
 import { IKey, SpreadLayout, IHash256 } from "../interfaces";
 import { Key } from "../types";
 import { env } from "../env/onchain";
-import { ReturnCode } from "as-contract-runtime";
+import { ReturnCode } from "ask-contract-runtime";
 
 /**
  * A simple hashmap which is not iterable and set/get data immediately.

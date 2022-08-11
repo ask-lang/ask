@@ -1,6 +1,6 @@
 {
-  "name": "as-contract-runtime",
-  "version": "0.4.0-rc0",
+  "name": "ask-contract-runtime",
+  "version": "0.4.0-rc1",
   "description": "as version of contract runtime primitives",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",

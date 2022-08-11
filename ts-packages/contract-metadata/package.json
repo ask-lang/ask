@@ -1,6 +1,6 @@
 {
-  "name": "contract-metadata",
-  "version": "0.4.0-rc0",
+  "name": "ask-contract-metadata",
+  "version": "0.4.0-rc1",
   "description": "Metadata specs about substrate smart contract for assemblyscript",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "main": "dist/index.js",

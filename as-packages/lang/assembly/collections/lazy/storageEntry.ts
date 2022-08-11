@@ -13,7 +13,7 @@ import {
     pushPacked,
     clearPacked,
 } from "../../storage";
-import { ReturnCode } from "as-contract-runtime";
+import { ReturnCode } from "ask-contract-runtime";
 
 /**
  * EntryState represents a storage entry state.

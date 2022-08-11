@@ -15,7 +15,7 @@ import {
 } from "visitor-as/as";
 import { isMessage, isConstructor } from "./generator";
 import debug from "debug";
-import { PrimitiveType } from "contract-metadata";
+import { PrimitiveType } from "ask-contract-metadata";
 import {
     PrimitiveTypeInfo,
     CompositeTypeInfo,
