@@ -1,4 +1,4 @@
-import { ReturnCode } from "as-contract-runtime";
+import { ReturnCode } from "ask-contract-runtime";
 import { instantiateRaw } from "as-serde-scale";
 
 /**

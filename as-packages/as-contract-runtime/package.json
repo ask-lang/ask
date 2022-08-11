@@ -1,5 +1,5 @@
 {
-  "name": "as-contract-runtime",
+  "name": "ask-contract-runtime",
   "version": "0.4.0-rc0",
   "description": "as version of contract runtime primitives",
   "author": "Ask! Authors <https://github.com/ask-lang>",
@@ -26,5 +26,6 @@
     "assembly/",
     "README.md",
     "package.json"
-  ]
+  ],
+  "gitHead": "05f4e659c3b55ec2b650b0a25e883a308c89a093"
 }

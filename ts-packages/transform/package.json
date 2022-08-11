@@ -29,7 +29,7 @@
   "dependencies": {
     "assemblyscript": "^0.19",
     "blakejs": "^1.1.0",
-    "contract-metadata": "0.4.0-rc0",
+    "ask-contract-metadata": "0.4.0-rc0",
     "debug": "^4.3",
     "lodash": "4.17",
     "visitor-as": "0.8"
@@ -40,5 +40,6 @@
     "@types/lodash": "4.14",
     "jest": "^27",
     "ts-jest": "^27"
-  }
+  },
+  "gitHead": "05f4e659c3b55ec2b650b0a25e883a308c89a093"
 }
