@@ -1,4 +1,4 @@
-import { seal0 } from "@ask-lang/as-contract-runtime";
+import { seal0 } from "as-contract-runtime";
 import { FixedArray } from "../fixedArrays";
 import { IHash128, IHash256 } from "../interfaces";
 
