@@ -1,6 +1,6 @@
 {
   "name": "@ask-lang/ask",
-  "version": "0.4.0-rc1",
+  "version": "0.4.0-rc2",
   "description": "compile assemblyscript to substrate wasm contract",
   "keywords": [
     "assemblyscript",
@@ -28,7 +28,8 @@
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",
     "test:as:summary": "asp --summary",
-    "build": "yarn workspace contract-metadata build && yarn workspace ask-transform build"
+    "build": "yarn workspace contract-metadata build && yarn workspace ask-transform build",
+    "prepublishOnly": "yarn build"
   },
   "private": true,
   "devDependencies": {
