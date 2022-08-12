@@ -20,5 +20,11 @@
     "checks": "tsc -p tsconfig.json --noEmit",
     "build": "rm -rf dist/* && tsc -p tsconfig.json",
     "test": "yarn build && jest ."
-  }
+  },
+  "files": [
+    "tsconfig.json",
+    "LICENSE",
+    "README.md",
+    "dist"
+  ]
 }

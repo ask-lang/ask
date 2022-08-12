@@ -25,6 +25,7 @@
     "index.ts",
     "assembly/",
     "README.md",
-    "package.json"
+    "package.json",
+    "tsconfig.json"
   ]
 }
