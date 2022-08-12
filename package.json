@@ -28,7 +28,7 @@
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",
     "test:as:summary": "asp --summary",
-    "build": "yarn workspace contract-metadata build && yarn workspace ask-transform build",
+    "build": "yarn workspace ask-contract-metadata build && yarn workspace ask-transform build",
     "prepublishOnly": "yarn build"
   },
   "private": true,
