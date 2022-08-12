@@ -1999,41 +1999,41 @@ arrify@^2.0.1:
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
   integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
-as-bignum@^0.2.18, as-bignum@^0.2.23:
+as-bignum@^0.2, as-bignum@^0.2.23:
   version "0.2.23"
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.23.tgz#626e358721504291d35db4ce5c80693630048ad3"
   integrity sha512-0+GiwHNwyw0lXI+6uzOI6ReNOEsqKihdLJuOYJeqEOfXcIqwtSixLcQ7h9UQaMrroktW/Idmqj2TinpcWTxxJA==
 
-as-buffers@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.1.2.tgz#dbc22598521fe889e367fcaba2db5c6764c3d9f2"
-  integrity sha512-cbe2kJayvso9JGfnRhYDe9bnxv79ky3JK/VepKKY6vVrJ78tBaDThN4EZjzP2F7VR88ha90ScGGuJNHy2rjDZA==
+as-buffers@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.1.3.tgz#af135c3762a949ebf8c9ce4135107947607c10fb"
+  integrity sha512-NwGbA3YRsbA0OYegzDG4bLiMPtRKZcmq9r/WLnEuhaJD/M6dk7VUV5MrC1ni9Rjnbf5Zq9Kn5vjujtWYVXXVEA==
 
-as-serde-scale@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/as-serde-scale/-/as-serde-scale-0.1.2.tgz#ffa532e7b7dd21f422044c60421d8401262c7723"
-  integrity sha512-afmEGBJaJU2wjlAhWJv0JSCUBGOLOsJutZ8lKJVrNJUrVPFjs05GyrHHksVnMSLJGls2LGTq/SyFXjzwRb1Feg==
+as-serde-scale@^0.2:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/as-serde-scale/-/as-serde-scale-0.2.0.tgz#67fe476df6c59c91b4562365052d2548b65ab8d3"
+  integrity sha512-R//bh5Isyj555yYpx6YScKobzGy2Pe7NpQ38kgDclznlD1yb7BHiWNDvxIAMJex+DTM2HRJ34szGkcrOXMY5pw==
   dependencies:
-    as-bignum "^0.2.18"
-    as-buffers "^0.1.2"
-    as-serde "^0.1.1"
+    as-bignum "^0.2"
+    as-buffers "^0.1.3"
+    as-serde "^0.2.0"
 
-as-serde-transform@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/as-serde-transform/-/as-serde-transform-0.1.1.tgz#9544bfc6c614ce62aae0cf64fd34329575853fa3"
-  integrity sha512-rh1nnlY/2oRMx2jG7hEAH+Qm3OZs4nQm/w+PStdTn+9umFgPPQgd0+V7Yqf1CQEcDzBcx3sau6WrPOiRJYnJOg==
+as-serde-transform@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/as-serde-transform/-/as-serde-transform-0.2.0.tgz#ff740b03bc57e40e115026c768baa4ae25b369cf"
+  integrity sha512-f+X/Zd5fHAO4QWEVDwMuRkjjXXY4mBBtm2fTmpmbYdg/HfHzo3eUYAZErUOL0yf0NKo6vbPQQUWmmUqCyE06Mg==
   dependencies:
-    assemblyscript "^0.19.7"
+    assemblyscript "^0.19"
     debug "^4.3.2"
     lodash "4.17"
-    visitor-as "0.6"
+    visitor-as "0.8"
 
-as-serde@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/as-serde/-/as-serde-0.1.1.tgz#389228baf80274fbf5822d00f5c4bc762c8d8608"
-  integrity sha512-9sE4A993uSAveU+YH4Vqti+JT/o0SLRPi1bxBVRDO0W6SWxm1GiCJHvyd5Bblcp9DRyNmoGBP0uy5JUBh5Fb/Q==
+as-serde@^0.2, as-serde@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/as-serde/-/as-serde-0.2.0.tgz#79051b5e4d5eb98f853323eb199b65ad1ec8bf7c"
+  integrity sha512-t6HK/AefRBJOKhDlf+E524hPPLrM17/YDRSH0lTvdwk/1xT9AZlwsYwMKKklq7O9+//wjwu3l4Oy1dfbSVzkAg==
   dependencies:
-    as-serde-transform "^0.1.1"
+    as-serde-transform "^0.2.0"
 
 asap@^2.0.0:
   version "2.0.6"
@@ -2047,7 +2047,7 @@ asn1@~0.2.3:
   dependencies:
     safer-buffer "~2.1.0"
 
-assemblyscript@^0.19, assemblyscript@^0.19.7:
+assemblyscript@^0.19:
   version "0.19.23"
   resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.19.23.tgz#16ece69f7f302161e2e736a0f6a474e6db72134c"
   integrity sha512-fwOQNZVTMga5KRsfY80g7cpOl4PsFQczMwHzdtgoqLXaYhkhavufKb0sB0l3T1DUxpAufA0KNhlbpuuhZUwxMA==
@@ -6867,18 +6867,18 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-visitor-as@0.6, visitor-as@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.6.0.tgz#b0cca3c918bd9d396545faf08529d2b9ba968a40"
-  integrity sha512-4WcnwCLXWjhNkwJj9gSqh46sdIv9CyIvnSuwr61OOfrGCtN2mKcW5KE828OeEr1rYjEy0Z/CIdPBJKJRLsUgDA==
-  dependencies:
-    lodash.clonedeep "^4.5.0"
-    ts-mixer "^5.4.1"
-
 visitor-as@0.8:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.8.0.tgz#5451ce2bb25f4c787d7f74857b4c839e48a157ee"
   integrity sha512-tW9Vfr2AnGCckcfujL7QPbfrY7D0hNcYwi5DWx8wBfBjgCWhfIXEEojqS5JrzRnQI+LllTEUfGAIdLaxaaBNpw==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+    ts-mixer "^5.4.1"
+
+visitor-as@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.6.0.tgz#b0cca3c918bd9d396545faf08529d2b9ba968a40"
+  integrity sha512-4WcnwCLXWjhNkwJj9gSqh46sdIv9CyIvnSuwr61OOfrGCtN2mKcW5KE828OeEr1rYjEy0Z/CIdPBJKJRLsUgDA==
   dependencies:
     lodash.clonedeep "^4.5.0"
     ts-mixer "^5.4.1"
