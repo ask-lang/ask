@@ -5,6 +5,7 @@
         "authors": ["yjhmelody"],
         "license": "MIT"
     },
+    "metadataTargetPath": "./build/metadata.json",
     "strict": true,
     "env": {
         "AccountId": "__lang.AccountId",
