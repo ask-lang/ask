@@ -7,6 +7,11 @@ export interface AskConfig {
     readonly strict?: boolean;
 
     /**
+     * The metadata target path.
+     */
+    readonly metadataTargetPath: string;
+
+    /**
      * Chain environment type related config.
      */
     readonly env?: EnvConfig;
@@ -56,10 +61,11 @@ export interface EventConfig {
 export function defaultConfig(): AskConfig {
     return {
         // TODO: make sure the default config.
+        metadataContract: new metadata.Contract("", "").toMetadata(),
+        metadataTargetPath: "./build/metadata.json",
         strict: true,
         env: defaultEnvConfig(),
         event: defaultEventConfig(),
-        metadataContract: new metadata.Contract("", "").toMetadata(),
     };
 }
 

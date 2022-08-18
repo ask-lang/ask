@@ -46,6 +46,7 @@ export class AskTransform extends TransformVisitor {
     private isEntrypoint = false;
     private readonly askSources = new Map<string, Source>();
     private readonly events: Map<number, EventDeclaration> = new Map();
+    private cfgPath!: string;
 
     constructor() {
         super();
@@ -53,14 +54,20 @@ export class AskTransform extends TransformVisitor {
         let cfgPath = process.env["ASK_CONFIG"]
             ? process.env["ASK_CONFIG"]
             : path.join(process.cwd(), CONFIG_NAME);
+        this.cfgPath = cfgPath;
 
         // if not exists, fallback to default config.
         if (fs.existsSync(cfgPath)) {
             log(`Read Ask config from '${cfgPath}'`);
             const cfgText = fs.readFileSync(cfgPath).toString();
             try {
-                let { strict, env, event, metadataContract }: AskConfig =
-                    JSON.parse(cfgText);
+                let {
+                    strict,
+                    env,
+                    event,
+                    metadataContract,
+                    metadataTargetPath,
+                }: AskConfig = JSON.parse(cfgText);
 
                 strict = strict ? strict : defaultCfg.strict;
                 env = env ? env : defaultCfg.env;
@@ -68,12 +75,16 @@ export class AskTransform extends TransformVisitor {
                 metadataContract = metadataContract
                     ? metadataContract
                     : defaultCfg.metadataContract;
+                metadataTargetPath = metadataTargetPath
+                    ? metadataTargetPath
+                    : defaultCfg.metadataTargetPath;
 
                 this.config = {
                     strict,
                     env,
                     event,
                     metadataContract,
+                    metadataTargetPath,
                 };
             } catch (e) {
                 throw new SyntaxError(
@@ -256,10 +267,29 @@ export class AskTransform extends TransformVisitor {
         );
         const metadata = generator.generate();
         log(metadata);
-        fs.writeFileSync(
-            "./metadata.json",
-            JSON.stringify(metadata, (_k, v) => (v != null ? v : undefined), 2)
-        );
+
+        const target = path.join(this.cfgPath, "..", this.config.metadataTargetPath);
+        const targetDir = path.dirname(target);
+        
+        try {
+            if (!fs.existsSync(targetDir)) {
+                fs.mkdirSync(targetDir, {recursive: true});
+            }
+
+            fs.writeFileSync(
+                target,
+                JSON.stringify(
+                    metadata,
+                    (_k, v) => (v != null ? v : undefined),
+                    2
+                )
+            );
+        } catch (e) {
+            console.log(
+                `Error occurred when write metadata to ${this.config.metadataTargetPath}: ${e}`
+            );
+            throw e;
+        }
 
         this.mode.change(this.parser);
         log("Exit afterCompile ...");
