@@ -21,7 +21,7 @@
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "scripts": {
-    "example": "asc --config ./examples/asconfig.json",
+    "example": "ASK_CONFIG=./examples/askconfig.json asc --config ./examples/asconfig.json",
     "lint": "eslint .",
     "fmt": "prettier -w ./**/*.ts --config ./.prettierrc.js",
     "checks": "yarn workspaces run checks",
