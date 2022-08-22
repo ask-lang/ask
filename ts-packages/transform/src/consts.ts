@@ -1,7 +1,7 @@
 /**
  * Ask! transform version, it should keep same with package.json
  */
-export const ASK_VERSION = "0.4.0-rc2";
+export const ASK_VERSION = "0.4.0-rc3";
 /**
  * LANG_LIB represents a generated namespace for `ask-lang` to use.
  */

@@ -1,6 +1,6 @@
 {
   "name": "ask-transform",
-  "version": "0.4.0-rc2",
+  "version": "0.4.0-rc3",
   "description": "AssemblyScript transformer for building ask projects",
   "main": "dist/index.js",
   "author": "Ask! Authors <https://github.com/ask-lang>",
@@ -29,7 +29,7 @@
   "dependencies": {
     "assemblyscript": "^0.19",
     "blakejs": "^1.1.0",
-    "ask-contract-metadata": "0.4.0-rc2",
+    "ask-contract-metadata": "0.4.0-rc3",
     "debug": "^4.3",
     "lodash": "4.17",
     "visitor-as": "0.8"

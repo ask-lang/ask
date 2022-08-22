@@ -1,6 +1,6 @@
 {
   "name": "ask-lang",
-  "version": "0.4.0-rc2",
+  "version": "0.4.0-rc3",
   "description": "Ask lang sdk",
   "main": "index.ts",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "url": "git+https://github.com/ask-lang/ask.git"
   },
   "dependencies": {
-    "ask-contract-runtime": "0.4.0-rc2",
+    "ask-contract-runtime": "0.4.0-rc3",
     "as-bignum": "^0.2.23",
     "as-buffers": "^0.1.3",
     "as-serde": "^0.2",
