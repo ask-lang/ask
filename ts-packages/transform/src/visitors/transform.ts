@@ -51,6 +51,7 @@ export class AskTransform extends TransformVisitor {
     constructor() {
         super();
         const defaultCfg = defaultConfig();
+        // default to be cwd.
         let cfgPath = process.env["ASK_CONFIG"]
             ? process.env["ASK_CONFIG"]
             : path.join(process.cwd(), CONFIG_NAME);
@@ -72,13 +73,10 @@ export class AskTransform extends TransformVisitor {
                 strict = strict ? strict : defaultCfg.strict;
                 env = env ? env : defaultCfg.env;
                 event = event ? event : defaultCfg.event;
-                metadataContract = metadataContract
-                    ? metadataContract
-                    : defaultCfg.metadataContract;
-                metadataTargetPath = metadataTargetPath
-                    ? metadataTargetPath
-                    : defaultCfg.metadataTargetPath;
 
+                if(metadataContract == null) {
+                    metadataContract = defaultCfg.metadataContract;
+                }
                 this.config = {
                     strict,
                     env,
