@@ -34,7 +34,7 @@
   "private": true,
   "devDependencies": {
     "@as-pect/cli": "^6.2",
-    "@assemblyscript/loader": "^0.20",
+    "@assemblyscript/loader": "^0.21",
     "@types/jest": "27",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.16",
