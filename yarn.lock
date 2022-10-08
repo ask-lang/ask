@@ -91,10 +91,10 @@
     diff "^5.0.0"
     nearley "^2.20.1"
 
-"@assemblyscript/loader@^0.20":
-  version "0.20.18"
-  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.20.18.tgz#81a95751dc2d57eff5924280666a38d32507c158"
-  integrity sha512-tv3AOrsD+xhWXa2N6tImfDGZgnW/YqtUaMo2Ks/UajI10eBxIYWft6rGBDdrvPILb2JVb4dISLW04x3ujplkSg==
+"@assemblyscript/loader@^0.21":
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.21.6.tgz#525e0c75049d049f8f526e735df8f4e1a3c668fe"
+  integrity sha512-WOv7zR4dfKcmLbcotVzRkixoEBvrSUhYoybPXa2BtqHfO112je99iy5A6aIVuKJUG1Bvo/FNmJ8zitfI38VSIg==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
