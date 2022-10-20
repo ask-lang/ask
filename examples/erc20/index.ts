@@ -1,5 +1,5 @@
 import {AccountId, u128 } from "ask-lang";
-import { ERC20 } from "./ERC20";
+import { ERC20 } from "./erc20";
 
 @contract
 export class MyToken extends ERC20 {
