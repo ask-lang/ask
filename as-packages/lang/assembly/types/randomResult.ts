@@ -11,6 +11,6 @@ import { ISerialize, IDeserialize } from "as-serde";
 export class RandomResult<H, B> implements ISerialize, IDeserialize {
     constructor(
         public hash: H = instantiateRaw<H>(),
-        public blockNumber: B = instantiateRaw<B>()
+        public blockNumber: B = instantiateRaw<B>(),
     ) {}
 }

@@ -109,7 +109,7 @@ export class MessageDeclaration implements ContractMethodNode {
         public readonly method: MethodDeclaration,
         public readonly selector: string | null,
         public readonly mutates: boolean,
-        public readonly payable: boolean = true
+        public readonly payable: boolean = true,
     ) {}
 
     paramsTypeName(): string[] {
@@ -157,7 +157,7 @@ export class MessageDeclaration implements ContractMethodNode {
     static extractFrom(
         emitter: DiagnosticEmitter,
         node: MethodDeclaration,
-        cfg: DecoratorConfig
+        cfg: DecoratorConfig,
     ): MessageDeclaration {
         let msgMutates = false;
         let msgPayable = true;
@@ -175,7 +175,7 @@ export class MessageDeclaration implements ContractMethodNode {
                     DiagnosticCode.User_defined_0,
                     node.range,
                     decorator.range,
-                    `Ask-lang: Illegal 'mutates' config, must be true or false`
+                    `Ask-lang: Illegal 'mutates' config, must be true or false`,
                 );
             }
         }
@@ -191,7 +191,7 @@ export class MessageDeclaration implements ContractMethodNode {
                     DiagnosticCode.User_defined_0,
                     node.range,
                     decorator.range,
-                    `Ask-lang: Illegal 'payable' config, must be true or false`
+                    `Ask-lang: Illegal 'payable' config, must be true or false`,
                 );
             }
         }
@@ -223,7 +223,7 @@ export class ConstructorDeclaration implements ContractMethodNode {
     public readonly payable: boolean = true;
     constructor(
         public readonly method: MethodDeclaration,
-        public readonly selector: string | null
+        public readonly selector: string | null,
     ) {}
 
     paramsTypeName(): string[] {
@@ -263,7 +263,7 @@ export class ConstructorDeclaration implements ContractMethodNode {
     static extractFrom(
         emitter: DiagnosticEmitter,
         node: MethodDeclaration,
-        cfg: DecoratorConfig
+        cfg: DecoratorConfig,
     ): ConstructorDeclaration {
         let selector = cfg.get("selector");
         let msgSelector = extractSelector(emitter, selector, node, cfg.decorator);
@@ -282,7 +282,7 @@ export class EventDeclaration implements AskNode {
          * Event Id
          */
         public readonly id: number,
-        public readonly event: ClassDeclaration
+        public readonly event: ClassDeclaration,
     ) {}
 
     /**
@@ -303,7 +303,7 @@ export class EventDeclaration implements AskNode {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: '@event' must have id config`
+                `Ask-lang: '@event' must have id config`,
             );
         } else if (!isNaN(+eventId)) {
             id = +eventId;
@@ -312,7 +312,7 @@ export class EventDeclaration implements AskNode {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: '@event' id config is illegal`
+                `Ask-lang: '@event' id config is illegal`,
             );
         }
         return new EventDeclaration(id, utils.cloneNode(node));
@@ -338,7 +338,7 @@ function extractSelector(
     emitter: DiagnosticEmitter,
     selector: string | undefined,
     node: MethodDeclaration,
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): string | null {
     if (selector) {
         selector = selector.substring(1, selector.length - 1);
@@ -349,7 +349,7 @@ function extractSelector(
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`
+                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`,
             );
             return null;
         }

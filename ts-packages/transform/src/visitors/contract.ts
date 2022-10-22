@@ -59,14 +59,14 @@ export class ContractVisitor extends TransformVisitor {
             this.emitter.error(
                 DiagnosticCode.User_defined_0,
                 node.range,
-                "Ask-lang: `@contract` class requires at least one constructor"
+                "Ask-lang: `@contract` class requires at least one constructor",
             );
         }
         if (!this.hasBase && this.messageDecls.length === 0) {
             this.emitter.error(
                 DiagnosticCode.User_defined_0,
                 node.range,
-                "Ask-lang: `@contract` class requires at least one message"
+                "Ask-lang: `@contract` class requires at least one message",
             );
         }
 
@@ -115,7 +115,7 @@ export class ContractVisitor extends TransformVisitor {
 
     private visisConstructorDeclaration(
         node: MethodDeclaration,
-        decorator: DecoratorNode
+        decorator: DecoratorNode,
     ): MethodDeclaration {
         if (!this.mustBeLegalConstructor(node)) {
             return node;
@@ -129,7 +129,7 @@ export class ContractVisitor extends TransformVisitor {
 
     private visisMessageDeclaration(
         node: MethodDeclaration,
-        decorator: DecoratorNode
+        decorator: DecoratorNode,
     ): MethodDeclaration {
         if (!this.mustBeLegalMessage(node)) {
             return node;
@@ -229,7 +229,7 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
 
     private genDeploy(
         clz: ClassDeclaration,
-        constructors: ConstructorDeclaration[]
+        constructors: ConstructorDeclaration[],
     ): MethodDeclaration {
         const selectors = constructors.map((decl) => this.genDeploySelector(clz.range, decl));
         const pushSpread = `${LANG_LIB}.pushSpreadRoot(this, ${LANG_LIB}.Key.zero());`;

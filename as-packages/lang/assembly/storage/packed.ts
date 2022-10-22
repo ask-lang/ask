@@ -57,7 +57,7 @@ export function clearPackedRoot<T extends PackedLayout, K extends IKey>(value: T
  * @returns
  */
 export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
-    key: K
+    key: K,
 ): StorageResult<T> {
     const value = env().getContractStorageResult<K, T>(key);
     if (value.code == ReturnCode.Success) {

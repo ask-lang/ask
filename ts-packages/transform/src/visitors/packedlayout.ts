@@ -67,7 +67,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
                 (field) =>
                     `__lang.${METHOD_PULL}<${field.type?.range.toString()}, __K>(this.${
                         field.name.text
-                    }, key);`
+                    }, key);`,
             )
             .join("\n");
 
@@ -86,7 +86,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
                 (field) =>
                     `__lang.${METHOD_PUSH}<${field.type?.range.toString()}, __K>(this.${
                         field.name.text
-                    }, key);`
+                    }, key);`,
             )
             .join("\n");
 
@@ -105,7 +105,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
                 (field) =>
                     `__lang.${METHOD_CLEAR}<${field.type?.range.toString()}, __K>(this.${
                         field.name.text
-                    }, key);`
+                    }, key);`,
             )
             .join("\n");
 

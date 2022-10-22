@@ -8,7 +8,7 @@ export abstract class TypeInfo {
     constructor(
         public readonly type: Type | null,
         public readonly index: number,
-        public readonly kind: metadata.TypeKind
+        public readonly kind: metadata.TypeKind,
     ) {}
 }
 
@@ -26,7 +26,7 @@ export class ArrayTypeInfo extends TypeInfo {
         type: Type,
         index: number,
         public readonly elem: Type,
-        public readonly len: number
+        public readonly len: number,
     ) {
         super(type, index, metadata.TypeKind.Array);
     }

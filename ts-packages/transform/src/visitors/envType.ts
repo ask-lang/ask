@@ -27,14 +27,14 @@ export class EnvTypeVisitor extends TransformVisitor {
         if (alias) {
             node.type = genNamedTypeNode(node.type.range, alias);
             log(
-                `${node.range.source.internalPath}: replace type '${node.name.text}' with type '${alias}'`
+                `${node.range.source.internalPath}: replace type '${node.name.text}' with type '${alias}'`,
             );
         } else {
             this.emitter.errorRelated(
                 DiagnosticCode.User_defined_0,
                 decorator.range,
                 node.range,
-                `Ask-lang: '${node.name.text}' is not a configurable type`
+                `Ask-lang: '${node.name.text}' is not a configurable type`,
             );
         }
 

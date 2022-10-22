@@ -39,7 +39,7 @@ export class EventVisitor extends TransformVisitor {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 node.name.range,
-                `Ask-lang: '@event' cannot be a generic class`
+                `Ask-lang: '@event' cannot be a generic class`,
             );
         }
         node = super.visitClassDeclaration(node);
@@ -55,7 +55,7 @@ export class EventVisitor extends TransformVisitor {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 node.name.range,
-                `Ask-lang: '@event' do not support 'extends' this time`
+                `Ask-lang: '@event' do not support 'extends' this time`,
             );
         }
         this.visit(node.members);

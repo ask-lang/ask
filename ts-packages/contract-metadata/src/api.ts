@@ -19,7 +19,7 @@ export class VersionedContractMetadata implements ToMetadata {
     constructor(
         private readonly contractMetadata: ContractMetadata,
         private readonly source: Source,
-        private readonly contract: Contract
+        private readonly contract: Contract,
     ) {}
 
     toMetadata(): IMetadataVersioned {
@@ -35,7 +35,7 @@ export class ContractMetadata implements ToMetadata {
     constructor(
         private readonly spec: ContractSpec,
         private readonly types: Array<TypeWithId>,
-        private readonly storage: Layout | null
+        private readonly storage: Layout | null,
     ) {}
 
     toMetadata(): IContractMetadata {
@@ -56,7 +56,7 @@ export class Source implements ToMetadata {
     constructor(
         private readonly hash: string,
         private readonly language: string,
-        private readonly compiler: string
+        private readonly compiler: string,
     ) {}
 
     toMetadata(): ISource {
@@ -129,7 +129,7 @@ export class ContractSpec implements ToMetadata {
         private readonly messages: Array<MessageSpec>,
         /// The events of the contract.
         private readonly events: Array<EventSpec>,
-        private readonly docs: Array<string> = [""]
+        private readonly docs: Array<string> = [""],
     ) {}
 
     toMetadata(): IContractSpec {
@@ -149,7 +149,7 @@ export class ConstructorSpec implements ToMetadata {
         private readonly label: string,
         private readonly selector: string,
         private readonly args: ArgumentSpec[] = [],
-        private readonly docs: string[] = []
+        private readonly docs: string[] = [],
     ) {}
 
     setPayable(payable = true): this {
@@ -176,7 +176,7 @@ export class MessageSpec implements ToMetadata {
         private readonly selector: string,
         private readonly args: ArgumentSpec[] = [],
         private readonly returnType: TypeSpec | null = null,
-        private readonly docs: string[] = []
+        private readonly docs: string[] = [],
     ) {}
 
     setMutates(mutates = true): this {
@@ -207,7 +207,7 @@ export class EventSpec implements ToMetadata {
         public readonly id: number,
         public readonly label: string,
         private readonly args: EventParamSpec[],
-        private readonly docs: string[] = [""]
+        private readonly docs: string[] = [""],
     ) {}
 
     toMetadata(): IEventSpec {
@@ -225,7 +225,7 @@ export class EventParamSpec implements ToMetadata {
         private readonly label: string,
         private readonly type: TypeSpec,
         private readonly indexed: boolean,
-        private readonly docs: string[] = [""]
+        private readonly docs: string[] = [""],
     ) {}
 
     toMetadata(): IEventParamSpec {

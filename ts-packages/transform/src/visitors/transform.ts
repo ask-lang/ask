@@ -127,7 +127,7 @@ export class AskTransform extends TransformVisitor {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 event.event.range,
-                `Ask-lang: Duplicated event id`
+                `Ask-lang: Duplicated event id`,
             );
         }
         return node;
@@ -185,7 +185,7 @@ export class AskTransform extends TransformVisitor {
             if (this.isEntrypoint) {
                 this.isEntrypoint = false;
                 log(
-                    `'${node.normalizedPath}' is entrypoint file, trying to remove all unused export items...`
+                    `'${node.normalizedPath}' is entrypoint file, trying to remove all unused export items...`,
                 );
                 const eraser = new ExportEraser(this.program, whitelist);
                 node = eraser.visitSource(node);
@@ -247,11 +247,11 @@ export class AskTransform extends TransformVisitor {
 
             fs.writeFileSync(
                 target,
-                JSON.stringify(metadata, (_k, v) => (v != null ? v : undefined), 2)
+                JSON.stringify(metadata, (_k, v) => (v != null ? v : undefined), 2),
             );
         } catch (e) {
             console.log(
-                `Error occurred when write metadata to ${this.config.metadataTargetPath}: ${e}`
+                `Error occurred when write metadata to ${this.config.metadataTargetPath}: ${e}`,
             );
             throw e;
         }

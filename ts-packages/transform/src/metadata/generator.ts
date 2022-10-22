@@ -66,7 +66,7 @@ export class MetadataGenerator {
 
     constructor(
         public readonly program: Program,
-        public readonly contractConfig: metadata.IContract
+        public readonly contractConfig: metadata.IContract,
     ) {
         program.elementsByName.forEach((elem) => {
             if (isEntrypointContract(elem)) {
@@ -148,7 +148,7 @@ export class MetadataGenerator {
                     const def = new ArrayDef(
                         typeInfo.len,
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        types.get(typeInfo.elem)!.index
+                        types.get(typeInfo.elem)!.index,
                     );
                     typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
@@ -165,11 +165,11 @@ export class MetadataGenerator {
                         assert(unamedTypeInfo != null);
                         assert(
                             unamedTypeInfo.kind == metadata.TypeKind.Composite,
-                            `Ask-lang: unamed type is not a composite type`
+                            `Ask-lang: unamed type is not a composite type`,
                         );
                         let ty = new metadata.TypeWithId(
                             unamedTypeInfo.index,
-                            this.genCompositeType(resolver, unamedTypeInfo as CompositeTypeInfo)
+                            this.genCompositeType(resolver, unamedTypeInfo as CompositeTypeInfo),
                         );
                         typeSpecs[unamedTypeInfo.index] = ty;
                         const def = new SequenceDef(unamedTypeInfo.index);
@@ -201,7 +201,7 @@ export class MetadataGenerator {
     private genCompositeType(resolver: TypeResolver, info: CompositeTypeInfo): CompositeDef {
         assert(
             info.fields.length > 0,
-            `Ask-lang: Composite def ${info.type?.toString()} fields are empty`
+            `Ask-lang: Composite def ${info.type?.toString()} fields are empty`,
         );
         const types = resolver.resolvedTypes();
         const fields: metadata.Field[] = info.fields.map((field) => {
@@ -211,7 +211,7 @@ export class MetadataGenerator {
                 const fieldTypeInfo = types.get(field.type);
                 assert(
                     fieldTypeInfo != null,
-                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`
+                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
                 );
                 const ret = new metadata.Field(
                     fieldDecl.name.range.toString(),
@@ -219,7 +219,7 @@ export class MetadataGenerator {
                     fieldTypeInfo!.index,
                     // we make sure all fields gived a type explicitly
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldDecl.type!.range.toString()
+                    fieldDecl.type!.range.toString(),
                 );
                 return ret;
             } else {
@@ -231,7 +231,7 @@ export class MetadataGenerator {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     fieldTypeInfo!.index,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    field.toString()
+                    field.toString(),
                 );
                 return ret;
             }
@@ -251,7 +251,7 @@ export class MetadataGenerator {
             const decorator = extractDecorator(
                 this.program,
                 func.declaration,
-                ContractDecoratorKind.Message
+                ContractDecoratorKind.Message,
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
@@ -259,7 +259,7 @@ export class MetadataGenerator {
             const msgDecl = MessageDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
-                cfg
+                cfg,
             );
 
             const args = this.getFuncArgumentSpecs(types, func);
@@ -295,7 +295,7 @@ export class MetadataGenerator {
             const decorator = extractDecorator(
                 this.program,
                 func.declaration,
-                ContractDecoratorKind.Constructor
+                ContractDecoratorKind.Constructor,
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
@@ -303,7 +303,7 @@ export class MetadataGenerator {
             const decl = ConstructorDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
-                cfg
+                cfg,
             );
 
             const args = this.getFuncArgumentSpecs(types, func);
@@ -333,7 +333,7 @@ export class MetadataGenerator {
             this.program.error(
                 DiagnosticCode.User_defined_0,
                 null,
-                `Some event ids are duplicated`
+                `Some event ids are duplicated`,
             );
         }
         return eventSpecs;
@@ -358,7 +358,7 @@ export class MetadataGenerator {
             const indexed: boolean = extractDecorator(
                 this.program,
                 fieldDecl,
-                ContractDecoratorKind.Topic
+                ContractDecoratorKind.Topic,
             )
                 ? true
                 : false;
@@ -368,7 +368,7 @@ export class MetadataGenerator {
             const typeSpec = new TypeSpec(
                 typeInfo.index,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                fieldDecl.type!.range.toString()
+                fieldDecl.type!.range.toString(),
             );
             args.push(new EventParamSpec(field.name, typeSpec, indexed));
         });

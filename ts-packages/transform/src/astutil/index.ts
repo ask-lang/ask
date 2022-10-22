@@ -28,7 +28,7 @@ import { hasDecorator } from "../util";
 export function genNamedTypeNode(
     range: Range,
     typeName: string,
-    isNullable = false
+    isNullable = false,
 ): NamedTypeNode {
     const named = genTypeName(typeName, range);
     const namedType = Node.createNamedType(named, null, isNullable, range);
@@ -108,7 +108,7 @@ export function addDeserializeDecorator(decl: {
  */
 export function addDecorator(
     decl: { decorators: DecoratorNode[] | null },
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): void {
     if (decl.decorators == null) {
         decl.decorators = [];
@@ -146,7 +146,7 @@ export function genTypeName(name: string, range: Range): TypeName {
 export function genNamespcae(
     range: Range,
     namepsace: string,
-    members: Statement[]
+    members: Statement[],
 ): NamespaceDeclaration {
     const name = Node.createIdentifierExpression(namepsace, range);
     return Node.createNamespaceDeclaration(name, null, CommonFlags.EXPORT, members, range);
@@ -163,6 +163,6 @@ export function genImportStatement(namespace: string, path: string, range: Range
     return Node.createWildcardImportStatement(
         Node.createIdentifierExpression(namespace, range),
         Node.createStringLiteralExpression(path, range),
-        range
+        range,
     );
 }

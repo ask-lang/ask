@@ -43,7 +43,7 @@ export class StorageEntry<T> implements SpreadLayout, PackedLayout {
     constructor(
         // `_value` may be a zero value if `_state` is `Cleared`
         protected _value: T,
-        protected _state: EntryState
+        protected _state: EntryState,
     ) {}
 
     static from<T>(value: T): StorageEntry<T> {

@@ -63,7 +63,7 @@ export function pushSpreadRoot<T extends SpreadLayout, K extends IKey>(value: T,
  */
 export function clearSpreadRoot<T extends SpreadLayout, K extends IKey>(
     value: T,
-    rootKey: K
+    rootKey: K,
 ): void {
     // @ts-ignore
     const key: K = rootKey.clone();

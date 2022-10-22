@@ -42,7 +42,7 @@ export function mustBeVoidReturn(emitter: DiagnosticEmitter, node: FunctionDecla
             DiagnosticCode.User_defined_0,
             node.range,
             node.signature.returnType.range,
-            `Ask-lang: @constructor method must return void`
+            `Ask-lang: @constructor method must return void`,
         );
         ret = false;
     }
@@ -52,7 +52,7 @@ export function mustBeVoidReturn(emitter: DiagnosticEmitter, node: FunctionDecla
 
 export function mustBeLegalStorageField(
     emitter: DiagnosticEmitter,
-    node: FieldDeclaration
+    node: FieldDeclaration,
 ): boolean {
     let ret = true;
 
@@ -60,7 +60,7 @@ export function mustBeLegalStorageField(
         emitter.error(
             DiagnosticCode.User_defined_0,
             node.range,
-            `Ask-lang: '${node.name.range.toString()}' cannot be readonly`
+            `Ask-lang: '${node.name.range.toString()}' cannot be readonly`,
         );
         ret = false;
     }
@@ -70,7 +70,7 @@ export function mustBeLegalStorageField(
             DiagnosticCode.User_defined_0,
             node.name.range,
             node.type.range,
-            `Ask-lang: '${node.name.range.toString()}' storage cannot be null`
+            `Ask-lang: '${node.name.range.toString()}' storage cannot be null`,
         );
         ret = false;
     }
@@ -86,13 +86,13 @@ export function mustBeLegalStorageField(
  */
 export function shouldBeNoParamDecorator(
     emitter: DiagnosticEmitter,
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): boolean {
     if (decorator.args !== null && decorator.args.length !== 0) {
         emitter.warning(
             DiagnosticCode.User_defined_0,
             decorator.range,
-            `'${decorator.name.range.toString()}' now do not support any params`
+            `'${decorator.name.range.toString()}' now do not support any params`,
         );
 
         return false;
@@ -113,7 +113,7 @@ export function mustBePublicMethod(emitter: DiagnosticEmitter, node: MethodDecla
             DiagnosticCode.User_defined_0,
             node.range,
             node.name.range,
-            `'${node.name.range.toString()}' must be public`
+            `'${node.name.range.toString()}' must be public`,
         );
         return false;
     }
@@ -130,14 +130,14 @@ export function mustBePublicMethod(emitter: DiagnosticEmitter, node: MethodDecla
 export function mustBeNonStaticMethod(
     emitter: DiagnosticEmitter,
     node: MethodDeclaration,
-    kind: ContractDecoratorKind
+    kind: ContractDecoratorKind,
 ): boolean {
     if (node.is(CommonFlags.STATIC)) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
             node.range,
             node.name.range,
-            `'@${kind.toString()}' cannot be static`
+            `'@${kind.toString()}' cannot be static`,
         );
         return false;
     }
@@ -155,7 +155,7 @@ export function mustBeNoExtends(emitter: DiagnosticEmitter, node: ClassDeclarati
             DiagnosticCode.User_defined_0,
             node.range,
             node.extendsType.range,
-            `'${node.name.range.toString()}' cannot extends other class`
+            `'${node.name.range.toString()}' cannot extends other class`,
         );
 
         return false;
@@ -192,7 +192,7 @@ export function hasDecorator(decorators: DecoratorNode[] | null, name: string): 
  */
 export function getDecorator(
     decorators: DecoratorNode[] | null,
-    name: string
+    name: string,
 ): DecoratorNode | null {
     if (decorators == null) {
         return null;
@@ -209,7 +209,7 @@ export function getDecorator(
  */
 export function filterDecorators(
     decorators: DecoratorNode[] | null,
-    pred: (node: DecoratorNode) => bool
+    pred: (node: DecoratorNode) => bool,
 ): DecoratorNode[] {
     const decs: DecoratorNode[] = [];
     if (decorators === null) return decs;
@@ -226,11 +226,11 @@ export function filterDecorators(
 export function extractDecorator(
     emitter: DiagnosticEmitter,
     node: DeclarationStatement,
-    kind: ContractDecoratorKind
+    kind: ContractDecoratorKind,
 ): DecoratorNode | null {
     const decs = filterDecorators(
         node.decorators,
-        (node) => node.name.range.toString() === "@" + kind
+        (node) => node.name.range.toString() === "@" + kind,
     );
 
     // cannot have duplicated decorator
@@ -239,7 +239,7 @@ export function extractDecorator(
             DiagnosticCode.Duplicate_decorator,
             node.range,
             decs[0].range,
-            kind.toString()
+            kind.toString(),
         );
     }
 
@@ -268,7 +268,7 @@ export class DecoratorConfig extends Map<string, string> {
  */
 export function extractConfigFromDecorator(
     emitter: DiagnosticEmitter,
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): DecoratorConfig {
     const obj = extractLiteralObject(emitter, decorator);
     const cfg = extractConfigFromLiteral(emitter, decorator, obj);
@@ -284,7 +284,7 @@ export function extractConfigFromDecorator(
  */
 export function extractLiteralObject(
     emitter: DiagnosticEmitter,
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): ObjectLiteralExpression | null {
     const args = decorator.args ? decorator.args : [];
     const literals: ObjectLiteralExpression[] = [];
@@ -294,7 +294,7 @@ export function extractLiteralObject(
                 DiagnosticCode.User_defined_0,
                 decorator.range,
                 arg.range,
-                "Ask-lang: Arguments must be object literal"
+                "Ask-lang: Arguments must be object literal",
             );
         }
         const literalArg = arg as LiteralExpression;
@@ -303,7 +303,7 @@ export function extractLiteralObject(
                 DiagnosticCode.User_defined_0,
                 decorator.range,
                 arg.range,
-                "Ask-lang: Arguments must be object literal"
+                "Ask-lang: Arguments must be object literal",
             );
         }
         literals.push(literalArg as ObjectLiteralExpression);
@@ -322,7 +322,7 @@ export function extractLiteralObject(
 export function extractLiteralString(
     emitter: DiagnosticEmitter,
     decorator: DecoratorNode,
-    range: Range
+    range: Range,
 ): StringLiteralExpression | null {
     const args = decorator.args ? decorator.args : [];
     if (args.length > 1 || args.length == 0) {
@@ -330,7 +330,7 @@ export function extractLiteralString(
             DiagnosticCode.User_defined_0,
             decorator.range,
             range,
-            `Ask-lang: Need a string argument`
+            `Ask-lang: Need a string argument`,
         );
         return null;
     }
@@ -340,7 +340,7 @@ export function extractLiteralString(
             DiagnosticCode.User_defined_0,
             decorator.range,
             arg.range,
-            "Ask-lang: Argument must be string literal"
+            "Ask-lang: Argument must be string literal",
         );
         return null;
     }
@@ -350,7 +350,7 @@ export function extractLiteralString(
             DiagnosticCode.User_defined_0,
             decorator.range,
             arg.range,
-            "Ask-lang: Argument must be string literal"
+            "Ask-lang: Argument must be string literal",
         );
         return null;
     }
@@ -366,7 +366,7 @@ export function extractLiteralString(
 export function extractConfigFromLiteral(
     emitter: DiagnosticEmitter,
     decorator: DecoratorNode,
-    node: ObjectLiteralExpression | null
+    node: ObjectLiteralExpression | null,
 ): DecoratorConfig {
     const config = new DecoratorConfig(decorator);
     if (node == null) {
@@ -387,7 +387,7 @@ export function extractConfigFromLiteral(
             emitter.error(
                 DiagnosticCode.User_defined_0,
                 node.range,
-                "Ask-lang: Unspported decorator param syntax"
+                "Ask-lang: Unspported decorator param syntax",
             );
         }
     }

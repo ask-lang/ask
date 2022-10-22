@@ -27,7 +27,7 @@ export class Message implements IMessage {
         memory.copy(
             changetype<usize>(this.selector),
             changetype<usize>(GLOBAL_BUFFER.bufferPtr),
-            SELECTOR_BUFFER_SIZE
+            SELECTOR_BUFFER_SIZE,
         );
         this.argsBytes = BytesBuffer.wrap(GLOBAL_BUFFER.buffer);
         this.argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
@@ -51,7 +51,7 @@ export class Message implements IMessage {
             memory.compare(
                 changetype<usize>(this.selector),
                 changetype<usize>(selector),
-                SELECTOR_BUFFER_SIZE
+                SELECTOR_BUFFER_SIZE,
             ) == 0
         );
     }

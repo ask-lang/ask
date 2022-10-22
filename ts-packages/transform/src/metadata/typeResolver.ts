@@ -45,7 +45,7 @@ export class TypeResolver {
     constructor(
         public readonly program: Program,
         private readonly entrypoint: ClassPrototype,
-        private readonly eventPrototypes: ClassPrototype[]
+        private readonly eventPrototypes: ClassPrototype[],
     ) {}
 
     resolvedTypes(): TypeInfoMap {
@@ -96,7 +96,7 @@ export class TypeResolver {
                 // It's unsupported primitive type.
                 assert(
                     type.getClass() != null,
-                    `Ask-lang: '${type.toString()}' type is not supported`
+                    `Ask-lang: '${type.toString()}' type is not supported`,
                 );
                 break;
             case Type.bool:
@@ -169,8 +169,8 @@ export class TypeResolver {
                         type,
                         this.currentIndex++,
                         typeArgs[0],
-                        +clz.prototype.name.slice("FixedArray".length)
-                    )
+                        +clz.prototype.name.slice("FixedArray".length),
+                    ),
                 );
             }
         }
@@ -186,7 +186,7 @@ export class TypeResolver {
             this.resolveScaleType(Type.u8);
             this.types.set(
                 type,
-                new PrimitiveTypeInfo(type, this.currentIndex++, PrimitiveType.Str)
+                new PrimitiveTypeInfo(type, this.currentIndex++, PrimitiveType.Str),
             );
         }
         // It's sequence type
@@ -232,7 +232,7 @@ export class TypeResolver {
             const typeArgs = clz.typeArguments ? clz.typeArguments : [];
             assert(
                 typeArgs.length == 2,
-                `Ask-lang: map (sequence) type must only have two elem type`
+                `Ask-lang: map (sequence) type must only have two elem type`,
             );
             this.resolveScaleType(typeArgs[0]);
             this.resolveScaleType(typeArgs[1]);
@@ -246,7 +246,7 @@ export class TypeResolver {
             if (typeArgs) {
                 assert(
                     typeArgs.length == 1,
-                    `Ask-lang: sequence type must only have one elem type`
+                    `Ask-lang: sequence type must only have one elem type`,
                 );
                 this.resolveScaleType(typeArgs[0]);
                 this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0]));
@@ -301,7 +301,7 @@ export class TypeResolver {
         assert(instances != null, `${contract.declaration.name.text} has instances`);
         assert(
             instances.size === 1,
-            `${contract.declaration.name.text} should only have one instance`
+            `${contract.declaration.name.text} should only have one instance`,
         );
 
         let instance: Class = getFirstValue(instances);
@@ -342,7 +342,7 @@ export class TypeResolver {
                     });
                     assert(
                         signature.returnType.getClass() == null,
-                        `@constructor ${name} return type must be void`
+                        `@constructor ${name} return type must be void`,
                     );
                     // TODO: check duplicated
                     if (!this.constructors.has(name)) {

@@ -7,7 +7,7 @@ export function checkVisitor<Visitor extends TransformVisitor & { emitter: Diagn
     code: string,
     expected: string,
     warn = false,
-    error = false
+    error = false,
 ): void {
     const parser = new Parser();
     parser.parseFile(code, "index.ts", true);
