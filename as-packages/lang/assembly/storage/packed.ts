@@ -89,6 +89,7 @@ export function pushPackedRoot<T extends PackedLayout, K extends IKey>(value: T,
 
 // TODO: maybe we don't need to call recursively for packedLayout.
 // Note: it's recursive by calling `value.pullPacked(key)`.
+// prettier-ignore
 export function pullPacked<T, K extends IKey>(value: T, key: K): void {
     let dummy: T;
     if (!isReference<T>()) {
@@ -115,7 +116,12 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (isArray<T>() || value instanceof StaticArray || isArrayLike<T>() || false) {
+    } else if (
+        isArray<T>() ||
+        value instanceof StaticArray ||
+        isArrayLike<T>() ||
+        false
+    ) {
         // @ts-ignore
         for (let i = 0; i < value.length; ++i) {
             // @ts-ignore
@@ -155,6 +161,7 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
 
 // TODO: maybe we don't need to call recursively for packedLayout.
 // Note: it's recursive by calling `value.pushPacked(key)`.
+// prettier-ignore
 export function pushPacked<T, K extends IKey>(value: T, key: K): void {
     if (!isReference<T>()) {
         return;
@@ -180,7 +187,12 @@ export function pushPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (isArray<T>() || value instanceof StaticArray || isArrayLike<T>() || false) {
+    } else if (
+        isArray<T>() ||
+        value instanceof StaticArray ||
+        isArrayLike<T>() ||
+        false
+    ) {
         // @ts-ignore
         for (let i = 0; i < value.length; ++i) {
             // @ts-ignore

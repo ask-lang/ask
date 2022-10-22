@@ -1,7 +1,11 @@
 export interface IHash {
     length: u32;
 
-    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
+    // prettier-ignore
+    hash<
+        Input extends ArrayLike<u8> = Array<u8>,
+        Output extends ArrayLike<u8> = Array<u8>,
+    >(
         input: Input,
     ): Output;
 }
