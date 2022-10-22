@@ -20,7 +20,7 @@ There is a simple [template](https://github.com/ask-lang/ask-template) for creat
 git clone https://github.com/ask-lang/ask-template.git
 cd ask-template
 
-# Instale dependencies and Build the template contract
+# Install dependencies and Build the template contract
 yarn && yarn build flipper.ts
 ```
 
