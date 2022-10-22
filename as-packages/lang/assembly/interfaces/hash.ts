@@ -5,9 +5,7 @@ export interface IHash {
     hash<
         Input extends ArrayLike<u8> = Array<u8>,
         Output extends ArrayLike<u8> = Array<u8>,
-    >(
-        input: Input,
-    ): Output;
+    >(input: Input): Output;
 }
 
 /**
