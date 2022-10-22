@@ -1,11 +1,6 @@
 import { ToMetadata } from "./index";
 import { IHashLayout, IArrayLayout, ILayout } from "./specs";
-import {
-    IFieldLayout,
-    IStructLayout,
-    ICellLayout,
-    IHashingStrategy,
-} from "./specs";
+import { IFieldLayout, IStructLayout, ICellLayout, IHashingStrategy } from "./specs";
 
 export enum LayoutKind {
     Cell,

@@ -5,11 +5,7 @@ import {
     DiagnosticCode,
     DiagnosticEmitter,
 } from "visitor-as/as";
-import {
-    DecoratorConfig,
-    extractConfigFromDecorator,
-    extractDecorator,
-} from "./util";
+import { DecoratorConfig, extractConfigFromDecorator, extractDecorator } from "./util";
 import { utils } from "visitor-as/dist";
 import { DecoratorNode } from "assemblyscript";
 import blake from "blakejs";
@@ -107,8 +103,7 @@ export interface ContractMethodNode extends AskNode {
  * MessageDeclaration represents a `@message` info
  */
 export class MessageDeclaration implements ContractMethodNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Message;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Message;
 
     constructor(
         public readonly method: MethodDeclaration,
@@ -208,12 +203,7 @@ export class MessageDeclaration implements ContractMethodNode {
             msgPayable = false;
         }
 
-        return new MessageDeclaration(
-            utils.cloneNode(node),
-            msgSelector,
-            msgMutates,
-            msgPayable
-        );
+        return new MessageDeclaration(utils.cloneNode(node), msgSelector, msgMutates, msgPayable);
     }
 }
 
@@ -221,8 +211,7 @@ export class MessageDeclaration implements ContractMethodNode {
  * ConstructorDeclaration represents a `@constructor` info
  */
 export class ConstructorDeclaration implements ContractMethodNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Constructor;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Constructor;
 
     /**
      * mutates is always be true
@@ -277,12 +266,7 @@ export class ConstructorDeclaration implements ContractMethodNode {
         cfg: DecoratorConfig
     ): ConstructorDeclaration {
         let selector = cfg.get("selector");
-        let msgSelector = extractSelector(
-            emitter,
-            selector,
-            node,
-            cfg.decorator
-        );
+        let msgSelector = extractSelector(emitter, selector, node, cfg.decorator);
 
         return new ConstructorDeclaration(utils.cloneNode(node), msgSelector);
     }
@@ -292,8 +276,7 @@ export class ConstructorDeclaration implements ContractMethodNode {
  * EventDeclaration represents a `@event` info
  */
 export class EventDeclaration implements AskNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Event;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Event;
     constructor(
         /**
          * Event Id
@@ -308,16 +291,9 @@ export class EventDeclaration implements AskNode {
      * @param cfg
      * @returns
      */
-    static extractFrom(
-        emitter: DiagnosticEmitter,
-        node: ClassDeclaration
-    ): EventDeclaration {
+    static extractFrom(emitter: DiagnosticEmitter, node: ClassDeclaration): EventDeclaration {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const decorator = extractDecorator(
-            emitter,
-            node,
-            ContractDecoratorKind.Event
-        )!;
+        const decorator = extractDecorator(emitter, node, ContractDecoratorKind.Event)!;
         const cfg = extractConfigFromDecorator(emitter, decorator);
         const eventId = cfg.get("id");
 
@@ -351,10 +327,7 @@ function getReturnTypeName(fn: FunctionTypeNode): string {
     return fn.returnType.range.toString();
 }
 
-export function hexSelector(
-    selector: string | null,
-    methodName: string
-): string {
+export function hexSelector(selector: string | null, methodName: string): string {
     if (selector != null) {
         return selector;
     }

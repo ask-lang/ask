@@ -38,12 +38,7 @@ interface Def<T> {
     readonly path: null | Array<string>;
 }
 
-export type ILayout =
-    | IStructLayout
-    | ICellLayout
-    | IHashLayout
-    | IArrayLayout
-    | null;
+export type ILayout = IStructLayout | ICellLayout | IHashLayout | IArrayLayout | null;
 
 export type IStructLayout = {
     readonly struct: {

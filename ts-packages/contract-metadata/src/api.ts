@@ -239,10 +239,7 @@ export class EventParamSpec implements ToMetadata {
 }
 
 export class ArgumentSpec implements ToMetadata {
-    constructor(
-        private readonly type: TypeSpec,
-        private readonly label: string
-    ) {}
+    constructor(private readonly type: TypeSpec, private readonly label: string) {}
 
     toMetadata(): IMessageParamSpec {
         return {
@@ -253,10 +250,7 @@ export class ArgumentSpec implements ToMetadata {
 }
 
 export class TypeSpec implements ToMetadata {
-    constructor(
-        private readonly type: number,
-        private readonly displayName: string
-    ) {}
+    constructor(private readonly type: number, private readonly displayName: string) {}
 
     toMetadata(): ITypeSpec {
         return {

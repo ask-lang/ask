@@ -10,11 +10,7 @@ import {
 } from "assemblyscript";
 import { EventDeclaration } from "../ast";
 import { EventConfig } from "../config";
-import {
-    addSerializeDecorator,
-    addDeserializeDecorator,
-    addImplement,
-} from "../astutil";
+import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil";
 import { IEVENT_TYPE_PATH } from "../consts";
 import { uniqBy } from "lodash";
 
@@ -33,10 +29,7 @@ export class EventVisitor extends TransformVisitor {
     private data: FieldDeclaration[] = [];
     public eventDeclaration!: EventDeclaration;
 
-    constructor(
-        public readonly emitter: DiagnosticEmitter,
-        public readonly config: EventConfig
-    ) {
+    constructor(public readonly emitter: DiagnosticEmitter, public readonly config: EventConfig) {
         super();
     }
 

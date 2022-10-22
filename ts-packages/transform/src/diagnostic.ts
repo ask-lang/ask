@@ -42,10 +42,7 @@ export function hasWarningMessage(emitter: DiagnosticEmitter): boolean {
     return hasMessage(emitter, DiagnosticCategory.WARNING);
 }
 
-function hasMessage(
-    emitter: DiagnosticEmitter,
-    category: DiagnosticCategory
-): boolean {
+function hasMessage(emitter: DiagnosticEmitter, category: DiagnosticCategory): boolean {
     const diagnostics = emitter.diagnostics ? emitter.diagnostics : [];
     for (const msg of diagnostics) {
         if (msg.category === category) {

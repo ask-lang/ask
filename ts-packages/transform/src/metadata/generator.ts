@@ -37,11 +37,7 @@ import {
 } from "ask-contract-metadata";
 import * as metadata from "ask-contract-metadata";
 import { ASK_VERSION } from "../consts";
-import {
-    extractConfigFromDecorator,
-    extractDecorator,
-    hasDecorator,
-} from "../util";
+import { extractConfigFromDecorator, extractDecorator, hasDecorator } from "../util";
 import {
     ContractDecoratorKind,
     MessageDeclaration,
@@ -81,18 +77,11 @@ export class MetadataGenerator {
                 this.events.push(event);
             }
         });
-        assert(
-            this.entrypoint != null,
-            "Cannot find a `@contract` class in entry file"
-        );
+        assert(this.entrypoint != null, "Cannot find a `@contract` class in entry file");
     }
 
     generate(): IMetadataVersioned {
-        const resolver = new TypeResolver(
-            this.program,
-            this.entrypoint,
-            this.events
-        );
+        const resolver = new TypeResolver(this.program, this.entrypoint, this.events);
         resolver.resolve();
         // TODO: fill the hash after wasm codegen
         const source = new Source("", LANGUAGE, COMPILER);
@@ -125,11 +114,7 @@ export class MetadataGenerator {
         // TODO:
         const metadata = new ContractMetadata(spec, types, null);
 
-        let versioned = new VersionedContractMetadata(
-            metadata,
-            source,
-            contract
-        );
+        let versioned = new VersionedContractMetadata(metadata, source, contract);
 
         return versioned.toMetadata();
     }
@@ -140,11 +125,7 @@ export class MetadataGenerator {
         const constructorSpecs = this.genConstructors(resolver);
         const events = this.genEvents(resolver);
         // TODO:
-        const contractSpec = new ContractSpec(
-            constructorSpecs,
-            msgSpecs,
-            events
-        );
+        const contractSpec = new ContractSpec(constructorSpecs, msgSpecs, events);
         return contractSpec;
     }
 
@@ -158,10 +139,7 @@ export class MetadataGenerator {
                 case metadata.TypeKind.Primitive: {
                     const typeInfo = info as PrimitiveTypeInfo;
                     const def = new PrimitiveDef(typeInfo.primitiveName);
-                    typeSpecs[info.index] = new metadata.TypeWithId(
-                        info.index,
-                        def
-                    );
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
@@ -172,10 +150,7 @@ export class MetadataGenerator {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         types.get(typeInfo.elem)!.index
                     );
-                    typeSpecs[info.index] = new metadata.TypeWithId(
-                        info.index,
-                        def
-                    );
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
@@ -194,45 +169,27 @@ export class MetadataGenerator {
                         );
                         let ty = new metadata.TypeWithId(
                             unamedTypeInfo.index,
-                            this.genCompositeType(
-                                resolver,
-                                unamedTypeInfo as CompositeTypeInfo
-                            )
+                            this.genCompositeType(resolver, unamedTypeInfo as CompositeTypeInfo)
                         );
                         typeSpecs[unamedTypeInfo.index] = ty;
                         const def = new SequenceDef(unamedTypeInfo.index);
-                        typeSpecs[info.index] = new metadata.TypeWithId(
-                            info.index,
-                            def
-                        );
+                        typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     } else {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         const def = new SequenceDef(types.get(elem)!.index);
-                        typeSpecs[info.index] = new metadata.TypeWithId(
-                            info.index,
-                            def
-                        );
+                        typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     }
                     break;
                 }
 
                 case metadata.TypeKind.Composite: {
-                    const def = this.genCompositeType(
-                        resolver,
-                        info as CompositeTypeInfo
-                    );
-                    typeSpecs[info.index] = new metadata.TypeWithId(
-                        info.index,
-                        def
-                    );
+                    const def = this.genCompositeType(resolver, info as CompositeTypeInfo);
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
 
                 default: {
-                    assert(
-                        false,
-                        `Ask-lang: unspported type kind in metadata: ${info.kind}`
-                    );
+                    assert(false, `Ask-lang: unspported type kind in metadata: ${info.kind}`);
                 }
             }
         });
@@ -241,10 +198,7 @@ export class MetadataGenerator {
         return typeSpecs;
     }
 
-    private genCompositeType(
-        resolver: TypeResolver,
-        info: CompositeTypeInfo
-    ): CompositeDef {
+    private genCompositeType(resolver: TypeResolver, info: CompositeTypeInfo): CompositeDef {
         assert(
             info.fields.length > 0,
             `Ask-lang: Composite def ${info.type?.toString()} fields are empty`
@@ -253,14 +207,11 @@ export class MetadataGenerator {
         const fields: metadata.Field[] = info.fields.map((field) => {
             // field is named
             if (field instanceof Field) {
-                const fieldDecl = field.prototype
-                    .declaration as FieldDeclaration;
+                const fieldDecl = field.prototype.declaration as FieldDeclaration;
                 const fieldTypeInfo = types.get(field.type);
                 assert(
                     fieldTypeInfo != null,
-                    `Ask-lang: '${
-                        field.name
-                    }: ${field.type.toString()}' not found`
+                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`
                 );
                 const ret = new metadata.Field(
                     fieldDecl.name.range.toString(),
@@ -274,10 +225,7 @@ export class MetadataGenerator {
             } else {
                 // type is unnamed
                 const fieldTypeInfo = types.get(field);
-                assert(
-                    fieldTypeInfo != null,
-                    `Ask-lang: type '${field.toString()}' not found`
-                );
+                assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
                 const ret = new metadata.Field(
                     null,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -307,9 +255,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(
-                func.prototype.declaration.kind == NodeKind.METHODDECLARATION
-            );
+            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
             const msgDecl = MessageDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -327,18 +273,10 @@ export class MetadataGenerator {
             const typeInfo = types.get(returnType);
             let returnTypeSpec: TypeSpec | null = null;
             if (typeInfo) {
-                returnTypeSpec = new TypeSpec(
-                    typeInfo.index,
-                    returnTypeNode.range.toString()
-                );
+                returnTypeSpec = new TypeSpec(typeInfo.index, returnTypeNode.range.toString());
             }
 
-            const spec = new MessageSpec(
-                name,
-                msgDecl.hexSelector(),
-                args,
-                returnTypeSpec
-            );
+            const spec = new MessageSpec(name, msgDecl.hexSelector(), args, returnTypeSpec);
             spec.setMutates(msgDecl.mutates);
             spec.setPayable(msgDecl.payable);
             msgSpecs.push(spec);
@@ -361,9 +299,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(
-                func.prototype.declaration.kind == NodeKind.METHODDECLARATION
-            );
+            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
             const decl = ConstructorDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -384,10 +320,7 @@ export class MetadataGenerator {
         const events = resolver.events;
         const eventSpecs: EventSpec[] = [];
         events.forEach((event, _internalName) => {
-            const eventSpec = this.genEventSpec(
-                resolver.resolvedTypes(),
-                event
-            );
+            const eventSpec = this.genEventSpec(resolver.resolvedTypes(), event);
 
             eventSpecs.push(eventSpec);
         });
@@ -410,10 +343,7 @@ export class MetadataGenerator {
         log(`Start ${this.genEventSpec.name}: ${event.name}`);
         const args: EventParamSpec[] = [];
         const eventDecl = event.prototype.declaration as ClassDeclaration;
-        const eventId = EventDeclaration.extractFrom(
-            this.program,
-            eventDecl
-        ).id;
+        const eventId = EventDeclaration.extractFrom(this.program, eventDecl).id;
 
         // we need to keep args in order.
         log(eventDecl.members.map((member) => member.name.text));
@@ -447,10 +377,7 @@ export class MetadataGenerator {
         return new EventSpec(eventId, event.name, args);
     }
 
-    private getFuncArgumentSpecs(
-        types: TypeInfoMap,
-        func: Function
-    ): ArgumentSpec[] {
+    private getFuncArgumentSpecs(types: TypeInfoMap, func: Function): ArgumentSpec[] {
         const args: ArgumentSpec[] = [];
         const parameterTypes = func.signature.parameterTypes;
         const functionTypeNode = func.prototype.functionTypeNode;
@@ -458,10 +385,7 @@ export class MetadataGenerator {
         for (let i = 0; i < parameterTypes.length; i++) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const typeInfo = types.get(parameterTypes[i])!;
-            assert(
-                typeInfo,
-                `${parameterNodes[i].name.text} typeInfo must be existed`
-            );
+            assert(typeInfo, `${parameterNodes[i].name.text} typeInfo must be existed`);
             const argName = parameterNodes[i].name.range.toString();
             const typeName = parameterNodes[i].type.range.toString();
             const typeSpec = new TypeSpec(typeInfo.index, typeName);
@@ -480,8 +404,7 @@ export class MetadataGenerator {
 export function isEntrypointContract(elem: Element): boolean {
     const prototype = <ClassPrototype>elem;
     return (
-        prototype.declaration.range.source.sourceKind ==
-            SourceKind.USER_ENTRY && isContract(elem)
+        prototype.declaration.range.source.sourceKind == SourceKind.USER_ENTRY && isContract(elem)
     );
 }
 

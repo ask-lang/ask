@@ -1,13 +1,5 @@
-import {
-    env,
-    u128,
-    Lazy,
-    AccountId,
-    ZERO_ACCOUNT,
-    Mapping,
-    HashKeccak256,
-    Pack,
-} from "ask-lang";
+import { env, u128, Lazy, AccountId, ZERO_ACCOUNT, Mapping, HashKeccak256, Pack } from "ask-lang";
+
 @spreadLayout
 @packedLayout
 class Constants {
@@ -19,8 +11,7 @@ class Constants {
 class ERC20Storage {
     balances: Mapping<AccountId, u128, HashKeccak256> = new Mapping();
     // Note: Account in Map's key is ref, so we should use string.
-    allowances: Mapping<AccountId, Map<string, u128>, HashKeccak256> =
-        new Mapping();
+    allowances: Mapping<AccountId, Map<string, u128>, HashKeccak256> = new Mapping();
 
     _totalSupply: Lazy<u128> = instantiate<Lazy<u128>>();
     constants: Pack<Constants> = instantiate<Pack<Constants>>();
@@ -201,10 +192,7 @@ export class ERC20 {
     protected _burn(account: AccountId, amount: u128): void {
         assert(!account.eq(ZERO_ACCOUNT), "ERC20: burn to the zero address");
         const balanceOfAccount = this.storage.balances.get(account);
-        assert(
-            balanceOfAccount >= amount,
-            "ERC20: not enough balance to burn."
-        );
+        assert(balanceOfAccount >= amount, "ERC20: not enough balance to burn.");
         // @ts-ignore
         const leftValue = balanceOfAccount - amount;
         // @ts-ignore
@@ -218,11 +206,7 @@ export class ERC20 {
         env().emitEvent(event);
     }
 
-    protected _approve(
-        owner: AccountId,
-        spender: AccountId,
-        amount: u128
-    ): void {
+    protected _approve(owner: AccountId, spender: AccountId, amount: u128): void {
         const spenderId = spender.toString();
         const allowance = this.getAllowanceItem(owner);
         allowance.set(spenderId, amount);
@@ -233,23 +217,13 @@ export class ERC20 {
         env().emitEvent(event);
     }
 
-    protected _transfer(
-        sender: AccountId,
-        recipient: AccountId,
-        amount: u128
-    ): bool {
+    protected _transfer(sender: AccountId, recipient: AccountId, amount: u128): bool {
         assert(sender != ZERO_ACCOUNT, "ERC20: transfer from the zero address");
-        assert(
-            recipient != ZERO_ACCOUNT,
-            "ERC20: transfer to the zero address"
-        );
+        assert(recipient != ZERO_ACCOUNT, "ERC20: transfer to the zero address");
 
         const spenderBalance = this.storage.balances.getOrNull(sender);
         assert(spenderBalance !== null);
-        assert(
-            spenderBalance! >= amount,
-            "ERC20: transfer amount exceeds balance"
-        );
+        assert(spenderBalance! >= amount, "ERC20: transfer amount exceeds balance");
 
         // @ts-ignore
         const senderLeft: u128 = spenderBalance! - amount;
@@ -270,10 +244,7 @@ export class ERC20 {
         return true;
     }
 
-    private setAllowanceItem(
-        owner: AccountId,
-        allowance: Map<string, u128>
-    ): void {
+    private setAllowanceItem(owner: AccountId, allowance: Map<string, u128>): void {
         this.storage.allowances.set(owner, allowance);
     }
 

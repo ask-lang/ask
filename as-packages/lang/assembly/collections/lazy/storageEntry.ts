@@ -1,10 +1,6 @@
 import { IKey } from "../../interfaces";
 import { PackedLayout, SpreadLayout } from "../../interfaces";
-import {
-    clearPackedRoot,
-    pullPackedRootResult,
-    pushPackedRoot,
-} from "../../storage/packed";
+import { clearPackedRoot, pullPackedRootResult, pushPackedRoot } from "../../storage/packed";
 import {
     pullPacked,
     clearSpread,

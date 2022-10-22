@@ -14,9 +14,7 @@ const SELECTOR_BUFFER_SIZE: i32 = 4;
  */
 export class Message implements IMessage {
     // This contains input first 4 bytes as selector.
-    private readonly selector: StaticArray<u8> = new StaticArray<u8>(
-        SELECTOR_BUFFER_SIZE
-    );
+    private readonly selector: StaticArray<u8> = new StaticArray<u8>(SELECTOR_BUFFER_SIZE);
 
     // The rest bytes for message args.
     @unsafe

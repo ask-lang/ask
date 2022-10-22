@@ -1,15 +1,9 @@
 import { clearPacked, pullPacked, pushPacked } from "../storage";
 import { PackedLayout, SpreadLayout, IKey } from "../interfaces";
-import {
-    forwardPullPacked,
-    forwardPushPacked,
-    forwardClearPacked,
-} from "../storage/index";
+import { forwardPullPacked, forwardPushPacked, forwardClearPacked } from "../storage/index";
 import { Deserializer, Serializer, ISerialize, IDeserialize } from "as-serde";
 
-export class Pack<T>
-    implements PackedLayout, SpreadLayout, ISerialize, IDeserialize
-{
+export class Pack<T> implements PackedLayout, SpreadLayout, ISerialize, IDeserialize {
     constructor(public inner: T = instantiate<T>()) {}
 
     @inline

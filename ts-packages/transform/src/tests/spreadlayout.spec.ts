@@ -10,10 +10,7 @@ function checkSpreadLayoutVisitor(
     warn = false,
     error = false
 ): void {
-    const visitor = new SpreadLayoutVisitor(
-        newProgram(newOptions()),
-        defaultConfig()
-    );
+    const visitor = new SpreadLayoutVisitor(newProgram(newOptions()), defaultConfig());
     checkVisitor(visitor, code, expected, warn, error);
 }
 describe("SpreadLayoutVisitor", () => {

@@ -20,9 +20,7 @@ export class Mapping<K1, V, H extends IHash256> implements SpreadLayout {
         let prefix = this._key!.toBytes();
         let serKey = ScaleSerializer.serialize<K1>(key);
         // TODO: crypto hash
-        let k = this._hash.hash<StaticArray<u8>, Array<u8>>(
-            StaticArray.concat(prefix, serKey)
-        );
+        let k = this._hash.hash<StaticArray<u8>, Array<u8>>(StaticArray.concat(prefix, serKey));
         return Key.fromBytes(k);
     }
 

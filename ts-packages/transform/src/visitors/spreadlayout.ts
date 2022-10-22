@@ -22,10 +22,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
     private fields: FieldDeclaration[] = [];
     private hasBase = false;
 
-    constructor(
-        public readonly emitter: DiagnosticEmitter,
-        public readonly config: AskConfig
-    ) {
+    constructor(public readonly emitter: DiagnosticEmitter, public readonly config: AskConfig) {
         super();
     }
 
@@ -56,11 +53,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
     }
 
     private genSpreadLayout(node: ClassDeclaration): MethodDeclaration[] {
-        const res = [
-            this.genPullSpread(node),
-            this.genPushSpread(node),
-            this.genClearSpread(node),
-        ];
+        const res = [this.genPullSpread(node), this.genPushSpread(node), this.genClearSpread(node)];
         return res;
     }
 

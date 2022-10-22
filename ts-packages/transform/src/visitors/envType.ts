@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { TransformVisitor } from "visitor-as";
-import {
-    DiagnosticCode,
-    DiagnosticEmitter,
-    TypeDeclaration,
-} from "assemblyscript";
+import { DiagnosticCode, DiagnosticEmitter, TypeDeclaration } from "assemblyscript";
 import { EnvConfig, EnvType } from "../config";
 import { genNamedTypeNode } from "../astutil";
 import debug from "debug";
@@ -18,19 +14,12 @@ const log = debug("EnvTypeVisitor");
  * It should be used only inside `@contract` class and `@storage` class.
  */
 export class EnvTypeVisitor extends TransformVisitor {
-    constructor(
-        public readonly emitter: DiagnosticEmitter,
-        public readonly config: EnvConfig
-    ) {
+    constructor(public readonly emitter: DiagnosticEmitter, public readonly config: EnvConfig) {
         super();
     }
 
     visitTypeDeclaration(node: TypeDeclaration): TypeDeclaration {
-        let decorator = extractDecorator(
-            this.emitter,
-            node,
-            ContractDecoratorKind.EnvType
-        )!;
+        let decorator = extractDecorator(this.emitter, node, ContractDecoratorKind.EnvType)!;
         assert(decorator != null);
 
         // TODO: maybe should check it

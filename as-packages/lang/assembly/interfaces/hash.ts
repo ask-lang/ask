@@ -1,10 +1,7 @@
 export interface IHash {
     length: u32;
 
-    hash<
-        Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
-    >(
+    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
         input: Input
     ): Output;
 }

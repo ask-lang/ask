@@ -2,11 +2,7 @@ import { i128, u128 } from "as-bignum";
 import { instantiateRaw } from "..";
 import { SpreadLayout, IKey } from "../interfaces";
 import { FixedArray } from "../fixedArrays";
-import {
-    forwardClearPacked,
-    forwardPullPacked,
-    forwardPushPacked,
-} from "./index";
+import { forwardClearPacked, forwardPullPacked, forwardPushPacked } from "./index";
 
 /**
  * Pulls an instance of type `T` from the contract storage using spread layout.
@@ -22,9 +18,7 @@ import {
  * @param rootKey
  * @returns
  */
-export function pullSpreadRoot<T extends SpreadLayout, K extends IKey>(
-    rootKey: K
-): T {
+export function pullSpreadRoot<T extends SpreadLayout, K extends IKey>(rootKey: K): T {
     // @ts-ignore
     const key: K = rootKey.clone();
     return pullSpread<T, K>(key);
@@ -44,10 +38,7 @@ export function pullSpreadRoot<T extends SpreadLayout, K extends IKey>(
  * @param value
  * @param rootKey
  */
-export function pushSpreadRoot<T extends SpreadLayout, K extends IKey>(
-    value: T,
-    rootKey: K
-): void {
+export function pushSpreadRoot<T extends SpreadLayout, K extends IKey>(value: T, rootKey: K): void {
     // TODO:
     // @ts-ignore
     const key: K = rootKey.clone();
@@ -132,10 +123,7 @@ export function pullSpread<T extends SpreadLayout, K extends IKey>(key: K): T {
     }
 }
 
-export function pushSpread<T extends SpreadLayout, K extends IKey>(
-    value: T,
-    key: K
-): void {
+export function pushSpread<T extends SpreadLayout, K extends IKey>(value: T, key: K): void {
     if (!isReference<T>() || false) {
         forwardPushPacked<T, K>(value, key);
     } else if (
@@ -183,10 +171,7 @@ export function pushSpread<T extends SpreadLayout, K extends IKey>(
     }
 }
 
-export function clearSpread<T extends SpreadLayout, K extends IKey>(
-    value: T,
-    key: K
-): void {
+export function clearSpread<T extends SpreadLayout, K extends IKey>(value: T, key: K): void {
     if (!isReference<T>() || false) {
         forwardClearPacked<T, K>(value, key);
     } else if (

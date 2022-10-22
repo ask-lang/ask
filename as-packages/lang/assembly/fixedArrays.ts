@@ -9,10 +9,7 @@ export abstract class FixedArray<T> implements ISerialize, IDeserialize {
     constructor(protected inner: StaticArray<T>, protected _length: i32) {
         assert(inner.length <= _length);
         if (inner.length < _length) {
-            this.inner = StaticArray.concat(
-                inner,
-                new StaticArray<T>(_length - inner.length)
-            );
+            this.inner = StaticArray.concat(inner, new StaticArray<T>(_length - inner.length));
         }
     }
 
@@ -161,9 +158,7 @@ export class FixedArray64<T> extends FixedArray<T> {
 export class FixedArray128<T> extends FixedArray<T> {
     static SIZE: i32 = 128;
 
-    constructor(
-        inner: StaticArray<T> = new StaticArray<T>(FixedArray128.SIZE)
-    ) {
+    constructor(inner: StaticArray<T> = new StaticArray<T>(FixedArray128.SIZE)) {
         super(inner, FixedArray128.SIZE);
     }
 

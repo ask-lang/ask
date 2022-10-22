@@ -4,16 +4,8 @@ import { EventVisitor } from "../visitors";
 import { checkVisitor } from "./testutil";
 
 // Note: in tests we have to use two spaces as ident because of ASTBuilder.
-function checkEventVisitor(
-    code: string,
-    expected: string,
-    warn = false,
-    error = false
-): void {
-    const visitor = new EventVisitor(
-        newProgram(newOptions()),
-        defaultEventConfig()
-    );
+function checkEventVisitor(code: string, expected: string, warn = false, error = false): void {
+    const visitor = new EventVisitor(newProgram(newOptions()), defaultEventConfig());
     checkVisitor(visitor, code, expected, warn, error);
 }
 

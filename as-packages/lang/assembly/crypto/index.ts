@@ -4,8 +4,7 @@ import { IHash128, IHash256 } from "../interfaces";
 
 // @ts-ignore
 @lazy
-const ERR_INPUT_TYPE =
-    "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
+const ERR_INPUT_TYPE = "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
 
 function invoke_hash<Output = Array<u8>>(
     inputPtr: usize,
@@ -103,12 +102,7 @@ function cryptoHash<
     // @ts-ignore
 ): Output {
     if (input instanceof FixedArray) {
-        return invoke_hash<Output>(
-            changetype<u32>(input.unwrap()),
-            input.length,
-            outputSize,
-            hash
-        );
+        return invoke_hash<Output>(changetype<u32>(input.unwrap()), input.length, outputSize, hash);
     } else if (input instanceof Array) {
         return invoke_hash<Output>(
             changetype<u32>(input.dataStart),
@@ -135,10 +129,9 @@ function cryptoHash<
 export class HashKeccak256 implements IHash256 {
     length: u32 = 32;
 
-    hash<
-        Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
-    >(input: Input): Output {
+    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
+        input: Input
+    ): Output {
         return keccak256<Input, Output>(input);
     }
 }
@@ -149,10 +142,9 @@ export class HashKeccak256 implements IHash256 {
 export class HashSha2x256 implements IHash256 {
     length: u32 = 32;
 
-    hash<
-        Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
-    >(input: Input): Output {
+    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
+        input: Input
+    ): Output {
         return sha2x256<Input, Output>(input);
     }
 }
@@ -163,10 +155,9 @@ export class HashSha2x256 implements IHash256 {
 export class HashBlake2x256 implements IHash256 {
     length: u32 = 32;
 
-    hash<
-        Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
-    >(input: Input): Output {
+    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
+        input: Input
+    ): Output {
         return blake2x256<Input, Output>(input);
     }
 }
@@ -177,10 +168,9 @@ export class HashBlake2x256 implements IHash256 {
 export class HashBlake2x128 implements IHash128 {
     length: u32 = 16;
 
-    hash<
-        Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
-    >(input: Input): Output {
+    hash<Input extends ArrayLike<u8> = Array<u8>, Output extends ArrayLike<u8> = Array<u8>>(
+        input: Input
+    ): Output {
         return blake2x128<Input, Output>(input);
     }
 }

@@ -52,22 +52,15 @@ export class ExportEraser extends TransformVisitor {
         return this.removeExportFlag(node);
     }
 
-    visitEnumDeclaration(
-        node: EnumDeclaration,
-        _isDefault?: boolean
-    ): EnumDeclaration {
+    visitEnumDeclaration(node: EnumDeclaration, _isDefault?: boolean): EnumDeclaration {
         return this.removeExportFlag(node);
     }
 
-    visitInterfaceDeclaration(
-        node: InterfaceDeclaration
-    ): InterfaceDeclaration {
+    visitInterfaceDeclaration(node: InterfaceDeclaration): InterfaceDeclaration {
         return this.removeExportFlag(node);
     }
 
-    visitExportDefaultStatement(
-        node: ExportDefaultStatement
-    ): ExportDefaultStatement {
+    visitExportDefaultStatement(node: ExportDefaultStatement): ExportDefaultStatement {
         this.emitter.error(
             DiagnosticCode.User_defined_0,
             node.range,

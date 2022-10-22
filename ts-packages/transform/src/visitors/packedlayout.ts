@@ -9,11 +9,7 @@ import {
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import { mustBeLegalStorageField } from "../util";
 
-import {
-    addDeserializeDecorator,
-    addImplement,
-    addSerializeDecorator,
-} from "../astutil";
+import { addDeserializeDecorator, addImplement, addSerializeDecorator } from "../astutil";
 import { AskConfig } from "../config";
 import { IKEY_TYPE_PATH, PACKED_LAYOUT_TYPE_PATH } from "../consts";
 import { uniqBy } from "lodash";
@@ -26,10 +22,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
     private fields: FieldDeclaration[] = [];
     private hasBase = false;
 
-    constructor(
-        public readonly emitter: DiagnosticEmitter,
-        public readonly config: AskConfig
-    ) {
+    constructor(public readonly emitter: DiagnosticEmitter, public readonly config: AskConfig) {
         super();
     }
 
@@ -61,11 +54,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
     }
 
     private genPackedLayout(node: ClassDeclaration): MethodDeclaration[] {
-        const res = [
-            this.genPullPacked(node),
-            this.genPushPacked(node),
-            this.genClearPacked(node),
-        ];
+        const res = [this.genPullPacked(node), this.genPushPacked(node), this.genClearPacked(node)];
         return res;
     }
 

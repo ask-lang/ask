@@ -62,13 +62,8 @@ export class AskTransform extends TransformVisitor {
             log(`Read Ask config from '${cfgPath}'`);
             const cfgText = fs.readFileSync(cfgPath).toString();
             try {
-                let {
-                    strict,
-                    env,
-                    event,
-                    metadataContract,
-                    metadataTargetPath,
-                }: AskConfig = JSON.parse(cfgText);
+                let { strict, env, event, metadataContract, metadataTargetPath }: AskConfig =
+                    JSON.parse(cfgText);
 
                 strict = strict ? strict : defaultCfg.strict;
                 env = env ? env : defaultCfg.env;
@@ -85,9 +80,7 @@ export class AskTransform extends TransformVisitor {
                     metadataTargetPath,
                 };
             } catch (e) {
-                throw new SyntaxError(
-                    `Ask-lang: Error occurred when parse config: ${cfgPath}`
-                );
+                throw new SyntaxError(`Ask-lang: Error occurred when parse config: ${cfgPath}`);
             }
         } else {
             log(`Use default config`);
@@ -109,20 +102,14 @@ export class AskTransform extends TransformVisitor {
 
     private genSpreadLayout(node: ClassDeclaration): ClassDeclaration {
         this.hasAskDecorator = true;
-        const spreadLayoutVisitor = new SpreadLayoutVisitor(
-            this.parser,
-            this.config
-        );
+        const spreadLayoutVisitor = new SpreadLayoutVisitor(this.parser, this.config);
         node = spreadLayoutVisitor.visitClassDeclaration(node);
         return node;
     }
 
     private genPackedLayout(node: ClassDeclaration): ClassDeclaration {
         this.hasAskDecorator = true;
-        const packedLayoutVisitor = new PackedLayoutVisitor(
-            this.parser,
-            this.config
-        );
+        const packedLayoutVisitor = new PackedLayoutVisitor(this.parser, this.config);
         node = packedLayoutVisitor.visitClassDeclaration(node);
         return node;
     }
@@ -146,10 +133,7 @@ export class AskTransform extends TransformVisitor {
         return node;
     }
 
-    visitClassDeclaration(
-        node: ClassDeclaration,
-        _isDefault?: boolean
-    ): ClassDeclaration {
+    visitClassDeclaration(node: ClassDeclaration, _isDefault?: boolean): ClassDeclaration {
         if (hasDecorator(node.decorators, ContractDecoratorKind.Contract)) {
             node = this.genContract(node);
             node = this.genSpreadLayout(node);
@@ -182,11 +166,7 @@ export class AskTransform extends TransformVisitor {
         // don't import __lang for no-ask files.
         // declare env types for ask files.
         if (this.hasAskDecorator) {
-            const importAskLang = genImportStatement(
-                LANG_LIB,
-                LANG_LIB_PATH,
-                node.range
-            );
+            const importAskLang = genImportStatement(LANG_LIB, LANG_LIB_PATH, node.range);
             node.statements.unshift(importAskLang);
             const whitelist = new Set<FunctionDeclaration>();
             // ask contract file maybe have not `@contract` class
@@ -236,16 +216,10 @@ export class AskTransform extends TransformVisitor {
 
         askSources.forEach((askSource) => {
             const newText = ASTBuilder.build(askSource);
-            log(
-                `Output a modified contract file '${askSource.normalizedPath}':`
-            );
+            log(`Output a modified contract file '${askSource.normalizedPath}':`);
             log("\n%s", newText);
             const newParser = new Parser(parser.diagnostics);
-            newParser.parseFile(
-                newText,
-                askSource.normalizedPath,
-                isEntry(askSource)
-            );
+            newParser.parseFile(newText, askSource.normalizedPath, isEntry(askSource));
             // get new source from askSource text
             const newSource = newParser.sources.pop()!;
             updateSource(this.program, newSource);
@@ -259,18 +233,11 @@ export class AskTransform extends TransformVisitor {
         log("Enter afterCompile ...");
         this.mode.change(this.parser);
 
-        const generator = new MetadataGenerator(
-            this.program,
-            this.config.metadataContract!
-        );
+        const generator = new MetadataGenerator(this.program, this.config.metadataContract!);
         const metadata = generator.generate();
         log(metadata);
 
-        const target = path.join(
-            this.cfgPath,
-            "..",
-            this.config.metadataTargetPath
-        );
+        const target = path.join(this.cfgPath, "..", this.config.metadataTargetPath);
         const targetDir = path.dirname(target);
 
         try {
@@ -280,11 +247,7 @@ export class AskTransform extends TransformVisitor {
 
             fs.writeFileSync(
                 target,
-                JSON.stringify(
-                    metadata,
-                    (_k, v) => (v != null ? v : undefined),
-                    2
-                )
+                JSON.stringify(metadata, (_k, v) => (v != null ? v : undefined), 2)
             );
         } catch (e) {
             console.log(

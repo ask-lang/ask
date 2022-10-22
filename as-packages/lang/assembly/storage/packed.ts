@@ -20,9 +20,7 @@ import { StorageResult } from "../types";
  * @param key
  * @returns
  */
-export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
-    key: K
-): T {
+export function pullPackedRoot<T extends PackedLayout, K extends IKey>(key: K): T {
     const value: T = env().getContractStorage<K, T>(key);
     pullPacked<T, K>(value, key);
     return value;
@@ -37,10 +35,7 @@ export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
  * @param key
  * @returns
  */
-export function clearPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): T {
+export function clearPackedRoot<T extends PackedLayout, K extends IKey>(value: T, key: K): T {
     clearPacked(value, key);
     env().clearContractStroage<K>(key);
     return value;
@@ -86,10 +81,7 @@ export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
  * @param value
  * @param key
  */
-export function pushPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): void {
+export function pushPackedRoot<T extends PackedLayout, K extends IKey>(value: T, key: K): void {
     pushPacked<T, K>(value, key);
     // @ts-ignore
     env().setContractStorage<K, T>(key, value);
@@ -123,12 +115,7 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (
-        isArray<T>() ||
-        value instanceof StaticArray ||
-        isArrayLike<T>() ||
-        false
-    ) {
+    } else if (isArray<T>() || value instanceof StaticArray || isArrayLike<T>() || false) {
         // @ts-ignore
         for (let i = 0; i < value.length; ++i) {
             // @ts-ignore
@@ -193,12 +180,7 @@ export function pushPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (
-        isArray<T>() ||
-        value instanceof StaticArray ||
-        isArrayLike<T>() ||
-        false
-    ) {
+    } else if (isArray<T>() || value instanceof StaticArray || isArrayLike<T>() || false) {
         // @ts-ignore
         for (let i = 0; i < value.length; ++i) {
             // @ts-ignore
@@ -275,12 +257,7 @@ export function clearPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (
-        isArray<T>() ||
-        value instanceof StaticArray ||
-        isArrayLike<T>() ||
-        false
-    ) {
+    } else if (isArray<T>() || value instanceof StaticArray || isArrayLike<T>() || false) {
         // @ts-ignore
         for (let i = 0; i < value.length; ++i) {
             // @ts-ignore

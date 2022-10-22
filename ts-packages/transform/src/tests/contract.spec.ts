@@ -93,10 +93,7 @@ export class Contract implements __lang.IContract {
     return 0;
   }
 }`.trim();
-        const visitor = new ContractVisitor(
-            newProgram(newOptions()),
-            defaultConfig()
-        );
+        const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
         expect(visitor.messageDecls).toHaveLength(2);
         expect(visitor.constructorDecls).toHaveLength(1);
@@ -192,10 +189,7 @@ export class Contract extends OtherContract {
   }
 }`.trim();
 
-        const visitor = new ContractVisitor(
-            newProgram(newOptions()),
-            defaultConfig()
-        );
+        const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
         expect(visitor.messageDecls).toHaveLength(1);
         expect(visitor.constructorDecls).toHaveLength(1);
@@ -267,10 +261,7 @@ export class Contract implements __lang.IContract {
   }
 }`.trim();
 
-        const visitor = new ContractVisitor(
-            newProgram(newOptions()),
-            defaultConfig()
-        );
+        const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
         expect(visitor.messageDecls).toHaveLength(1);
         expect(visitor.constructorDecls).toHaveLength(1);
@@ -301,10 +292,7 @@ export class Contract {
 }
 `.trim();
 
-        const visitor = new ContractVisitor(
-            newProgram(newOptions()),
-            defaultConfig()
-        );
+        const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, "", false, true);
         expect(visitor.messageDecls).toHaveLength(2);
         expect(visitor.constructorDecls).toHaveLength(0);

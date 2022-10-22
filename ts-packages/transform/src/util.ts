@@ -35,10 +35,7 @@ export function isEntry(node: Node): boolean {
     return node.range.source.sourceKind == SourceKind.USER_ENTRY;
 }
 
-export function mustBeVoidReturn(
-    emitter: DiagnosticEmitter,
-    node: FunctionDeclaration
-): boolean {
+export function mustBeVoidReturn(emitter: DiagnosticEmitter, node: FunctionDeclaration): boolean {
     let ret = true;
     if (node.signature.returnType.range.toString() != "void") {
         emitter.errorRelated(
@@ -109,10 +106,7 @@ export function shouldBeNoParamDecorator(
  * @param node contract method
  * @returns
  */
-export function mustBePublicMethod(
-    emitter: DiagnosticEmitter,
-    node: MethodDeclaration
-): boolean {
+export function mustBePublicMethod(emitter: DiagnosticEmitter, node: MethodDeclaration): boolean {
     // `public` by default, so we check `protected` and `private`
     if (node.is(CommonFlags.PROTECTED) || node.is(CommonFlags.PRIVATE)) {
         emitter.errorRelated(
@@ -155,10 +149,7 @@ export function mustBeNonStaticMethod(
  * @param node
  * @returns
  */
-export function mustBeNoExtends(
-    emitter: DiagnosticEmitter,
-    node: ClassDeclaration
-): boolean {
+export function mustBeNoExtends(emitter: DiagnosticEmitter, node: ClassDeclaration): boolean {
     if (node.extendsType != null) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
@@ -189,10 +180,7 @@ export function namedTypeNodeToString(node: NamedTypeNode): string {
  * @param name a decorator name
  * @returns return true if has the decorator
  */
-export function hasDecorator(
-    decorators: DecoratorNode[] | null,
-    name: string
-): boolean {
+export function hasDecorator(decorators: DecoratorNode[] | null, name: string): boolean {
     return getDecorator(decorators, name) ? true : false;
 }
 
@@ -209,10 +197,7 @@ export function getDecorator(
     if (decorators == null) {
         return null;
     }
-    const decs = filterDecorators(
-        decorators,
-        (node) => node.name.range.toString() === "@" + name
-    );
+    const decs = filterDecorators(decorators, (node) => node.name.range.toString() === "@" + name);
     return decs.length > 0 ? decs[0] : null;
 }
 
@@ -271,10 +256,7 @@ export class DecoratorConfig extends Map<string, string> {
     constructor(public readonly decorator: DecoratorNode) {
         super();
     }
-    static extractFrom(
-        emitter: DiagnosticEmitter,
-        decorator: DecoratorNode
-    ): DecoratorConfig {
+    static extractFrom(emitter: DiagnosticEmitter, decorator: DecoratorNode): DecoratorConfig {
         return extractConfigFromDecorator(emitter, decorator);
     }
 }

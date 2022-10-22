@@ -171,10 +171,7 @@ export class LazyIndexMap<V> implements SpreadLayout {
      */
     @inline
     deleteAt(index: u32): void {
-        this._map.set(
-            index,
-            new StorageEntry<V>(changetype<V>(0), EntryState.Cleared)
-        );
+        this._map.set(index, new StorageEntry<V>(changetype<V>(0), EntryState.Cleared));
     }
 
     pullSpread<K extends IKey>(key: K): void {
