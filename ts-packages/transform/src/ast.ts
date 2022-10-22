@@ -5,11 +5,7 @@ import {
     DiagnosticCode,
     DiagnosticEmitter,
 } from "visitor-as/as";
-import {
-    DecoratorConfig,
-    extractConfigFromDecorator,
-    extractDecorator,
-} from "./util";
+import { DecoratorConfig, extractConfigFromDecorator, extractDecorator } from "./util";
 import { utils } from "visitor-as/dist";
 import { DecoratorNode } from "assemblyscript";
 import blake from "blakejs";
@@ -107,14 +103,13 @@ export interface ContractMethodNode extends AskNode {
  * MessageDeclaration represents a `@message` info
  */
 export class MessageDeclaration implements ContractMethodNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Message;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Message;
 
     constructor(
         public readonly method: MethodDeclaration,
         public readonly selector: string | null,
         public readonly mutates: boolean,
-        public readonly payable: boolean = true
+        public readonly payable: boolean = true,
     ) {}
 
     paramsTypeName(): string[] {
@@ -162,7 +157,7 @@ export class MessageDeclaration implements ContractMethodNode {
     static extractFrom(
         emitter: DiagnosticEmitter,
         node: MethodDeclaration,
-        cfg: DecoratorConfig
+        cfg: DecoratorConfig,
     ): MessageDeclaration {
         let msgMutates = false;
         let msgPayable = true;
@@ -180,7 +175,7 @@ export class MessageDeclaration implements ContractMethodNode {
                     DiagnosticCode.User_defined_0,
                     node.range,
                     decorator.range,
-                    `Ask-lang: Illegal 'mutates' config, must be true or false`
+                    `Ask-lang: Illegal 'mutates' config, must be true or false`,
                 );
             }
         }
@@ -196,7 +191,7 @@ export class MessageDeclaration implements ContractMethodNode {
                     DiagnosticCode.User_defined_0,
                     node.range,
                     decorator.range,
-                    `Ask-lang: Illegal 'payable' config, must be true or false`
+                    `Ask-lang: Illegal 'payable' config, must be true or false`,
                 );
             }
         }
@@ -208,12 +203,7 @@ export class MessageDeclaration implements ContractMethodNode {
             msgPayable = false;
         }
 
-        return new MessageDeclaration(
-            utils.cloneNode(node),
-            msgSelector,
-            msgMutates,
-            msgPayable
-        );
+        return new MessageDeclaration(utils.cloneNode(node), msgSelector, msgMutates, msgPayable);
     }
 }
 
@@ -221,8 +211,7 @@ export class MessageDeclaration implements ContractMethodNode {
  * ConstructorDeclaration represents a `@constructor` info
  */
 export class ConstructorDeclaration implements ContractMethodNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Constructor;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Constructor;
 
     /**
      * mutates is always be true
@@ -234,7 +223,7 @@ export class ConstructorDeclaration implements ContractMethodNode {
     public readonly payable: boolean = true;
     constructor(
         public readonly method: MethodDeclaration,
-        public readonly selector: string | null
+        public readonly selector: string | null,
     ) {}
 
     paramsTypeName(): string[] {
@@ -274,15 +263,10 @@ export class ConstructorDeclaration implements ContractMethodNode {
     static extractFrom(
         emitter: DiagnosticEmitter,
         node: MethodDeclaration,
-        cfg: DecoratorConfig
+        cfg: DecoratorConfig,
     ): ConstructorDeclaration {
         let selector = cfg.get("selector");
-        let msgSelector = extractSelector(
-            emitter,
-            selector,
-            node,
-            cfg.decorator
-        );
+        let msgSelector = extractSelector(emitter, selector, node, cfg.decorator);
 
         return new ConstructorDeclaration(utils.cloneNode(node), msgSelector);
     }
@@ -292,14 +276,13 @@ export class ConstructorDeclaration implements ContractMethodNode {
  * EventDeclaration represents a `@event` info
  */
 export class EventDeclaration implements AskNode {
-    public readonly contractKind: ContractDecoratorKind =
-        ContractDecoratorKind.Event;
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Event;
     constructor(
         /**
          * Event Id
          */
         public readonly id: number,
-        public readonly event: ClassDeclaration
+        public readonly event: ClassDeclaration,
     ) {}
 
     /**
@@ -308,16 +291,9 @@ export class EventDeclaration implements AskNode {
      * @param cfg
      * @returns
      */
-    static extractFrom(
-        emitter: DiagnosticEmitter,
-        node: ClassDeclaration
-    ): EventDeclaration {
+    static extractFrom(emitter: DiagnosticEmitter, node: ClassDeclaration): EventDeclaration {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const decorator = extractDecorator(
-            emitter,
-            node,
-            ContractDecoratorKind.Event
-        )!;
+        const decorator = extractDecorator(emitter, node, ContractDecoratorKind.Event)!;
         const cfg = extractConfigFromDecorator(emitter, decorator);
         const eventId = cfg.get("id");
 
@@ -327,7 +303,7 @@ export class EventDeclaration implements AskNode {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: '@event' must have id config`
+                `Ask-lang: '@event' must have id config`,
             );
         } else if (!isNaN(+eventId)) {
             id = +eventId;
@@ -336,7 +312,7 @@ export class EventDeclaration implements AskNode {
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: '@event' id config is illegal`
+                `Ask-lang: '@event' id config is illegal`,
             );
         }
         return new EventDeclaration(id, utils.cloneNode(node));
@@ -351,10 +327,7 @@ function getReturnTypeName(fn: FunctionTypeNode): string {
     return fn.returnType.range.toString();
 }
 
-export function hexSelector(
-    selector: string | null,
-    methodName: string
-): string {
+export function hexSelector(selector: string | null, methodName: string): string {
     if (selector != null) {
         return selector;
     }
@@ -365,7 +338,7 @@ function extractSelector(
     emitter: DiagnosticEmitter,
     selector: string | undefined,
     node: MethodDeclaration,
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): string | null {
     if (selector) {
         selector = selector.substring(1, selector.length - 1);
@@ -376,7 +349,7 @@ function extractSelector(
                 DiagnosticCode.User_defined_0,
                 node.range,
                 decorator.range,
-                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`
+                `Ask-lang: Illegal 'selector' config. Should be 4 bytes hex string`,
             );
             return null;
         }

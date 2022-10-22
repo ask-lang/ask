@@ -23,7 +23,8 @@
   "scripts": {
     "example": "ASK_CONFIG=./examples/askconfig.json asc --config ./examples/asconfig.json",
     "lint": "eslint .",
-    "fmt": "prettier -w ./**/*.ts --config ./.prettierrc.js",
+    "fmt": "prettier -w './**/*.ts' --config ./.prettierrc.js",
+    "fmt-check": "prettier -w './**/*.ts' --config ./.prettierrc.js --check",
     "checks": "yarn workspaces run checks",
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",

@@ -196,7 +196,7 @@ export class Variant implements ToMetadata {
     constructor(
         public readonly name: string,
         public readonly fields: Array<Field>,
-        public readonly discriminant: number | null
+        public readonly discriminant: number | null,
     ) {}
 
     toMetadata(): IVariant {
@@ -212,7 +212,7 @@ export class Field implements ToMetadata {
     constructor(
         public readonly name: string | null,
         public readonly type: number,
-        public readonly typeName: string
+        public readonly typeName: string,
     ) {}
 
     toMetadata(): IField {

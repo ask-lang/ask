@@ -45,7 +45,7 @@ export class TypeResolver {
     constructor(
         public readonly program: Program,
         private readonly entrypoint: ClassPrototype,
-        private readonly eventPrototypes: ClassPrototype[]
+        private readonly eventPrototypes: ClassPrototype[],
     ) {}
 
     resolvedTypes(): TypeInfoMap {
@@ -82,10 +82,7 @@ export class TypeResolver {
      * @returns
      */
     private resolveScaleType(type: Type) {
-        assert(
-            type.isFunction == false,
-            `Ask-lang don't support fucntion as a scale type`
-        );
+        assert(type.isFunction == false, `Ask-lang don't support fucntion as a scale type`);
         log(`resolveCodecType: ${type.toString()}`);
         if (this.types.has(type)) {
             return;
@@ -99,7 +96,7 @@ export class TypeResolver {
                 // It's unsupported primitive type.
                 assert(
                     type.getClass() != null,
-                    `Ask-lang: '${type.toString()}' type is not supported`
+                    `Ask-lang: '${type.toString()}' type is not supported`,
                 );
                 break;
             case Type.bool:
@@ -131,36 +128,24 @@ export class TypeResolver {
                 break;
         }
         if (typeName) {
-            const typeInfo = new PrimitiveTypeInfo(
-                type,
-                this.currentIndex++,
-                typeName
-            );
+            const typeInfo = new PrimitiveTypeInfo(type, this.currentIndex++, typeName);
             this.types.set(type, typeInfo);
             return;
         }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const clz: Class = type.getClass()!;
 
-        assert(
-            clz != null,
-            `Ask-lang: non-primitive type must be a class: ${type.toString()}`
-        );
+        assert(clz != null, `Ask-lang: non-primitive type must be a class: ${type.toString()}`);
 
         const program = this.program;
 
         // It's other primitive type
         if (
             clz.prototype.internalName.match(/~lib\/as-bignum/) &&
-            (clz.prototype.name === PrimitiveType.I128 ||
-                clz.prototype.name === PrimitiveType.U128)
+            (clz.prototype.name === PrimitiveType.I128 || clz.prototype.name === PrimitiveType.U128)
         ) {
             log(`Meet as-binum: ${clz.prototype.internalName}`);
-            const typeInfo = new PrimitiveTypeInfo(
-                type,
-                this.currentIndex++,
-                clz.prototype.name
-            );
+            const typeInfo = new PrimitiveTypeInfo(type, this.currentIndex++, clz.prototype.name);
             this.types.set(type, typeInfo);
         }
         // It's array type
@@ -176,10 +161,7 @@ export class TypeResolver {
             const typeArgs = clz.typeArguments;
             log(`Meet FixedArray type: ${clz.toString()}`);
             if (typeArgs) {
-                assert(
-                    typeArgs.length == 1,
-                    `Ask-lang: array type must only have one elem type`
-                );
+                assert(typeArgs.length == 1, `Ask-lang: array type must only have one elem type`);
                 this.resolveScaleType(typeArgs[0]);
                 this.types.set(
                     type,
@@ -187,8 +169,8 @@ export class TypeResolver {
                         type,
                         this.currentIndex++,
                         typeArgs[0],
-                        +clz.prototype.name.slice("FixedArray".length)
-                    )
+                        +clz.prototype.name.slice("FixedArray".length),
+                    ),
                 );
             }
         }
@@ -204,122 +186,75 @@ export class TypeResolver {
             this.resolveScaleType(Type.u8);
             this.types.set(
                 type,
-                new PrimitiveTypeInfo(
-                    type,
-                    this.currentIndex++,
-                    PrimitiveType.Str
-                )
+                new PrimitiveTypeInfo(type, this.currentIndex++, PrimitiveType.Str),
             );
         }
         // It's sequence type
         else if (clz.prototype == program.uint8ArrayPrototype) {
             this.resolveScaleType(Type.u8);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.u8)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.u8));
         } else if (clz.prototype == program.uint16ArrayPrototype) {
             this.resolveScaleType(Type.u16);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.u16)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.u16));
         } else if (clz.prototype == program.uint32ArrayPrototype) {
             this.resolveScaleType(Type.u32);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.u32)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.u32));
         } else if (clz.prototype == program.uint64ArrayPrototype) {
             this.resolveScaleType(Type.u64);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.u64)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.u64));
         } else if (clz.prototype == program.int8ArrayPrototype) {
             this.resolveScaleType(Type.i8);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.i8)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.i8));
         } else if (clz.prototype == program.int16ArrayPrototype) {
             this.resolveScaleType(Type.i16);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.i16)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.i16));
         } else if (clz.prototype == program.int32ArrayPrototype) {
             this.resolveScaleType(Type.i32);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.i32)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.i32));
         } else if (clz.prototype == program.int64ArrayPrototype) {
             this.resolveScaleType(Type.i64);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, Type.i64)
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, Type.i64));
         } else if (
             clz.prototype == program.arrayPrototype ||
             clz.prototype == program.staticArrayPrototype ||
             clz.prototype == program.setPrototype
         ) {
             const typeArgs = clz.typeArguments ? clz.typeArguments : [];
-            assert(
-                typeArgs.length == 1,
-                `Ask-lang: sequence type must only have one elem type`
-            );
+            assert(typeArgs.length == 1, `Ask-lang: sequence type must only have one elem type`);
 
             // TODO: consider nullable type
             // typeArgs[0].nullableType
             // log(`${typeArgs[0].toString()} ${typeArgs[0].is(TypeFlags.NULLABLE)}`);
             this.resolveScaleType(typeArgs[0]);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0])
-            );
+            this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0]));
         } else if (clz.prototype == program.mapPrototype) {
             // It's very special.
             const typeArgs = clz.typeArguments ? clz.typeArguments : [];
             assert(
                 typeArgs.length == 2,
-                `Ask-lang: map (sequence) type must only have two elem type`
+                `Ask-lang: map (sequence) type must only have two elem type`,
             );
             this.resolveScaleType(typeArgs[0]);
             this.resolveScaleType(typeArgs[1]);
             // unamed new type
-            const newTypeInfo = new CompositeTypeInfo(
-                null,
-                this.currentIndex++,
-                typeArgs
-            );
+            const newTypeInfo = new CompositeTypeInfo(null, this.currentIndex++, typeArgs);
             this.types.set(typeArgs, newTypeInfo);
-            this.types.set(
-                type,
-                new SequenceTypeInfo(clz.type, this.currentIndex++, typeArgs)
-            );
+            this.types.set(type, new SequenceTypeInfo(clz.type, this.currentIndex++, typeArgs));
         } else if (clz.isArrayLike) {
             const typeArgs = clz.typeArguments;
             log(`Meet ArrayLike type: ${clz.toString()}`);
             if (typeArgs) {
                 assert(
                     typeArgs.length == 1,
-                    `Ask-lang: sequence type must only have one elem type`
+                    `Ask-lang: sequence type must only have one elem type`,
                 );
                 this.resolveScaleType(typeArgs[0]);
-                this.types.set(
-                    type,
-                    new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0])
-                );
+                this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0]));
             }
         } else {
             // It's composite type
             const fields = this.resovleCompositeField(type);
-            this.types.set(
-                type,
-                new CompositeTypeInfo(type, this.currentIndex++, fields)
-            );
+            this.types.set(type, new CompositeTypeInfo(type, this.currentIndex++, fields));
         }
     }
 
@@ -328,11 +263,7 @@ export class TypeResolver {
         const clz: Class = type.getClass()!;
         assert(clz.declaration.kind === NodeKind.CLASSDECLARATION);
         const fields: Field[] = [];
-        for (
-            let curClass: Class | null = clz;
-            curClass != null;
-            curClass = curClass.base
-        ) {
+        for (let curClass: Class | null = clz; curClass != null; curClass = curClass.base) {
             const decl = curClass.declaration as ClassDeclaration;
             for (let i = decl.members.length - 1; i >= 0; i--) {
                 let member = decl.members[i];
@@ -358,10 +289,7 @@ export class TypeResolver {
 
     get errorInstance(): Class {
         var cached = this._errorInstance;
-        if (!cached)
-            this._errorInstance = cached = this.program.requireClass(
-                CommonNames.Error
-            );
+        if (!cached) this._errorInstance = cached = this.program.requireClass(CommonNames.Error);
         return cached;
     }
     private _errorInstance: Class | null = null;
@@ -370,13 +298,10 @@ export class TypeResolver {
         log(`Start ${this.resolveContract.name}: ${contract.name}`);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const instances: Map<string, Class> = contract.instances!;
-        assert(
-            instances != null,
-            `${contract.declaration.name.text} has instances`
-        );
+        assert(instances != null, `${contract.declaration.name.text} has instances`);
         assert(
             instances.size === 1,
-            `${contract.declaration.name.text} should only have one instance`
+            `${contract.declaration.name.text} should only have one instance`,
         );
 
         let instance: Class = getFirstValue(instances);
@@ -409,10 +334,7 @@ export class TypeResolver {
             } else if (isConstructor(member) && isEntry) {
                 log("constructor method:", name);
                 const func = member as FunctionPrototype;
-                assert(
-                    func.instances?.size == 1,
-                    `instances num: ${func.instances?.size}`
-                );
+                assert(func.instances?.size == 1, `instances num: ${func.instances?.size}`);
                 func.instances?.forEach((member) => {
                     const signature = member.signature;
                     signature.parameterTypes.forEach((ty) => {
@@ -420,7 +342,7 @@ export class TypeResolver {
                     });
                     assert(
                         signature.returnType.getClass() == null,
-                        `@constructor ${name} return type must be void`
+                        `@constructor ${name} return type must be void`,
                     );
                     // TODO: check duplicated
                     if (!this.constructors.has(name)) {

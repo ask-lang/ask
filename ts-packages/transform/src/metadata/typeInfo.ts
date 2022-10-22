@@ -8,16 +8,12 @@ export abstract class TypeInfo {
     constructor(
         public readonly type: Type | null,
         public readonly index: number,
-        public readonly kind: metadata.TypeKind
+        public readonly kind: metadata.TypeKind,
     ) {}
 }
 
 export class CompositeTypeInfo extends TypeInfo {
-    constructor(
-        type: Type | null,
-        index: number,
-        public readonly fields: Field[] | Type[]
-    ) {
+    constructor(type: Type | null, index: number, public readonly fields: Field[] | Type[]) {
         super(type, index, metadata.TypeKind.Composite);
     }
 }
@@ -30,7 +26,7 @@ export class ArrayTypeInfo extends TypeInfo {
         type: Type,
         index: number,
         public readonly elem: Type,
-        public readonly len: number
+        public readonly len: number,
     ) {
         super(type, index, metadata.TypeKind.Array);
     }
@@ -40,21 +36,13 @@ export class ArrayTypeInfo extends TypeInfo {
  * string and arrays in AssemblyScript are SequenceTypeInfo types.
  */
 export class SequenceTypeInfo extends TypeInfo {
-    constructor(
-        type: Type,
-        index: number,
-        public readonly elem: Type | Type[]
-    ) {
+    constructor(type: Type, index: number, public readonly elem: Type | Type[]) {
         super(type, index, metadata.TypeKind.Sequence);
     }
 }
 
 export class PrimitiveTypeInfo extends TypeInfo {
-    constructor(
-        type: Type,
-        index: number,
-        public readonly primitiveName: metadata.PrimitiveType
-    ) {
+    constructor(type: Type, index: number, public readonly primitiveName: metadata.PrimitiveType) {
         super(type, index, metadata.TypeKind.Primitive);
     }
 }

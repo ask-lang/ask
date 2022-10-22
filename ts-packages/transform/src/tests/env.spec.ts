@@ -30,10 +30,7 @@ type Timestamp = __lang.Timestamp;
 @envType
 type BlockNumber = __lang.BlockNumber;
   `.trim();
-        const visitor = new EnvTypeVisitor(
-            newProgram(newOptions()),
-            testEnvConfig()
-        );
+        const visitor = new EnvTypeVisitor(newProgram(newOptions()), testEnvConfig());
         checkVisitor(visitor, code, expected);
     });
 
@@ -42,10 +39,7 @@ type BlockNumber = __lang.BlockNumber;
 @envType
 type Account = A;
 `.trim();
-        const visitor = new EnvTypeVisitor(
-            newProgram(newOptions()),
-            testEnvConfig()
-        );
+        const visitor = new EnvTypeVisitor(newProgram(newOptions()), testEnvConfig());
         checkVisitor(visitor, code, "", false, true);
     });
 });

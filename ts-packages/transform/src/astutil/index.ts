@@ -28,7 +28,7 @@ import { hasDecorator } from "../util";
 export function genNamedTypeNode(
     range: Range,
     typeName: string,
-    isNullable = false
+    isNullable = false,
 ): NamedTypeNode {
     const named = genTypeName(typeName, range);
     const namedType = Node.createNamedType(named, null, isNullable, range);
@@ -41,17 +41,12 @@ export function genNamedTypeNode(
  * @param interfaceName The interface path
  * @returns node
  */
-export function addImplement(
-    node: ClassDeclaration,
-    interfaceName: string
-): ClassDeclaration {
+export function addImplement(node: ClassDeclaration, interfaceName: string): ClassDeclaration {
     const implType = genTypeName(interfaceName, node.range);
     if (node.implementsTypes == null) {
         node.implementsTypes = [];
     }
-    node.implementsTypes.push(
-        Node.createNamedType(implType, null, false, node.range)
-    );
+    node.implementsTypes.push(Node.createNamedType(implType, null, false, node.range));
     return node;
 }
 
@@ -61,10 +56,7 @@ export function addImplement(
  * @param interfaceNames The interface path list
  * @returns node
  */
-export function addImplements(
-    node: ClassDeclaration,
-    interfaceNames: string[]
-): ClassDeclaration {
+export function addImplements(node: ClassDeclaration, interfaceNames: string[]): ClassDeclaration {
     for (let name of interfaceNames) {
         addImplement(node, name);
     }
@@ -116,7 +108,7 @@ export function addDeserializeDecorator(decl: {
  */
 export function addDecorator(
     decl: { decorators: DecoratorNode[] | null },
-    decorator: DecoratorNode
+    decorator: DecoratorNode,
 ): void {
     if (decl.decorators == null) {
         decl.decorators = [];
@@ -124,16 +116,8 @@ export function addDecorator(
     decl.decorators.push(decorator);
 }
 
-function genDecorator(
-    range: Range,
-    id: string,
-    args: Expression[] | null = null
-): DecoratorNode {
-    return Node.createDecorator(
-        Node.createIdentifierExpression(id, range),
-        args,
-        range
-    );
+function genDecorator(range: Range, id: string, args: Expression[] | null = null): DecoratorNode {
+    return Node.createDecorator(Node.createIdentifierExpression(id, range), args, range);
 }
 
 /**
@@ -149,11 +133,7 @@ export function genTypeName(name: string, range: Range): TypeName {
     let prev: TypeName | null = null;
     for (let i = 0; i < names.length; i++) {
         let curName = names[i];
-        prev = new TypeName(
-            Node.createIdentifierExpression(curName, range),
-            prev,
-            range
-        );
+        prev = new TypeName(Node.createIdentifierExpression(curName, range), prev, range);
     }
     return prev as TypeName;
 }
@@ -166,16 +146,10 @@ export function genTypeName(name: string, range: Range): TypeName {
 export function genNamespcae(
     range: Range,
     namepsace: string,
-    members: Statement[]
+    members: Statement[],
 ): NamespaceDeclaration {
     const name = Node.createIdentifierExpression(namepsace, range);
-    return Node.createNamespaceDeclaration(
-        name,
-        null,
-        CommonFlags.EXPORT,
-        members,
-        range
-    );
+    return Node.createNamespaceDeclaration(name, null, CommonFlags.EXPORT, members, range);
 }
 
 /**
@@ -185,14 +159,10 @@ export function genNamespcae(
  * @param range
  * @returns ImportStatement
  */
-export function genImportStatement(
-    namespace: string,
-    path: string,
-    range: Range
-): ImportStatement {
+export function genImportStatement(namespace: string, path: string, range: Range): ImportStatement {
     return Node.createWildcardImportStatement(
         Node.createIdentifierExpression(namespace, range),
         Node.createStringLiteralExpression(path, range),
-        range
+        range,
     );
 }

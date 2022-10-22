@@ -1,11 +1,6 @@
 import { ToMetadata } from "./index";
 import { IHashLayout, IArrayLayout, ILayout } from "./specs";
-import {
-    IFieldLayout,
-    IStructLayout,
-    ICellLayout,
-    IHashingStrategy,
-} from "./specs";
+import { IFieldLayout, IStructLayout, ICellLayout, IHashingStrategy } from "./specs";
 
 export enum LayoutKind {
     Cell,
@@ -57,7 +52,7 @@ export class FieldLayout implements ToMetadata {
         ///
         /// This is either a direct layout bound
         /// or another recursive layout sub-struct.
-        public readonly layout: Layout
+        public readonly layout: Layout,
     ) {}
 
     toMetadata(): IFieldLayout {
@@ -72,7 +67,7 @@ export class HashingStrategy implements ToMetadata {
     constructor(
         public readonly hasher: CryptoHasher,
         public readonly prefix: string,
-        public readonly postfix: string
+        public readonly postfix: string,
     ) {}
 
     public toMetadata(): IHashingStrategy {
@@ -106,7 +101,7 @@ export class HashLayout implements Layout {
     constructor(
         public readonly offset: LayoutKey,
         public readonly strategy: HashingStrategy,
-        public readonly layout: Layout
+        public readonly layout: Layout,
     ) {}
 
     public layoutKind(): LayoutKind {
@@ -132,7 +127,7 @@ export class ArrayLayout implements Layout {
         public readonly offset: LayoutKey,
         public readonly len: number,
         public readonly cellsPerElem: number,
-        public readonly layout: Layout
+        public readonly layout: Layout,
     ) {}
 
     public layoutKind(): LayoutKind {

@@ -1,0 +1,4 @@
+as-packages/as-contract-runtime/assembly
+as-packages/lang/assembly/env/onchain.ts
+as-packages/lang/assembly/storage/index.ts
+ts-packages/**/dist

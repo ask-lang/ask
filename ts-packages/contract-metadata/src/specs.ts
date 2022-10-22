@@ -23,7 +23,7 @@ export interface ISource {
     readonly compiler: string;
 }
 
-export type ITypeWithIdDef = {id: number, type: ITypeDef};
+export type ITypeWithIdDef = { id: number; type: ITypeDef };
 
 export type ITypeDef =
     | IPrimitiveDef

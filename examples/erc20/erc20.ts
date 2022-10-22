@@ -1,4 +1,5 @@
-import { env, u128, Lazy, AccountId, ZERO_ACCOUNT, Mapping, HashKeccak256, Pack } from 'ask-lang';
+import { env, u128, Lazy, AccountId, ZERO_ACCOUNT, Mapping, HashKeccak256, Pack } from "ask-lang";
+
 @spreadLayout
 @packedLayout
 class Constants {
@@ -131,7 +132,6 @@ export class ERC20 {
 
     @message({ mutates: true })
     increaseAllowance(spender: AccountId, addedValue: u128): bool {
-        
         const caller = env().caller<AccountId>();
         const info = this.getAllowanceItem(caller);
         const spenderId = spender.toString();
@@ -191,13 +191,8 @@ export class ERC20 {
 
     protected _burn(account: AccountId, amount: u128): void {
         assert(!account.eq(ZERO_ACCOUNT), "ERC20: burn to the zero address");
-        const balanceOfAccount = this.storage.balances.get(
-            account
-        );
-        assert(
-            balanceOfAccount >= amount,
-            "ERC20: not enough balance to burn."
-        );
+        const balanceOfAccount = this.storage.balances.get(account);
+        assert(balanceOfAccount >= amount, "ERC20: not enough balance to burn.");
         // @ts-ignore
         const leftValue = balanceOfAccount - amount;
         // @ts-ignore
@@ -211,11 +206,7 @@ export class ERC20 {
         env().emitEvent(event);
     }
 
-    protected _approve(
-        owner: AccountId,
-        spender: AccountId,
-        amount: u128
-    ): void {
+    protected _approve(owner: AccountId, spender: AccountId, amount: u128): void {
         const spenderId = spender.toString();
         const allowance = this.getAllowanceItem(owner);
         allowance.set(spenderId, amount);
@@ -226,26 +217,13 @@ export class ERC20 {
         env().emitEvent(event);
     }
 
-    protected _transfer(
-        sender: AccountId,
-        recipient: AccountId,
-        amount: u128
-    ): bool {
-        assert(
-            sender != ZERO_ACCOUNT,
-            "ERC20: transfer from the zero address"
-        );
-        assert(
-            recipient != ZERO_ACCOUNT,
-            "ERC20: transfer to the zero address"
-        );
+    protected _transfer(sender: AccountId, recipient: AccountId, amount: u128): bool {
+        assert(sender != ZERO_ACCOUNT, "ERC20: transfer from the zero address");
+        assert(recipient != ZERO_ACCOUNT, "ERC20: transfer to the zero address");
 
         const spenderBalance = this.storage.balances.getOrNull(sender);
         assert(spenderBalance !== null);
-        assert(
-            spenderBalance! >= amount,
-            "ERC20: transfer amount exceeds balance"
-        );
+        assert(spenderBalance! >= amount, "ERC20: transfer amount exceeds balance");
 
         // @ts-ignore
         const senderLeft: u128 = spenderBalance! - amount;

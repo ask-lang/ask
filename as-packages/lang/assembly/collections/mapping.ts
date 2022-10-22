@@ -8,7 +8,7 @@ import { ReturnCode } from "ask-contract-runtime";
  * A simple hashmap which is not iterable and set/get data immediately.
  *
  * Also it won't cache KV data in momory.
- * 
+ *
  * Note: The Mapping never hold k/v references, so you should call `set` method to update k/v pair storage explicitly.
  */
 export class Mapping<K1, V, H extends IHash256> implements SpreadLayout {
@@ -20,9 +20,7 @@ export class Mapping<K1, V, H extends IHash256> implements SpreadLayout {
         let prefix = this._key!.toBytes();
         let serKey = ScaleSerializer.serialize<K1>(key);
         // TODO: crypto hash
-        let k = this._hash.hash<StaticArray<u8>, Array<u8>>(
-            StaticArray.concat(prefix, serKey)
-        );
+        let k = this._hash.hash<StaticArray<u8>, Array<u8>>(StaticArray.concat(prefix, serKey));
         return Key.fromBytes(k);
     }
 

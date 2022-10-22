@@ -30,12 +30,7 @@ describe("Decoder", () => {
         };
 
         const returnTypeSpec = new TypeSpec(0, "Balance");
-        const spec = new MessageSpec(
-            "total_supply",
-            "0xdb6375a8",
-            [],
-            returnTypeSpec
-        );
+        const spec = new MessageSpec("total_supply", "0xdb6375a8", [], returnTypeSpec);
         expect(spec.toMetadata()).toStrictEqual(json);
     });
 });

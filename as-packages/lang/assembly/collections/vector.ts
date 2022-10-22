@@ -4,7 +4,7 @@ import { LazyIndexMap } from "./lazyIndexMap";
 
 /**
  * A spread version array. elements are stored in different positions.
- * 
+ *
  * Note: The element type T must be PackedLayout.
  */
 @final
@@ -28,8 +28,8 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Get the element at given index.
-     * @param index 
-     * @returns 
+     * @param index
+     * @returns
      */
     get(index: u32): T {
         assert(this.length > index);
@@ -38,8 +38,8 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Set the element at given index.
-     * @param index 
-     * @param value 
+     * @param index
+     * @param value
      */
     set(index: u32, value: T): void {
         assert(this.length > index);
@@ -48,7 +48,7 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Returns true if the length is zero.
-     * @returns 
+     * @returns
      */
     isEmpty(): bool {
         return this.length == 0;
@@ -56,7 +56,7 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Clear all elements and set length to zero.
-     * @returns 
+     * @returns
      */
     clear(): void {
         if (this.isEmpty()) {
@@ -71,8 +71,8 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Push a element to the last.
-     * @param value 
-     * @returns 
+     * @param value
+     * @returns
      */
     @inline
     push(value: T): u32 {
@@ -83,7 +83,7 @@ export class Vector<T> implements SpreadLayout {
 
     /**
      * Pop the last element and return it.
-     * @returns 
+     * @returns
      */
     @inline
     pop(): T {

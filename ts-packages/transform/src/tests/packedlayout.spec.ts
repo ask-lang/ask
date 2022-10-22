@@ -8,12 +8,9 @@ function checkPackedLayoutVisitor(
     code: string,
     expected: string,
     warn = false,
-    error = false
+    error = false,
 ): void {
-    const visitor = new PackedLayoutVisitor(
-        newProgram(newOptions()),
-        defaultConfig()
-    );
+    const visitor = new PackedLayoutVisitor(newProgram(newOptions()), defaultConfig());
     checkVisitor(visitor, code, expected, warn, error);
 }
 

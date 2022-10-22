@@ -7,7 +7,7 @@ import { env } from "../env";
 /**
  * A lazy map whose key is based on u32.
  * It will cache the operations result of key/value internally.
- * 
+ *
  * Note: The V type must be PackedLayout.
  */
 export class LazyIndexMap<V> implements SpreadLayout {
@@ -171,10 +171,7 @@ export class LazyIndexMap<V> implements SpreadLayout {
      */
     @inline
     deleteAt(index: u32): void {
-        this._map.set(
-            index,
-            new StorageEntry<V>(changetype<V>(0), EntryState.Cleared)
-        );
+        this._map.set(index, new StorageEntry<V>(changetype<V>(0), EntryState.Cleared));
     }
 
     pullSpread<K extends IKey>(key: K): void {

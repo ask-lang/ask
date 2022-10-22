@@ -1,1 +1,5 @@
-module.exports.tabWidth = 4;
+module.exports = {
+	printWidth: 100,
+	tabWidth: 4,
+	trailingComma: 'all'
+};

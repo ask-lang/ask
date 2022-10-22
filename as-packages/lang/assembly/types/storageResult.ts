@@ -13,6 +13,6 @@ export class StorageResult<T> {
         /**
          * The value read from env storage.
          */
-        public readonly value: T = instantiateRaw<T>()
+        public readonly value: T = instantiateRaw<T>(),
     ) {}
 }

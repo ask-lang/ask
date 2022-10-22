@@ -20,9 +20,7 @@ import { StorageResult } from "../types";
  * @param key
  * @returns
  */
-export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
-    key: K
-): T {
+export function pullPackedRoot<T extends PackedLayout, K extends IKey>(key: K): T {
     const value: T = env().getContractStorage<K, T>(key);
     pullPacked<T, K>(value, key);
     return value;
@@ -37,10 +35,7 @@ export function pullPackedRoot<T extends PackedLayout, K extends IKey>(
  * @param key
  * @returns
  */
-export function clearPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): T {
+export function clearPackedRoot<T extends PackedLayout, K extends IKey>(value: T, key: K): T {
     clearPacked(value, key);
     env().clearContractStroage<K>(key);
     return value;
@@ -62,7 +57,7 @@ export function clearPackedRoot<T extends PackedLayout, K extends IKey>(
  * @returns
  */
 export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
-    key: K
+    key: K,
 ): StorageResult<T> {
     const value = env().getContractStorageResult<K, T>(key);
     if (value.code == ReturnCode.Success) {
@@ -86,10 +81,7 @@ export function pullPackedRootResult<T extends PackedLayout, K extends IKey>(
  * @param value
  * @param key
  */
-export function pushPackedRoot<T extends PackedLayout, K extends IKey>(
-    value: T,
-    key: K
-): void {
+export function pushPackedRoot<T extends PackedLayout, K extends IKey>(value: T, key: K): void {
     pushPacked<T, K>(value, key);
     // @ts-ignore
     env().setContractStorage<K, T>(key, value);
@@ -97,6 +89,7 @@ export function pushPackedRoot<T extends PackedLayout, K extends IKey>(
 
 // TODO: maybe we don't need to call recursively for packedLayout.
 // Note: it's recursive by calling `value.pullPacked(key)`.
+// prettier-ignore
 export function pullPacked<T, K extends IKey>(value: T, key: K): void {
     let dummy: T;
     if (!isReference<T>()) {
@@ -168,6 +161,7 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
 
 // TODO: maybe we don't need to call recursively for packedLayout.
 // Note: it's recursive by calling `value.pushPacked(key)`.
+// prettier-ignore
 export function pushPacked<T, K extends IKey>(value: T, key: K): void {
     if (!isReference<T>()) {
         return;
@@ -250,6 +244,7 @@ export function pushPacked<T, K extends IKey>(value: T, key: K): void {
 
 // TODO: maybe we don't need to call recursively for packedLayout.
 // Note: it's recursive by calling `value.pullPacked(key)`.
+// prettier-ignore
 export function clearPacked<T, K extends IKey>(value: T, key: K): void {
     if (!isReference<T>()) {
         return;

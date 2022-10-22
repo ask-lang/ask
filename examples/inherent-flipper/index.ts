@@ -3,7 +3,6 @@ import { env, Pack } from "ask-lang";
 import { FlipEvent, Flipper } from "../flipper/storage";
 import { Contract } from "../flipper";
 
-
 // Two flag flipper
 @contract
 export class Contract2 extends Contract {

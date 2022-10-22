@@ -14,7 +14,7 @@ export class StaticBuffer {
 
     /**
      * The four bytes for storing `size` value.
-     * 
+     *
      * When be reset, it means the buffer size.
      * When be set by host function, it means the used buffer size.
      */

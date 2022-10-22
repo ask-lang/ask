@@ -19,11 +19,7 @@ import {
     ConstructorDeclaration,
     hexToArrayString,
 } from "../ast";
-import {
-    extractDecorator,
-    extractConfigFromDecorator,
-    mustBeVoidReturn,
-} from "../util";
+import { extractDecorator, extractConfigFromDecorator, mustBeVoidReturn } from "../util";
 import { AskConfig } from "../config";
 import { mustBePublicMethod, mustBeNonStaticMethod } from "../util";
 import {
@@ -49,10 +45,7 @@ export class ContractVisitor extends TransformVisitor {
     private hasBase = false;
     private contractName: string | null = null;
 
-    constructor(
-        public readonly emitter: DiagnosticEmitter,
-        public readonly config: AskConfig
-    ) {
+    constructor(public readonly emitter: DiagnosticEmitter, public readonly config: AskConfig) {
         super();
     }
 
@@ -66,14 +59,14 @@ export class ContractVisitor extends TransformVisitor {
             this.emitter.error(
                 DiagnosticCode.User_defined_0,
                 node.range,
-                "Ask-lang: `@contract` class requires at least one constructor"
+                "Ask-lang: `@contract` class requires at least one constructor",
             );
         }
         if (!this.hasBase && this.messageDecls.length === 0) {
             this.emitter.error(
                 DiagnosticCode.User_defined_0,
                 node.range,
-                "Ask-lang: `@contract` class requires at least one message"
+                "Ask-lang: `@contract` class requires at least one message",
             );
         }
 
@@ -104,22 +97,14 @@ export class ContractVisitor extends TransformVisitor {
         }
 
         {
-            let dec = extractDecorator(
-                this.emitter,
-                node,
-                ContractDecoratorKind.Constructor
-            );
+            let dec = extractDecorator(this.emitter, node, ContractDecoratorKind.Constructor);
             if (dec != null) {
                 return this.visisConstructorDeclaration(node, dec);
             }
         }
 
         {
-            let dec = extractDecorator(
-                this.emitter,
-                node,
-                ContractDecoratorKind.Message
-            );
+            let dec = extractDecorator(this.emitter, node, ContractDecoratorKind.Message);
             if (dec != null) {
                 return this.visisMessageDeclaration(node, dec);
             }
@@ -130,17 +115,13 @@ export class ContractVisitor extends TransformVisitor {
 
     private visisConstructorDeclaration(
         node: MethodDeclaration,
-        decorator: DecoratorNode
+        decorator: DecoratorNode,
     ): MethodDeclaration {
         if (!this.mustBeLegalConstructor(node)) {
             return node;
         }
         const cfg = extractConfigFromDecorator(this.emitter, decorator);
-        const constructorDecl = ConstructorDeclaration.extractFrom(
-            this.emitter,
-            node,
-            cfg
-        );
+        const constructorDecl = ConstructorDeclaration.extractFrom(this.emitter, node, cfg);
 
         this.constructorDecls.push(constructorDecl);
         return node;
@@ -148,7 +129,7 @@ export class ContractVisitor extends TransformVisitor {
 
     private visisMessageDeclaration(
         node: MethodDeclaration,
-        decorator: DecoratorNode
+        decorator: DecoratorNode,
     ): MethodDeclaration {
         if (!this.mustBeLegalMessage(node)) {
             return node;
@@ -191,19 +172,13 @@ class __Foo {
         assert(exprStmt.kind === NodeKind.CLASS);
         const clz = (exprStmt as ClassExpression).declaration;
         return clz.members.map((decl) => {
-            assert(
-                decl.kind === NodeKind.FIELDDECLARATION,
-                `${decl.name.range} is invalid`
-            );
+            assert(decl.kind === NodeKind.FIELDDECLARATION, `${decl.name.range} is invalid`);
             return decl as FieldDeclaration;
         });
     }
 
     private genContract(node: ClassDeclaration): MethodDeclaration[] {
-        return [
-            this.genDeploy(node, this.constructorDecls),
-            this.genCall(node, this.messageDecls),
-        ];
+        return [this.genDeploy(node, this.constructorDecls), this.genCall(node, this.messageDecls)];
     }
 
     private genCallSelector(_range: Range, decl: MessageDeclaration): string {
@@ -211,15 +186,11 @@ class __Foo {
         const paramsTypeName = decl.paramsTypeName();
         const methodParams = [];
         for (let i = 0; i < paramsTypeName.length; i++) {
-            paramStmts.push(
-                `const p${i} = ${MESSAGE}.getArg<${paramsTypeName[i]}>();`
-            );
+            paramStmts.push(`const p${i} = ${MESSAGE}.getArg<${paramsTypeName[i]}>();`);
             methodParams.push(`p${i}`);
         }
 
-        let selectorCall = `this.${decl.methodName}(${methodParams.join(
-            ", "
-        )});`;
+        let selectorCall = `this.${decl.methodName}(${methodParams.join(", ")});`;
 
         let returnValue = "";
         if (decl.returnTypeName() != "void") {
@@ -241,17 +212,12 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
 }`;
     }
 
-    private genDeploySelector(
-        _range: Range,
-        decl: ConstructorDeclaration
-    ): string {
+    private genDeploySelector(_range: Range, decl: ConstructorDeclaration): string {
         const paramStmts = [];
         const paramsTypeName = decl.paramsTypeName();
         const methodParams = [];
         for (let i = 0; i < paramsTypeName.length; i++) {
-            paramStmts.push(
-                `const p${i} = ${MESSAGE}.getArg<${paramsTypeName[i]}>();`
-            );
+            paramStmts.push(`const p${i} = ${MESSAGE}.getArg<${paramsTypeName[i]}>();`);
             methodParams.push(`p${i}`);
         }
         return `
@@ -263,11 +229,9 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
 
     private genDeploy(
         clz: ClassDeclaration,
-        constructors: ConstructorDeclaration[]
+        constructors: ConstructorDeclaration[],
     ): MethodDeclaration {
-        const selectors = constructors.map((decl) =>
-            this.genDeploySelector(clz.range, decl)
-        );
+        const selectors = constructors.map((decl) => this.genDeploySelector(clz.range, decl));
         const pushSpread = `${LANG_LIB}.pushSpreadRoot(this, ${LANG_LIB}.Key.zero());`;
         const normalReturn = `return 0;`;
 
@@ -288,13 +252,8 @@ deploy<__M extends ${IMESSAGE_TYPE_PATH}>(message: __M): i32 {
         return methodNode as MethodDeclaration;
     }
 
-    private genCall(
-        clz: ClassDeclaration,
-        messages: MessageDeclaration[]
-    ): FunctionDeclaration {
-        const selectors = messages.map((decl) =>
-            this.genCallSelector(clz.range, decl)
-        );
+    private genCall(clz: ClassDeclaration, messages: MessageDeclaration[]): FunctionDeclaration {
+        const selectors = messages.map((decl) => this.genCallSelector(clz.range, decl));
         const stmts = [];
         stmts.push(...selectors);
 
@@ -319,11 +278,7 @@ call<__M extends ${IMESSAGE_TYPE_PATH}>(message: __M): i32 {
     // TODO: make sure the design
     private mustBeLegalConstructor(node: MethodDeclaration): boolean {
         return (
-            mustBeNonStaticMethod(
-                this.emitter,
-                node,
-                ContractDecoratorKind.Constructor
-            ) &&
+            mustBeNonStaticMethod(this.emitter, node, ContractDecoratorKind.Constructor) &&
             mustBePublicMethod(this.emitter, node) &&
             mustBeVoidReturn(this.emitter, node) &&
             true
@@ -331,13 +286,7 @@ call<__M extends ${IMESSAGE_TYPE_PATH}>(message: __M): i32 {
     }
 
     private mustBeLegalMessage(node: MethodDeclaration): boolean {
-        return (
-            mustBeNonStaticMethod(
-                this.emitter,
-                node,
-                ContractDecoratorKind.Message
-            ) && true
-        );
+        return mustBeNonStaticMethod(this.emitter, node, ContractDecoratorKind.Message) && true;
     }
 
     static createDeployAbi(contract: ClassDeclaration): FunctionDeclaration {
@@ -348,10 +297,7 @@ export function deploy(): i32 {
     return contract.deploy(message);
 }`;
         const stmt = SimpleParser.parseTopLevelStatement(template);
-        assert(
-            stmt.kind === NodeKind.FUNCTIONDECLARATION,
-            "deploy is not function declaration"
-        );
+        assert(stmt.kind === NodeKind.FUNCTIONDECLARATION, "deploy is not function declaration");
         const func = stmt as FunctionDeclaration;
         return func;
     }
@@ -364,10 +310,7 @@ export function call(): i32 {
     return contract.call(message);
 }`;
         const stmt = SimpleParser.parseTopLevelStatement(template);
-        assert(
-            stmt.kind === NodeKind.FUNCTIONDECLARATION,
-            "call is not function declaration"
-        );
+        assert(stmt.kind === NodeKind.FUNCTIONDECLARATION, "call is not function declaration");
         const func = stmt as FunctionDeclaration;
         return func;
     }

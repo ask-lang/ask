@@ -23,7 +23,7 @@ import { removeExported } from "../util";
 export class ExportEraser extends TransformVisitor {
     constructor(
         public readonly emitter: DiagnosticEmitter,
-        public readonly whitelist: Set<{ flags: CommonFlags }> = new Set()
+        public readonly whitelist: Set<{ flags: CommonFlags }> = new Set(),
     ) {
         super();
     }
@@ -52,26 +52,19 @@ export class ExportEraser extends TransformVisitor {
         return this.removeExportFlag(node);
     }
 
-    visitEnumDeclaration(
-        node: EnumDeclaration,
-        _isDefault?: boolean
-    ): EnumDeclaration {
+    visitEnumDeclaration(node: EnumDeclaration, _isDefault?: boolean): EnumDeclaration {
         return this.removeExportFlag(node);
     }
 
-    visitInterfaceDeclaration(
-        node: InterfaceDeclaration
-    ): InterfaceDeclaration {
+    visitInterfaceDeclaration(node: InterfaceDeclaration): InterfaceDeclaration {
         return this.removeExportFlag(node);
     }
 
-    visitExportDefaultStatement(
-        node: ExportDefaultStatement
-    ): ExportDefaultStatement {
+    visitExportDefaultStatement(node: ExportDefaultStatement): ExportDefaultStatement {
         this.emitter.error(
             DiagnosticCode.User_defined_0,
             node.range,
-            `The entrypoint contract cannot use 'export default' syntax`
+            `The entrypoint contract cannot use 'export default' syntax`,
         );
         return node;
     }
@@ -80,7 +73,7 @@ export class ExportEraser extends TransformVisitor {
         this.emitter.error(
             DiagnosticCode.User_defined_0,
             node.range,
-            `The entrypoint contract cannot use 'export from' syntax`
+            `The entrypoint contract cannot use 'export from' syntax`,
         );
         return node;
     }

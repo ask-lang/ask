@@ -19,7 +19,7 @@ export class Lazy<T> implements SpreadLayout {
         /**
          * A cache for reading only once.
          */
-        protected _cache: StorageEntry<T> | null = null
+        protected _cache: StorageEntry<T> | null = null,
     ) {}
 
     /**

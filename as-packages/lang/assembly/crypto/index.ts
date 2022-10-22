@@ -3,15 +3,15 @@ import { FixedArray } from "../fixedArrays";
 import { IHash128, IHash256 } from "../interfaces";
 
 // @ts-ignore
+// prettier-ignore
 @lazy
-    const ERR_INPUT_TYPE =
-    "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
+    const ERR_INPUT_TYPE = "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
 
 function invoke_hash<Output = Array<u8>>(
     inputPtr: usize,
     inputSize: i32,
     outputSize: i32,
-    fn: (inputPtr: u32, inputSize: u32, outputPtr: u32) => void
+    fn: (inputPtr: u32, inputSize: u32, outputPtr: u32) => void,
 ): Output {
     let output: Output;
     let outputPtr: u32;
@@ -38,7 +38,7 @@ function invoke_hash<Output = Array<u8>>(
         changetype<u32>(inputPtr),
         changetype<u32>(inputSize),
         // @ts-ignore
-        outputPtr
+        outputPtr,
     );
 
     // @ts-ignore
@@ -52,7 +52,7 @@ function invoke_hash<Output = Array<u8>>(
  */
 export function sha2x256<
     Input extends ArrayLike<u8> = Array<u8>,
-    Output extends ArrayLike<u8> = Array<u8>
+    Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
     return cryptoHash<Input, Output>(input, seal0.seal_hash_sha2_256);
 }
@@ -64,7 +64,7 @@ export function sha2x256<
  */
 export function keccak256<
     Input extends ArrayLike<u8> = Array<u8>,
-    Output extends ArrayLike<u8> = Array<u8>
+    Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
     return cryptoHash<Input, Output>(input, seal0.seal_hash_keccak_256);
 }
@@ -76,7 +76,7 @@ export function keccak256<
  */
 export function blake2x256<
     Input extends ArrayLike<u8> = Array<u8>,
-    Output extends ArrayLike<u8> = Array<u8>
+    Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
     return cryptoHash<Input, Output>(input, seal0.seal_hash_blake2_256);
 }
@@ -88,18 +88,19 @@ export function blake2x256<
  */
 export function blake2x128<
     Input extends ArrayLike<u8> = Array<u8>,
-    Output extends ArrayLike<u8> = Array<u8>
+    Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
     return cryptoHash<Input, Output>(input, seal0.seal_hash_blake2_128, 16);
 }
 
+// prettier-ignore
 function cryptoHash<
     Input extends ArrayLike<u8> = Array<u8>,
-    Output extends ArrayLike<u8> = Array<u8>
+    Output extends ArrayLike<u8> = Array<u8>,
 >(
     input: Input,
     hash: (inputPtr: u32, inputSize: u32, outputPtr: u32) => void,
-    outputSize: u32 = 32
+    outputSize: u32 = 32,
     // @ts-ignore
 ): Output {
     if (input instanceof FixedArray) {
@@ -107,22 +108,21 @@ function cryptoHash<
             changetype<u32>(input.unwrap()),
             input.length,
             outputSize,
-            hash
+            hash,
         );
     } else if (input instanceof Array) {
         return invoke_hash<Output>(
             changetype<u32>(input.dataStart),
             input.length,
             outputSize,
-            hash
+            hash,
         );
     } else if (input instanceof StaticArray) {
         return invoke_hash<Output>(
             changetype<u32>(input),
-            // @ts-ignore
             input.length,
             outputSize,
-            hash
+            hash,
         );
     } else {
         assert(false, ERR_INPUT_TYPE);
@@ -135,9 +135,10 @@ function cryptoHash<
 export class HashKeccak256 implements IHash256 {
     length: u32 = 32;
 
+    // prettier-ignore
     hash<
         Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
+        Output extends ArrayLike<u8> = Array<u8>,
     >(input: Input): Output {
         return keccak256<Input, Output>(input);
     }
@@ -149,9 +150,10 @@ export class HashKeccak256 implements IHash256 {
 export class HashSha2x256 implements IHash256 {
     length: u32 = 32;
 
+    // prettier-ignore
     hash<
         Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
+        Output extends ArrayLike<u8> = Array<u8>,
     >(input: Input): Output {
         return sha2x256<Input, Output>(input);
     }
@@ -163,9 +165,10 @@ export class HashSha2x256 implements IHash256 {
 export class HashBlake2x256 implements IHash256 {
     length: u32 = 32;
 
+    // prettier-ignore
     hash<
         Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
+        Output extends ArrayLike<u8> = Array<u8>,
     >(input: Input): Output {
         return blake2x256<Input, Output>(input);
     }
@@ -177,9 +180,10 @@ export class HashBlake2x256 implements IHash256 {
 export class HashBlake2x128 implements IHash128 {
     length: u32 = 16;
 
+    // prettier-ignore
     hash<
         Input extends ArrayLike<u8> = Array<u8>,
-        Output extends ArrayLike<u8> = Array<u8>
+        Output extends ArrayLike<u8> = Array<u8>,
     >(input: Input): Output {
         return blake2x128<Input, Output>(input);
     }
