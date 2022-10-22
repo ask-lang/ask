@@ -17,7 +17,7 @@
 There is a simple [template](https://github.com/ask-lang/ask-template) for creating an Ask! contract project.
 
 ```bash
-git clone https://github.com/ask-lang/ask-template
+git clone https://github.com/ask-lang/ask-template.git
 cd ask-template
 
 # Instale dependencies and Build the template contract
