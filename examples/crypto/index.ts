@@ -8,7 +8,7 @@ import {
     blake2x128,
     keccak256,
     sha2x256,
-    Hash
+    Hash,
 } from "ask-lang";
 
 @contract

@@ -74,7 +74,7 @@ export class AskTransform extends TransformVisitor {
                 env = env ? env : defaultCfg.env;
                 event = event ? event : defaultCfg.event;
 
-                if(metadataContract == null) {
+                if (metadataContract == null) {
                     metadataContract = defaultCfg.metadataContract;
                 }
                 this.config = {
@@ -266,12 +266,16 @@ export class AskTransform extends TransformVisitor {
         const metadata = generator.generate();
         log(metadata);
 
-        const target = path.join(this.cfgPath, "..", this.config.metadataTargetPath);
+        const target = path.join(
+            this.cfgPath,
+            "..",
+            this.config.metadataTargetPath
+        );
         const targetDir = path.dirname(target);
-        
+
         try {
             if (!fs.existsSync(targetDir)) {
-                fs.mkdirSync(targetDir, {recursive: true});
+                fs.mkdirSync(targetDir, { recursive: true });
             }
 
             fs.writeFileSync(

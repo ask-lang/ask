@@ -8,8 +8,9 @@ import {
 import { Deserializer, Serializer, ISerialize, IDeserialize } from "as-serde";
 
 export class Pack<T>
-implements PackedLayout, SpreadLayout, ISerialize, IDeserialize {
-    constructor(public inner: T = instantiate<T>()) { }
+    implements PackedLayout, SpreadLayout, ISerialize, IDeserialize
+{
+    constructor(public inner: T = instantiate<T>()) {}
 
     @inline
     unwrap(): T {

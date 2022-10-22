@@ -7,7 +7,7 @@ import { env } from "../env";
 /**
  * A lazy map whose key is based on u32.
  * It will cache the operations result of key/value internally.
- * 
+ *
  * Note: The V type must be PackedLayout.
  */
 export class LazyIndexMap<V> implements SpreadLayout {

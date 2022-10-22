@@ -23,7 +23,7 @@ export interface ISource {
     readonly compiler: string;
 }
 
-export type ITypeWithIdDef = {id: number, type: ITypeDef};
+export type ITypeWithIdDef = { id: number; type: ITypeDef };
 
 export type ITypeDef =
     | IPrimitiveDef
@@ -38,7 +38,12 @@ interface Def<T> {
     readonly path: null | Array<string>;
 }
 
-export type ILayout = IStructLayout | ICellLayout | IHashLayout | IArrayLayout | null;
+export type ILayout =
+    | IStructLayout
+    | ICellLayout
+    | IHashLayout
+    | IArrayLayout
+    | null;
 
 export type IStructLayout = {
     readonly struct: {

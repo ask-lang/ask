@@ -35,15 +35,15 @@ export class ContractMetadata implements ToMetadata {
     constructor(
         private readonly spec: ContractSpec,
         private readonly types: Array<TypeWithId>,
-        private readonly storage: Layout | null,
+        private readonly storage: Layout | null
     ) {}
 
     toMetadata(): IContractMetadata {
         return {
             spec: this.spec.toMetadata(),
-            types: this.types.map((t) =>  {
+            types: this.types.map((t) => {
                 return {
-                    id: t.id, 
+                    id: t.id,
                     type: t.type.toMetadata(),
                 };
             }),
