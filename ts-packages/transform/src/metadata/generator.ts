@@ -11,12 +11,12 @@ import {
     NodeKind,
     FieldDeclaration,
     Function,
-    Field,
+    // TODO:
+    // Field,
     Class,
     ClassDeclaration,
     DiagnosticCode,
-} from "assemblyscript";
-import { version } from "visitor-as/as";
+} from "assemblyscript/dist/assemblyscript.js";
 import {
     ArgumentSpec,
     ContractMetadata,
@@ -56,7 +56,7 @@ import { uniqBy } from "lodash";
 import { ArrayTypeInfo } from "./typeInfo";
 
 export const LANGUAGE = `Ask! ${ASK_VERSION}`;
-export const COMPILER = `asc ${version}`;
+export const COMPILER = `asc-0.24`;
 
 const log = debug("MetadataGenerator");
 
@@ -255,7 +255,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
+            assert(func.prototype.declaration.kind == NodeKind.MethodDeclaration);
             const msgDecl = MessageDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -299,7 +299,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
+            assert(func.prototype.declaration.kind == NodeKind.MethodDeclaration);
             const decl = ConstructorDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -348,7 +348,7 @@ export class MetadataGenerator {
         // we need to keep args in order.
         log(eventDecl.members.map((member) => member.name.text));
         eventDecl.members.forEach((member) => {
-            if (member.kind != NodeKind.FIELDDECLARATION) {
+            if (member.kind != NodeKind.FieldDeclaration) {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -404,7 +404,7 @@ export class MetadataGenerator {
 export function isEntrypointContract(elem: Element): boolean {
     const prototype = <ClassPrototype>elem;
     return (
-        prototype.declaration.range.source.sourceKind == SourceKind.USER_ENTRY && isContract(elem)
+        prototype.declaration.range.source.sourceKind == SourceKind.UserEntry && isContract(elem)
     );
 }
 
@@ -425,7 +425,7 @@ export function isEvent(elem: Element): boolean {
 }
 
 function isClass(elem: Element, kind: ContractDecoratorKind): boolean {
-    if (elem.kind == ElementKind.CLASS_PROTOTYPE) {
+    if (elem.kind == ElementKind.ClassPrototype) {
         const prototype = <ClassPrototype>elem;
         return hasDecorator(prototype.declaration.decorators, kind);
     }
@@ -433,7 +433,7 @@ function isClass(elem: Element, kind: ContractDecoratorKind): boolean {
 }
 
 function isMethod(elem: Element, kind: ContractDecoratorKind): boolean {
-    if (elem.kind == ElementKind.FUNCTION_PROTOTYPE) {
+    if (elem.kind == ElementKind.FunctionPrototype) {
         const prototype = <FunctionPrototype>elem;
         return hasDecorator(prototype.declaration.decorators, kind);
     }

@@ -91,10 +91,10 @@
     diff "^5.0.0"
     nearley "^2.20.1"
 
-"@assemblyscript/loader@^0.20":
-  version "0.20.18"
-  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.20.18.tgz#81a95751dc2d57eff5924280666a38d32507c158"
-  integrity sha512-tv3AOrsD+xhWXa2N6tImfDGZgnW/YqtUaMo2Ks/UajI10eBxIYWft6rGBDdrvPILb2JVb4dISLW04x3ujplkSg==
+"@assemblyscript/loader@^0.24":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.24.0.tgz#5bd6886514852c8356a28c4cb1e7b8f614a1c69c"
+  integrity sha512-IMDuChltU2uiCPZP3JT701tEz3wAJ5obfjyw5DFQw94D7KziGiooBnCc+Bkyyox9AmzitqwGqsZnWEGt49GQ8A==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
@@ -2098,6 +2098,14 @@ assemblyscript@^0.19:
     long "^5.2.0"
     source-map-support "^0.5.20"
 
+assemblyscript@^0.24:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.24.0.tgz#7f8a49730f3daa8594f78b110836dc3f0f82515b"
+  integrity sha512-hSJg2z2nGCRdrw6KzG75oK+7TI+EFJ539PFcM6P2jY0GfwllgbmCarCm3PtkRBMMTFWUU0MWzIEVc/b5L6wIgw==
+  dependencies:
+    binaryen "110.0.0-nightly.20221105"
+    long "^5.2.0"
+
 assert-plus@1.0.0, assert-plus@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525"
@@ -2210,6 +2218,11 @@ binaryen@102.0.0-nightly.20211028:
   version "102.0.0-nightly.20211028"
   resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-102.0.0-nightly.20211028.tgz#8f1efb0920afd34509e342e37f84313ec936afb2"
   integrity sha512-GCJBVB5exbxzzvyt8MGDv/MeUjs6gkXDvf4xOIItRBptYl0Tz5sm1o/uG95YK0L0VeG5ajDu3hRtkBP2kzqC5w==
+
+binaryen@110.0.0-nightly.20221105:
+  version "110.0.0-nightly.20221105"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-110.0.0-nightly.20221105.tgz#9e3c47e8ffa31521acd125013dca3ceea143d0bf"
+  integrity sha512-OBESOc51q3SwgG8Uv8nMzGnSq7LJpSB/Fu8B3AjlZg6YtCEwRnlDWlnwNB6mdql+VdexfKmNcsrs4K7MYidmdQ==
 
 blakejs@^1.1.0:
   version "1.2.1"
@@ -6684,6 +6697,11 @@ ts-mixer@^5.4.1:
   resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-5.4.1.tgz#b90db9ced48531aa17ce9184a2890d1e3c99b1e5"
   integrity sha512-Zo9HgPCtNouDgJ+LGtrzVOjSg8+7WGQktIKLwAfaNrlOK1mWGlz1ejsAF/YqUEqAGjUTeB5fEg8gH9Aui6w9xA==
 
+ts-mixer@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-6.0.2.tgz#3e4e4bb8daffb24435f6980b15204cb5b287e016"
+  integrity sha512-zvHx3VM83m2WYCE8XL99uaM7mFwYSkjR2OZti98fabHrwkjsCvgwChda5xctein3xGOyaQhtTeDq/1H/GNvF3A==
+
 ts-node@^10, ts-node@^10.7:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
@@ -6913,6 +6931,14 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+visitor-as@0.11:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.11.3.tgz#93c0afcb4ca1564ad58ccebb06c868d4ee11cc13"
+  integrity sha512-5dUn/URe/Ky2gPBFj+a5teKcGgWoOfpNiJ0ApGWBbrGWVZC/Nf8ATuCeeEGqMNFfzqhmqe6e68/dSHYiSYTDJw==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+    ts-mixer "^6.0.2"
 
 visitor-as@0.8:
   version "0.8.0"

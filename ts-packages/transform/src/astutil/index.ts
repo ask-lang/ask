@@ -14,7 +14,7 @@ import {
     Range,
     Statement,
     TypeName,
-} from "assemblyscript";
+} from "assemblyscript/dist/assemblyscript.js";
 import { SimpleParser } from "visitor-as/dist";
 import { hasDecorator } from "../util";
 
@@ -77,7 +77,7 @@ export function addSerializeDecorator(decl: {
         // we can reduce code size by this conifg.
         const cfg = `{omitName: true}`;
         let expr = SimpleParser.parseExpression(cfg);
-        assert(expr.kind == NodeKind.LITERAL);
+        assert(expr.kind == NodeKind.Literal);
         addDecorator(decl, genDecorator(decl.range, decName, [expr]));
     }
 }
@@ -96,7 +96,7 @@ export function addDeserializeDecorator(decl: {
         // we can reduce code size by this conifg.
         const cfg = `{omitName: true}`;
         let expr = SimpleParser.parseExpression(cfg);
-        assert(expr.kind == NodeKind.LITERAL);
+        assert(expr.kind == NodeKind.Literal);
         addDecorator(decl, genDecorator(decl.range, decName, [expr]));
     }
 }
@@ -149,7 +149,7 @@ export function genNamespcae(
     members: Statement[],
 ): NamespaceDeclaration {
     const name = Node.createIdentifierExpression(namepsace, range);
-    return Node.createNamespaceDeclaration(name, null, CommonFlags.EXPORT, members, range);
+    return Node.createNamespaceDeclaration(name, null, CommonFlags.Export, members, range);
 }
 
 /**

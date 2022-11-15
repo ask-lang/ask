@@ -7,7 +7,7 @@ import {
     DiagnosticCode,
     NodeKind,
     CommonFlags,
-} from "assemblyscript";
+} from "assemblyscript/dist/assemblyscript.js";
 import { EventDeclaration } from "../ast";
 import { EventConfig } from "../config";
 import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil";
@@ -72,7 +72,7 @@ export class EventVisitor extends TransformVisitor {
 
     visitFieldDeclaration(node: FieldDeclaration): FieldDeclaration {
         // ignore static fields
-        if (node.is(CommonFlags.STATIC)) {
+        if (node.is(CommonFlags.Static)) {
             return node;
         }
         this.visitNonTopicField(node);
@@ -134,7 +134,7 @@ export class EventVisitor extends TransformVisitor {
         // TODO: use u8 for compatible with ink!
         const methodDecl = `${METHOD_EVENT_ID}(): u32 { return ${this.eventId}; }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 }

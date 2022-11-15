@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/blake2": "^4.0.1",
     "@types/node": "18.11.9",
-    "assemblyscript": "^0.19",
+    "assemblyscript": "^0.24",
     "ts-node": "^10",
     "typescript": "^4.6"
   },

@@ -27,7 +27,7 @@ import {
     Program,
     Module,
     DiagnosticCode,
-} from "assemblyscript";
+} from "assemblyscript/dist/assemblyscript.js";
 import { MetadataGenerator } from "../metadata/generator";
 
 const log = debug("AskTransform");

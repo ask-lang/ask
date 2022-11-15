@@ -11,7 +11,7 @@ import {
     InterfaceDeclaration,
     TypeDeclaration,
     VariableDeclaration,
-} from "assemblyscript";
+} from "assemblyscript/dist/assemblyscript.js";
 import { removeExported } from "../util";
 
 /**

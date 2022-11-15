@@ -1,5 +1,9 @@
 import * as metadata from "ask-contract-metadata";
-import { Field, Type } from "visitor-as/as";
+import {
+    // TODO:
+    // Field, 
+    Type,
+} from "assemblyscript/dist/assemblyscript.js";
 
 /**
  * TypeInfo contains some type infos needed for metadata types

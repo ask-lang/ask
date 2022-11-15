@@ -23,16 +23,16 @@
     "test": "yarn build && jest ."
   },
   "peerDependencies": {
-    "assemblyscript": "^0.19",
-    "visitor-as": "0.8"
+    "assemblyscript": "^0.24",
+    "visitor-as": "0.11"
   },
   "dependencies": {
-    "assemblyscript": "^0.19",
+    "assemblyscript": "^0.24",
     "blakejs": "^1.1.0",
     "ask-contract-metadata": "0.4.0-rc3",
     "debug": "^4.3",
     "lodash": "4.17",
-    "visitor-as": "0.8"
+    "visitor-as": "0.11"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",

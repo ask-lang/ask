@@ -1,3 +1,5 @@
+
+import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
     FieldDeclaration,
@@ -11,8 +13,7 @@ import {
     ClassExpression,
     CommonFlags,
     ExpressionStatement,
-} from "assemblyscript";
-import { SimpleParser, TransformVisitor } from "visitor-as";
+} from "assemblyscript/dist/assemblyscript.js";
 import {
     ContractDecoratorKind,
     MessageDeclaration,
@@ -87,7 +88,7 @@ export class ContractVisitor extends TransformVisitor {
 
     visitMethodDeclaration(node: MethodDeclaration): MethodDeclaration {
         // ignore static methods
-        if (node.is(CommonFlags.STATIC)) {
+        if (node.is(CommonFlags.Static)) {
             return node;
         }
 
@@ -167,12 +168,12 @@ class __Foo {
 `;
 
         const epxr = SimpleParser.parseStatement(template, false);
-        assert(epxr.kind === NodeKind.EXPRESSION);
+        assert(epxr.kind === NodeKind.Expression);
         const exprStmt = (epxr as ExpressionStatement).expression;
-        assert(exprStmt.kind === NodeKind.CLASS);
+        assert(exprStmt.kind === NodeKind.Class);
         const clz = (exprStmt as ClassExpression).declaration;
         return clz.members.map((decl) => {
-            assert(decl.kind === NodeKind.FIELDDECLARATION, `${decl.name.range} is invalid`);
+            assert(decl.kind === NodeKind.FieldDeclaration, `${decl.name.range} is invalid`);
             return decl as FieldDeclaration;
         });
     }
@@ -248,7 +249,7 @@ deploy<__M extends ${IMESSAGE_TYPE_PATH}>(message: __M): i32 {
 `;
 
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -271,7 +272,7 @@ call<__M extends ${IMESSAGE_TYPE_PATH}>(message: __M): i32 {
 }
 `;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -297,7 +298,7 @@ export function deploy(): i32 {
     return contract.deploy(message);
 }`;
         const stmt = SimpleParser.parseTopLevelStatement(template);
-        assert(stmt.kind === NodeKind.FUNCTIONDECLARATION, "deploy is not function declaration");
+        assert(stmt.kind === NodeKind.FunctionDeclaration, "deploy is not function declaration");
         const func = stmt as FunctionDeclaration;
         return func;
     }
@@ -310,7 +311,7 @@ export function call(): i32 {
     return contract.call(message);
 }`;
         const stmt = SimpleParser.parseTopLevelStatement(template);
-        assert(stmt.kind === NodeKind.FUNCTIONDECLARATION, "call is not function declaration");
+        assert(stmt.kind === NodeKind.FunctionDeclaration, "call is not function declaration");
         const func = stmt as FunctionDeclaration;
         return func;
     }

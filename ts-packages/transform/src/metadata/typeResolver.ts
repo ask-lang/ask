@@ -12,7 +12,7 @@ import {
     Function,
     Program,
     CommonNames,
-} from "visitor-as/as";
+} from "assemblyscript/dist/assemblyscript.js";
 import { isMessage, isConstructor } from "./generator";
 import debug from "debug";
 import { PrimitiveType } from "ask-contract-metadata";
@@ -261,17 +261,17 @@ export class TypeResolver {
     private resovleCompositeField(type: Type): Field[] {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const clz: Class = type.getClass()!;
-        assert(clz.declaration.kind === NodeKind.CLASSDECLARATION);
+        assert(clz.declaration.kind === NodeKind.ClassDeclaration);
         const fields: Field[] = [];
         for (let curClass: Class | null = clz; curClass != null; curClass = curClass.base) {
             const decl = curClass.declaration as ClassDeclaration;
             for (let i = decl.members.length - 1; i >= 0; i--) {
                 let member = decl.members[i];
                 // we only need to know non-static field type
-                if (member.isAny(CommonFlags.STATIC)) {
+                if (member.isAny(CommonFlags.Static)) {
                     continue;
                 }
-                if (member.kind != NodeKind.FIELDDECLARATION) {
+                if (member.kind != NodeKind.FieldDeclaration) {
                     continue;
                 }
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -305,7 +305,7 @@ export class TypeResolver {
         );
 
         let instance: Class = getFirstValue(instances);
-        assert(instance.declaration.kind === NodeKind.CLASSDECLARATION);
+        assert(instance.declaration.kind === NodeKind.ClassDeclaration);
 
         log(instance.members?.keys());
         // TODO: do some filterings for contract inheritance

@@ -1,3 +1,4 @@
+import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
     FieldDeclaration,
@@ -5,8 +6,7 @@ import {
     MethodDeclaration,
     NodeKind,
     CommonFlags,
-} from "assemblyscript";
-import { SimpleParser, TransformVisitor } from "visitor-as";
+} from "assemblyscript/dist/assemblyscript.js";
 import { mustBeLegalStorageField } from "../util";
 
 import { addDeserializeDecorator, addImplement, addSerializeDecorator } from "../astutil";
@@ -42,7 +42,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
 
     visitFieldDeclaration(node: FieldDeclaration): FieldDeclaration {
         // ignore static fields
-        if (node.is(CommonFlags.STATIC)) {
+        if (node.is(CommonFlags.Static)) {
             return node;
         }
 
@@ -73,7 +73,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_PULL}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -92,7 +92,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_PUSH}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -111,7 +111,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_CLEAR}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 }
