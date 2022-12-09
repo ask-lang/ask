@@ -2,7 +2,7 @@
     "options": {
         "transform": ["as-serde-transform"],
         "importMemory": true,
-        "runtime": "stub",
+        "runtime": "none",
         "use": "abort=",
         "disable": ["Sign-extension"]
     }

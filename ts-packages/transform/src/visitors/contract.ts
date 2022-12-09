@@ -1,4 +1,3 @@
-
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,

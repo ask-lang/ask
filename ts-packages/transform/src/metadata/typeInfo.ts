@@ -1,7 +1,7 @@
 import * as metadata from "ask-contract-metadata";
 import {
     // TODO:
-    // Field, 
+    // Field,
     Type,
 } from "assemblyscript/dist/assemblyscript.js";
 
@@ -17,7 +17,7 @@ export abstract class TypeInfo {
 }
 
 export class CompositeTypeInfo extends TypeInfo {
-    constructor(type: Type | null, index: number, public readonly fields: Field[] | Type[]) {
+    constructor(type: Type | null, index: number, public readonly fields: Type[]) {
         super(type, index, metadata.TypeKind.Composite);
     }
 }

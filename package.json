@@ -34,7 +34,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@as-pect/cli": "^6.2",
+    "@as-pect/cli": "^8.0",
     "@assemblyscript/loader": "^0.24",
     "@types/jest": "27",
     "@types/node": "^18.0.0",
@@ -48,7 +48,7 @@
     "source-map-support": "^0.5.21",
     "ts-jest": "^27",
     "ts-node": "^10.7",
-    "typescript": "^4.6"
+    "typescript": "^4.8"
   },
   "publishConfig": {
     "access": "public"

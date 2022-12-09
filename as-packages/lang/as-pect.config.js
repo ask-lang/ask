@@ -14,7 +14,7 @@ module.exports = {
         /** To output a wat file, uncomment the following line. */
         // "--textFile": ["output.wat"],
         /** A runtime must be provided here. */
-        "--runtime": ["stub"], // Acceptable values are: full, half, stub (arena), and none
+        "--runtime": ["none"], // Acceptable values are: full, half, stub (arena), and none
         "--config": ["./asconfig-test.json"]
     },
     /**

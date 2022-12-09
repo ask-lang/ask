@@ -206,35 +206,35 @@ export class MetadataGenerator {
         const types = resolver.resolvedTypes();
         const fields: metadata.Field[] = info.fields.map((field) => {
             // field is named
-            if (field instanceof Field) {
-                const fieldDecl = field.prototype.declaration as FieldDeclaration;
-                const fieldTypeInfo = types.get(field.type);
-                assert(
-                    fieldTypeInfo != null,
-                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
-                );
-                const ret = new metadata.Field(
-                    fieldDecl.name.range.toString(),
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // we make sure all fields gived a type explicitly
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldDecl.type!.range.toString(),
-                );
-                return ret;
-            } else {
-                // type is unnamed
-                const fieldTypeInfo = types.get(field);
-                assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
-                const ret = new metadata.Field(
-                    null,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    field.toString(),
-                );
-                return ret;
-            }
+            // if (field instanceof Field) {
+            //     const fieldDecl = field.prototype.declaration as FieldDeclaration;
+            //     const fieldTypeInfo = types.get(field.type);
+            //     assert(
+            //         fieldTypeInfo != null,
+            //         `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
+            //     );
+            //     const ret = new metadata.Field(
+            //         fieldDecl.name.range.toString(),
+            //         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            //         fieldTypeInfo!.index,
+            //         // we make sure all fields gived a type explicitly
+            //         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            //         fieldDecl.type!.range.toString(),
+            //     );
+            //     return ret;
+            // } else {
+            // type is unnamed
+            const fieldTypeInfo = types.get(field);
+            assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
+            const ret = new metadata.Field(
+                null,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                fieldTypeInfo!.index,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                field.toString(),
+            );
+            return ret;
+            // }
         });
         let path = info.type ? info.type.toString() : "unknown";
         return new CompositeDef(fields).setPath([path]);
@@ -352,7 +352,7 @@ export class MetadataGenerator {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const field = event.members!.get(member.name.text)! as Field;
+            const field = event.members!.get(member.name.text)!;
             assert(field != null);
             const fieldDecl = field.declaration as FieldDeclaration;
             const indexed: boolean = extractDecorator(
@@ -363,8 +363,9 @@ export class MetadataGenerator {
                 ? true
                 : false;
 
+            let property = TypeResolver.getPropertyField(field);
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const typeInfo = types.get(field.type)!;
+            const typeInfo = types.get(property.type)!;
             const typeSpec = new TypeSpec(
                 typeInfo.index,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
