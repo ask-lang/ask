@@ -1,5 +1,4 @@
-import { ASTBuilder } from "visitor-as";
-import { FunctionDeclaration, newProgram, newOptions } from "assemblyscript";
+import { FunctionDeclaration, newProgram, newOptions, ASTBuilder } from "assemblyscript/dist/assemblyscript.js";
 import { ContractVisitor } from "../visitors";
 import { defaultConfig } from "../config";
 import { checkVisitor } from "./testutil";

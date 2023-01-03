@@ -13,7 +13,7 @@
         }
     },
     "options": {
-        "transform": ["ask-transform", "as-serde-transform"],
+        "transform": ["ask-transform/dist/index.js", "as-serde-transform"],
         "importMemory": true,
         "initialMemory": 2,
         "maximumMemory": 16,

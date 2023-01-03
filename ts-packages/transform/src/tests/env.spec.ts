@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { newOptions, newProgram } from "visitor-as/as";
+import { newOptions, newProgram } from "assemblyscript/dist/assemblyscript.js";
 import { EnvConfig, defaultEnvConfig } from "../config";
 import { EnvTypeVisitor } from "../visitors";
 import { checkVisitor } from "./testutil";

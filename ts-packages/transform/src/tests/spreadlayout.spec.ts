@@ -1,4 +1,4 @@
-import { newProgram, newOptions } from "assemblyscript";
+import { newProgram, newOptions } from "assemblyscript/dist/assemblyscript.js";
 import { defaultConfig } from "../config";
 import { SpreadLayoutVisitor } from "../visitors";
 import { checkVisitor } from "./testutil";

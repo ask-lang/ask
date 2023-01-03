@@ -2,10 +2,11 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "sourceMap": true,
     "outDir": "./build",
     "strict": true,
+    "allowJs": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true

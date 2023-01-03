@@ -1,4 +1,4 @@
-import { newProgram, newOptions } from "assemblyscript";
+import { newProgram, newOptions } from "assemblyscript/dist/assemblyscript.js";
 import { defaultEventConfig } from "../config";
 import { EventVisitor } from "../visitors";
 import { checkVisitor } from "./testutil";

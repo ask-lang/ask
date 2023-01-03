@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { TransformVisitor } from "visitor-as";
+import { TransformVisitor } from "visitor-as/dist";
 import {
     DiagnosticCode,
     DiagnosticEmitter,

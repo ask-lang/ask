@@ -1,5 +1,5 @@
-import { TransformVisitor, ASTBuilder } from "visitor-as";
-import { Parser, Node, DiagnosticEmitter } from "assemblyscript";
+import { TransformVisitor } from "visitor-as";
+import { Parser, Node, DiagnosticEmitter, ASTBuilder } from "assemblyscript/dist/assemblyscript";
 import { hasWarningMessage, hasErrorMessage } from "../diagnostic";
 
 export function checkVisitor<Visitor extends TransformVisitor & { emitter: DiagnosticEmitter }>(

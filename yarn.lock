@@ -6823,7 +6823,7 @@ ts-mixer@^6.0.2:
   resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-6.0.2.tgz#3e4e4bb8daffb24435f6980b15204cb5b287e016"
   integrity sha512-zvHx3VM83m2WYCE8XL99uaM7mFwYSkjR2OZti98fabHrwkjsCvgwChda5xctein3xGOyaQhtTeDq/1H/GNvF3A==
 
-ts-node@^10, ts-node@^10.7:
+ts-node@^10, ts-node@^10.7, ts-node@^10.9:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
@@ -7053,14 +7053,6 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-visitor-as@0.11, visitor-as@^0.11.3:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.11.3.tgz#93c0afcb4ca1564ad58ccebb06c868d4ee11cc13"
-  integrity sha512-5dUn/URe/Ky2gPBFj+a5teKcGgWoOfpNiJ0ApGWBbrGWVZC/Nf8ATuCeeEGqMNFfzqhmqe6e68/dSHYiSYTDJw==
-  dependencies:
-    lodash.clonedeep "^4.5.0"
-    ts-mixer "^6.0.2"
-
 visitor-as@0.8:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.8.0.tgz#5451ce2bb25f4c787d7f74857b4c839e48a157ee"
@@ -7068,6 +7060,14 @@ visitor-as@0.8:
   dependencies:
     lodash.clonedeep "^4.5.0"
     ts-mixer "^5.4.1"
+
+visitor-as@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.11.3.tgz#93c0afcb4ca1564ad58ccebb06c868d4ee11cc13"
+  integrity sha512-5dUn/URe/Ky2gPBFj+a5teKcGgWoOfpNiJ0ApGWBbrGWVZC/Nf8ATuCeeEGqMNFfzqhmqe6e68/dSHYiSYTDJw==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+    ts-mixer "^6.0.2"
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

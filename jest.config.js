@@ -1,6 +1,7 @@
-module.exports = {
-    preset: "ts-jest",
+export default {
+    preset: "ts-jest/presets/js-with-ts",
     testEnvironment: "node",
     // we ignore as code test files
-    testPathIgnorePatterns: ["/as-packages/", "/node_modules/"],
+    testPathIgnorePatterns: ["/as-packages/"],
+    // transformIgnorePatterns: ["node_modules/(?!assemblyscript)"]
 };

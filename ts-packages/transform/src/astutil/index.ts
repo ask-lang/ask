@@ -15,8 +15,8 @@ import {
     Statement,
     TypeName,
 } from "assemblyscript/dist/assemblyscript.js";
-import { SimpleParser } from "visitor-as/dist";
-import { hasDecorator } from "../util";
+import { SimpleParser } from "visitor-as";
+import { hasDecorator } from "../util.js";
 
 /**
  * A helper for generate NamedTypeNode which may be namespaced type
