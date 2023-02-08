@@ -1,7 +1,5 @@
 import { Ptr, ReturnCode, Size } from ".";
 
-export * from "./unstable";
-
 
 // Set the value at the given key in the contract storage.
 //
