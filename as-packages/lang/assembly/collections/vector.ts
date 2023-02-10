@@ -47,6 +47,15 @@ export class Vector<T> implements SpreadLayout {
     }
 
     /**
+     * Remove the element at given index.
+     * @param index 
+     */
+    delete(index: u32): void {
+        assert(this.length > index);
+        this._elems.deleteAt(index);
+    }
+
+    /**
      * Returns true if the length is zero.
      * @returns
      */
