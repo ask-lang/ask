@@ -34,6 +34,9 @@ import {
     SequenceDef,
     ArrayDef,
     VersionedContractMetadata,
+    TupleDef,
+    VariantDef,
+    Variant,
 } from "ask-contract-metadata";
 import * as metadata from "ask-contract-metadata";
 import { ASK_VERSION } from "../consts";
@@ -53,7 +56,7 @@ import {
 } from ".";
 import debug from "debug";
 import { uniqBy } from "lodash";
-import { ArrayTypeInfo } from "./typeInfo";
+import { ArrayTypeInfo, TupleTypeInfo, VariantTypeInfo } from "./typeInfo";
 
 export const LANGUAGE = `Ask! ${ASK_VERSION}`;
 export const COMPILER = `asc ${version}`;
@@ -183,7 +186,20 @@ export class MetadataGenerator {
                 }
 
                 case metadata.TypeKind.Composite: {
+                    // log("class name", info.type?.getClass()?.name);
                     const def = this.genCompositeType(resolver, info as CompositeTypeInfo);
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
+                    break;
+                }
+
+                case metadata.TypeKind.Tuple: {
+                    const def = this.genTupleType(resolver, info as TupleTypeInfo);
+                    typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
+                    break;
+                }
+
+                case metadata.TypeKind.Variant: {
+                    const def = this.genVariantType(resolver, info as VariantTypeInfo);
                     typeSpecs[info.index] = new metadata.TypeWithId(info.index, def);
                     break;
                 }
@@ -196,6 +212,87 @@ export class MetadataGenerator {
         // type index is starting from 1
         // typeSpecs.splice(0, 1);
         return typeSpecs;
+    }
+
+    private genTupleType(resolver: TypeResolver, info: TupleTypeInfo): TupleDef {
+        const types = resolver.resolvedTypes();
+        return new TupleDef(
+            info.types.map((type) => {
+                const fieldTypeInfo = types.get(type);
+                assert(fieldTypeInfo != null, `Ask-lang: '${type.getClass()?.name} not found`);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                return fieldTypeInfo!.index;
+            }),
+        );
+    }
+
+    private genVariantType(resolver: TypeResolver, info: VariantTypeInfo): VariantDef {
+        assert(
+            info.fields.length > 0,
+            `Ask-lang: Composite def ${info.type?.toString()} fields are empty`,
+        );
+        const variants: metadata.Variant[] = info.fields.map(
+            ({ field, isEmpty, innerFields }, idx) => {
+                const fieldDecl = field.prototype.declaration as FieldDeclaration;
+
+                if (isEmpty) {
+                    // empty variant
+                    return new Variant(
+                        fieldDecl.name.range.toString(),
+                        null,
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        idx,
+                    );
+                } else {
+                    // either composite or tuple
+                    const types = resolver.resolvedTypes();
+                    assert(innerFields !== null);
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const variantFields: metadata.Field[] = innerFields!.map((variantField) => {
+                        // field is named
+                        if (variantField instanceof Field) {
+                            const fieldDecl = variantField.prototype
+                                .declaration as FieldDeclaration;
+                            const fieldTypeInfo = types.get(variantField.type);
+                            assert(
+                                fieldTypeInfo != null,
+                                `Ask-lang: '${
+                                    variantField.name
+                                }: ${variantField.type.toString()}' not found`,
+                            );
+                            const ret = new metadata.Field(
+                                fieldDecl.name.range.toString(),
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                fieldTypeInfo!.index,
+                                // we make sure all fields gived a type explicitly
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                fieldDecl.type!.range.toString(),
+                            );
+                            return ret;
+                        } else {
+                            // type is unnamed
+                            const fieldTypeInfo = types.get(variantField);
+                            assert(
+                                fieldTypeInfo != null,
+                                `Ask-lang: type '${variantField.toString()}' not found`,
+                            );
+                            const ret = new metadata.Field(
+                                null,
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                fieldTypeInfo!.index,
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                variantField.toString(),
+                            );
+                            return ret;
+                        }
+                    });
+
+                    return new Variant(fieldDecl.name.range.toString(), variantFields, idx);
+                }
+            },
+        );
+        let path = info.type ? info.type.toString() : "unknown";
+        return new VariantDef(variants).setPath([path]);
     }
 
     private genCompositeType(resolver: TypeResolver, info: CompositeTypeInfo): CompositeDef {

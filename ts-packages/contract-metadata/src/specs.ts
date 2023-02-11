@@ -86,9 +86,10 @@ export type IPrimitiveDef = Def<{
 }>;
 
 export type ITupleDef = Def<{
-    readonly tuple: {
-        readonly fields: Array<number>;
-    };
+    readonly tuple: Array<number>;
+    // readonly tuple: {
+    //     readonly fields: Array<number>;
+    // };
 }>;
 
 export type IArrayDef = Def<{
@@ -118,14 +119,14 @@ export type IVariantDef = Def<{
 
 export interface IVariant {
     readonly name: string;
-    readonly fields: Array<IField>;
-    readonly discriminant: number | null;
+    readonly fields: Array<IField> | null;
+    readonly index: number;
 }
 
 export interface IField {
     readonly name: string | null;
     readonly type: number;
-    readonly typeName: string;
+    readonly typeName: string | null;
 }
 
 export interface IContract {

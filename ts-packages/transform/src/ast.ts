@@ -14,6 +14,10 @@ import blake from "blakejs";
  * Ask supported decorators.
  */
 export enum ContractDecoratorKind {
+    // tuple
+    Tuple = "tuple",
+    Enumeration = "enumeration",
+    Variant = "variant",
     SpreadLayout = "spreadLayout",
     PackedLayout = "packedLayout",
     Contract = "contract",

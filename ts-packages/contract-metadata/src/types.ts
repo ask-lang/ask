@@ -77,9 +77,7 @@ export class TupleDef implements Type {
     toMetadata(): ITupleDef {
         return {
             def: {
-                tuple: {
-                    fields: this.fields,
-                },
+                tuple: this.fields,
             },
             path: null,
         };
@@ -195,15 +193,15 @@ export class VariantDef implements Type {
 export class Variant implements ToMetadata {
     constructor(
         public readonly name: string,
-        public readonly fields: Array<Field>,
-        public readonly discriminant: number | null,
+        public readonly fields: Array<Field> | null,
+        public readonly index: number,
     ) {}
 
     toMetadata(): IVariant {
         return {
             name: this.name,
-            fields: this.fields.map((f) => f.toMetadata()),
-            discriminant: this.discriminant,
+            fields: this.fields ? this.fields.map((f) => f.toMetadata()) : null,
+            index: this.index,
         };
     }
 }

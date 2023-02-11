@@ -1,5 +1,6 @@
 import * as metadata from "ask-contract-metadata";
 import { Field, Type } from "visitor-as/as";
+import { VariantField } from "./typeResolver";
 
 /**
  * TypeInfo contains some type infos needed for metadata types
@@ -12,9 +13,21 @@ export abstract class TypeInfo {
     ) {}
 }
 
+export class TupleTypeInfo extends TypeInfo {
+    constructor(type: Type, index: number, public readonly types: Type[]) {
+        super(type, index, metadata.TypeKind.Tuple);
+    }
+}
+
 export class CompositeTypeInfo extends TypeInfo {
     constructor(type: Type | null, index: number, public readonly fields: Field[] | Type[]) {
         super(type, index, metadata.TypeKind.Composite);
+    }
+}
+
+export class VariantTypeInfo extends TypeInfo {
+    constructor(type: Type | null, index: number, public readonly fields: VariantField[]) {
+        super(type, index, metadata.TypeKind.Variant);
     }
 }
 
