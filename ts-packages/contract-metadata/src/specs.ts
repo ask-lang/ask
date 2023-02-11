@@ -113,7 +113,7 @@ export type ICompositeDef = Def<{
 }>;
 
 export type IVariantDef = Def<{
-    readonly variants: Array<IVariant>;
+    readonly variant: { readonly variants: Array<IVariant> };
     // readonly path: Array<string>;
 }>;
 

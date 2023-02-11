@@ -163,7 +163,7 @@ export class VariantDef implements Type {
     toMetadata(): IVariantDef {
         return {
             def: {
-                variants: this.variants.map((v) => v.toMetadata()),
+                variant: { variants: this.variants.map((v) => v.toMetadata()) },
             },
             path: this.path.length > 0 ? this.path : null,
         };

@@ -234,6 +234,7 @@ export class MetadataGenerator {
         const variants: metadata.Variant[] = info.fields.map(
             ({ field, isEmpty, innerFields }, idx) => {
                 const fieldDecl = field.prototype.declaration as FieldDeclaration;
+                const index = info.fields.length - idx - 1;
 
                 if (isEmpty) {
                     // empty variant
@@ -241,7 +242,7 @@ export class MetadataGenerator {
                         fieldDecl.name.range.toString(),
                         null,
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        idx,
+                        index,
                     );
                 } else {
                     // either composite or tuple
@@ -287,7 +288,7 @@ export class MetadataGenerator {
                         }
                     });
 
-                    return new Variant(fieldDecl.name.range.toString(), variantFields, idx);
+                    return new Variant(fieldDecl.name.range.toString(), variantFields, index);
                 }
             },
         );
