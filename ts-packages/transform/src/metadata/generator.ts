@@ -15,6 +15,7 @@ import {
     Class,
     ClassDeclaration,
     DiagnosticCode,
+    Type,
 } from "assemblyscript";
 import { version } from "visitor-as/as";
 import {
@@ -232,14 +233,15 @@ export class MetadataGenerator {
             `Ask-lang: Composite def ${info.type?.toString()} fields are empty`,
         );
         const variants: metadata.Variant[] = info.fields.map(
-            ({ field, isEmpty, innerFields }, idx) => {
+            ({ field, isEmpty, innerFields, variantDecl }, idx) => {
                 const fieldDecl = field.prototype.declaration as FieldDeclaration;
                 const index = info.fields.length - idx - 1;
+                const name = variantDecl.name ?? fieldDecl.name.range.toString();
 
                 if (isEmpty) {
                     // empty variant
                     return new Variant(
-                        fieldDecl.name.range.toString(),
+                        name,
                         null,
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         index,
@@ -249,46 +251,10 @@ export class MetadataGenerator {
                     const types = resolver.resolvedTypes();
                     assert(innerFields !== null);
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    const variantFields: metadata.Field[] = innerFields!.map((variantField) => {
-                        // field is named
-                        if (variantField instanceof Field) {
-                            const fieldDecl = variantField.prototype
-                                .declaration as FieldDeclaration;
-                            const fieldTypeInfo = types.get(variantField.type);
-                            assert(
-                                fieldTypeInfo != null,
-                                `Ask-lang: '${
-                                    variantField.name
-                                }: ${variantField.type.toString()}' not found`,
-                            );
-                            const ret = new metadata.Field(
-                                fieldDecl.name.range.toString(),
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                fieldTypeInfo!.index,
-                                // we make sure all fields gived a type explicitly
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                fieldDecl.type!.range.toString(),
-                            );
-                            return ret;
-                        } else {
-                            // type is unnamed
-                            const fieldTypeInfo = types.get(variantField);
-                            assert(
-                                fieldTypeInfo != null,
-                                `Ask-lang: type '${variantField.toString()}' not found`,
-                            );
-                            const ret = new metadata.Field(
-                                null,
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                fieldTypeInfo!.index,
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                variantField.toString(),
-                            );
-                            return ret;
-                        }
-                    });
-
-                    return new Variant(fieldDecl.name.range.toString(), variantFields, index);
+                    const innerVariantFields: metadata.Field[] = innerFields!.map((variantField) =>
+                        this.convertToMetadataField(types, variantField),
+                    );
+                    return new Variant(name, innerVariantFields, index);
                 }
             },
         );
@@ -302,40 +268,44 @@ export class MetadataGenerator {
             `Ask-lang: Composite def ${info.type?.toString()} fields are empty`,
         );
         const types = resolver.resolvedTypes();
-        const fields: metadata.Field[] = info.fields.map((field) => {
-            // field is named
-            if (field instanceof Field) {
-                const fieldDecl = field.prototype.declaration as FieldDeclaration;
-                const fieldTypeInfo = types.get(field.type);
-                assert(
-                    fieldTypeInfo != null,
-                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
-                );
-                const ret = new metadata.Field(
-                    fieldDecl.name.range.toString(),
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // we make sure all fields gived a type explicitly
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldDecl.type!.range.toString(),
-                );
-                return ret;
-            } else {
-                // type is unnamed
-                const fieldTypeInfo = types.get(field);
-                assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
-                const ret = new metadata.Field(
-                    null,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    field.toString(),
-                );
-                return ret;
-            }
-        });
+        const fields: metadata.Field[] = info.fields.map((field) =>
+            this.convertToMetadataField(types, field),
+        );
         let path = info.type ? info.type.toString() : "unknown";
         return new CompositeDef(fields).setPath([path]);
+    }
+
+    convertToMetadataField(types: TypeInfoMap, field: Field | Type): metadata.Field {
+        // field is named
+        if (field instanceof Field) {
+            const fieldDecl = field.prototype.declaration as FieldDeclaration;
+            const fieldTypeInfo = types.get(field.type);
+            assert(
+                fieldTypeInfo != null,
+                `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
+            );
+            const ret = new metadata.Field(
+                fieldDecl.name.range.toString(),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                fieldTypeInfo!.index,
+                // we make sure all fields gived a type explicitly
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                fieldDecl.type!.range.toString(),
+            );
+            return ret;
+        } else {
+            // type is unnamed
+            const fieldTypeInfo = types.get(field);
+            assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
+            const ret = new metadata.Field(
+                null,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                fieldTypeInfo!.index,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                field.toString(),
+            );
+            return ret;
+        }
     }
 
     private genMessages(resolver: TypeResolver): MessageSpec[] {

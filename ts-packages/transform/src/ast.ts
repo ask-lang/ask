@@ -7,7 +7,7 @@ import {
 } from "visitor-as/as";
 import { DecoratorConfig, extractConfigFromDecorator, extractDecorator } from "./util";
 import { utils } from "visitor-as/dist";
-import { DecoratorNode } from "assemblyscript";
+import { DecoratorNode, FieldDeclaration } from "assemblyscript";
 import blake from "blakejs";
 
 /**
@@ -320,6 +320,52 @@ export class EventDeclaration implements AskNode {
             );
         }
         return new EventDeclaration(id, utils.cloneNode(node));
+    }
+}
+
+/**
+ * Varinat Declaration represents a `@variant` info
+ */
+export class VariantDeclaration implements AskNode {
+    public readonly contractKind: ContractDecoratorKind = ContractDecoratorKind.Variant;
+    constructor(
+        /**
+         * Event Id
+         */
+        public readonly index: number | null,
+        public readonly name: string | null,
+        public readonly variant: FieldDeclaration,
+    ) {}
+
+    /**
+     * Collect variant infos from config.
+     * @param node
+     * @param cfg
+     * @returns
+     */
+    static extractFrom(emitter: DiagnosticEmitter, node: FieldDeclaration): VariantDeclaration {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const decorator = extractDecorator(emitter, node, ContractDecoratorKind.Variant)!;
+        const cfg = extractConfigFromDecorator(emitter, decorator);
+        const variantIndex = cfg.get("index");
+        const variantName = cfg.get("name");
+
+        const name = variantName ? variantName.substring(1, variantName.length - 1) : null;
+        let index = null;
+        if (variantIndex) {
+            if (!isNaN(+variantIndex)) {
+                index = +variantIndex;
+            } else {
+                emitter.errorRelated(
+                    DiagnosticCode.User_defined_0,
+                    node.range,
+                    decorator.range,
+                    `Ask-lang: '@variant' index config is illegal`,
+                );
+            }
+        }
+
+        return new VariantDeclaration(index, name, utils.cloneNode(node));
     }
 }
 

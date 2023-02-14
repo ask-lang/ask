@@ -26,13 +26,14 @@ import {
     VariantTypeInfo,
 } from "./typeInfo";
 import { hasDecorator } from "../util";
-import { ContractDecoratorKind } from "../ast";
+import { ContractDecoratorKind, VariantDeclaration } from "../ast";
 import { FieldDeclaration } from "assemblyscript";
 
 const log = debug("TypeResolver");
 
 export type TypeInfoMap = Map<Type | Type[], TypeInfo>;
 export interface VariantField {
+    variantDecl: VariantDeclaration;
     field: Field;
     innerFields: Array<Type | Field> | null;
     isEmpty: bool;
@@ -294,9 +295,14 @@ export class TypeResolver {
                 continue;
             }
             // if not decorated with @variant we skip
-            if (!isVariant(member as FieldDeclaration)) {
+            if (!isVariantField(member as FieldDeclaration)) {
                 continue;
             }
+
+            const variantDecl = VariantDeclaration.extractFrom(
+                this.program,
+                member as FieldDeclaration,
+            );
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const elem = clz!.members!.get(member.name.text);
@@ -305,8 +311,7 @@ export class TypeResolver {
 
             const fieldClz = field.type.getClass();
             const isTupleVaraint = fieldClz && isTuple(fieldClz);
-            // TODO: better way to find empty variants
-            const isEmpty = field.type.isNumericValue;
+            const isEmpty = isEmptyVariantField(field);
 
             let innerFields: Array<Type | Field> | null = null;
 
@@ -316,7 +321,7 @@ export class TypeResolver {
                     ? this.resovleCompositeField(field.type).map((f) => f.type)
                     : this.resovleCompositeField(field.type);
             }
-            fields.push({ field, isEmpty: field.type.isNumericValue, innerFields });
+            fields.push({ field, isEmpty: field.type.isNumericValue, innerFields, variantDecl });
         }
 
         return fields;
@@ -460,6 +465,11 @@ function isEnumeration(clz: Class): bool {
     return hasDecorator(clz.decoratorNodes, ContractDecoratorKind.Enumeration);
 }
 
-function isVariant(member: FieldDeclaration): bool {
+function isVariantField(member: FieldDeclaration): bool {
     return hasDecorator(member.decorators, ContractDecoratorKind.Variant);
+}
+
+function isEmptyVariantField(field: Field): bool {
+    // TODO: better way to find empty variants
+    return isVariantField(field.declaration as FieldDeclaration) && field.type.isNumericValue;
 }
