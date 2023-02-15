@@ -321,7 +321,7 @@ export class TypeResolver {
                     ? this.resovleCompositeField(field.type).map((f) => f.type)
                     : this.resovleCompositeField(field.type);
             }
-            fields.push({ field, isEmpty: field.type.isNumericValue, innerFields, variantDecl });
+            fields.push({ field, isEmpty, innerFields, variantDecl });
         }
 
         return fields;
