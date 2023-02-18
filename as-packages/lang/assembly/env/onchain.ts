@@ -44,6 +44,12 @@ export class EnvInstance implements TypedEnvBackend {
         return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(storageBuffer.buffer));
     }
 
+    @inline
+    debugMessage(message: string): void {
+        const buffer = String.UTF8.encode(message); 
+        seal0.seal_debug_message(changetype<u32>(buffer), buffer.byteLength);
+    }
+
     setContractStorage<K extends IKey, V>(
         key: K,
         value: V
