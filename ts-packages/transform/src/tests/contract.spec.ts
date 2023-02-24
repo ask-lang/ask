@@ -72,11 +72,13 @@ export class Contract implements __lang.IContract {
   public static readonly getMutates: bool = false;
   public static readonly getPayable: bool = false;
   deploy<__M extends __lang.IMessage>(message: __M): i32 {
+    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    const contract = __lang.pullSpreadRoot<this, __lang.Key>(__lang.Key.zero());
     if (message.isSelector(Contract.defaultSelector)) {
       const p0 = message.getArg<bool>();
-      this.default(p0);
+      contract.default(p0);
     }
-    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    __lang.pushSpreadRoot(contract, __lang.Key.zero());
     return 0;
   }
   call<__M extends __lang.IMessage>(message: __M): i32 {
@@ -171,11 +173,13 @@ export class Contract extends OtherContract {
   public static readonly flipMutates: bool = true;
   public static readonly flipPayable: bool = true;
   deploy<__M extends __lang.IMessage>(message: __M): i32 {
+    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    const contract = __lang.pullSpreadRoot<this, __lang.Key>(__lang.Key.zero());
     if (message.isSelector(Contract.defaultSelector)) {
       const p0 = message.getArg<bool>();
-      this.default(p0);
+      contract.default(p0);
     }
-    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    __lang.pushSpreadRoot(contract, __lang.Key.zero());
     return 0;
   }
   call<__M extends __lang.IMessage>(message: __M): i32 {
@@ -243,11 +247,13 @@ export class Contract implements __lang.IContract {
   public static readonly flipMutates: bool = true;
   public static readonly flipPayable: bool = true;
   deploy<__M extends __lang.IMessage>(message: __M): i32 {
+    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    const contract = __lang.pullSpreadRoot<this, __lang.Key>(__lang.Key.zero());
     if (message.isSelector(Contract.defaultSelector)) {
       const p0 = message.getArg<bool>();
-      this.default(p0);
+      contract.default(p0);
     }
-    __lang.pushSpreadRoot(this, __lang.Key.zero());
+    __lang.pushSpreadRoot(contract, __lang.Key.zero());
     return 0;
   }
   call<__M extends __lang.IMessage>(message: __M): i32 {
