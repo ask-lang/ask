@@ -212,7 +212,11 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
 }`;
     }
 
-    private genDeploySelector(_range: Range, decl: ConstructorDeclaration): string {
+    private genDeploySelector(
+        _range: Range,
+        decl: ConstructorDeclaration,
+        varName = "this",
+    ): string {
         const paramStmts = [];
         const paramsTypeName = decl.paramsTypeName();
         const methodParams = [];
@@ -223,7 +227,7 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
         return `
 if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
     ${paramStmts.join("\n")}
-    this.${decl.methodName}(${methodParams.join(", ")});
+    ${varName}.${decl.methodName}(${methodParams.join(", ")});
 }`;
     }
 
@@ -231,13 +235,21 @@ if (${MESSAGE}.isSelector(${this.contractName}.${decl.selectorName})) {
         clz: ClassDeclaration,
         constructors: ConstructorDeclaration[],
     ): MethodDeclaration {
-        const selectors = constructors.map((decl) => this.genDeploySelector(clz.range, decl));
-        const pushSpread = `${LANG_LIB}.pushSpreadRoot(this, ${LANG_LIB}.Key.zero());`;
+        const VAR_NAME = "contract";
+        const selectors = constructors.map((decl) =>
+            this.genDeploySelector(clz.range, decl, VAR_NAME),
+        );
+        const pushSpread = (name: string) =>
+            `${LANG_LIB}.pushSpreadRoot(${name}, ${LANG_LIB}.Key.zero());`;
+        const pullSpread = (name: string) =>
+            `const ${name} = ${LANG_LIB}.pullSpreadRoot<this, __lang.Key>(${LANG_LIB}.Key.zero());`;
         const normalReturn = `return 0;`;
 
         const stmts = [];
+        stmts.push(pushSpread("this"));
+        stmts.push(pullSpread(VAR_NAME));
         stmts.push(...selectors);
-        stmts.push(pushSpread);
+        stmts.push(pushSpread(VAR_NAME));
         stmts.push(normalReturn);
 
         // const body: BlockStatement = Node.createBlockStatement(stmts, range);
