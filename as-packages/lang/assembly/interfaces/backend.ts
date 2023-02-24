@@ -49,6 +49,8 @@ export interface EnvBackend {
      */
     returnValue<V>(flags: u32, value: V): void;
 
+    debugMessage(message: string): void;
+
     // TODO: add more methods
 }
 

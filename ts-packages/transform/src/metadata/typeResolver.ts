@@ -22,12 +22,22 @@ import {
     TypeInfo,
     ArrayTypeInfo,
     SequenceTypeInfo,
+    TupleTypeInfo,
+    VariantTypeInfo,
 } from "./typeInfo";
+import { hasDecorator } from "../util";
+import { ContractDecoratorKind, VariantDeclaration } from "../ast";
+import { FieldDeclaration } from "assemblyscript";
 
 const log = debug("TypeResolver");
 
 export type TypeInfoMap = Map<Type | Type[], TypeInfo>;
-
+export interface VariantField {
+    variantDecl: VariantDeclaration;
+    field: Field;
+    innerFields: Array<Type | Field> | null;
+    isEmpty: bool;
+}
 /**
  * TypeResolver resolve an entrypoint contract type infos, and collect some useful type infos.
  */
@@ -251,11 +261,70 @@ export class TypeResolver {
                 this.resolveScaleType(typeArgs[0]);
                 this.types.set(type, new SequenceTypeInfo(type, this.currentIndex++, typeArgs[0]));
             }
+        } else if (isTuple(clz)) {
+            // get all fields
+            const types = this.resovleCompositeField(type).map((field) => field.type);
+            this.types.set(type, new TupleTypeInfo(type, this.currentIndex++, types));
+        } else if (isEnumeration(clz)) {
+            // it's an enumeration
+            const fields = this.resolveVariantField(type);
+            this.types.set(type, new VariantTypeInfo(type, this.currentIndex++, fields));
         } else {
             // It's composite type
             const fields = this.resovleCompositeField(type);
             this.types.set(type, new CompositeTypeInfo(type, this.currentIndex++, fields));
         }
+    }
+
+    private resolveVariantField(type: Type): VariantField[] {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const clz: Class = type.getClass()!;
+        assert(clz.declaration.kind === NodeKind.CLASSDECLARATION);
+        const fields: VariantField[] = [];
+
+        // TODO: forbid class inherihance
+
+        const decl = clz.declaration as ClassDeclaration;
+        for (let i = decl.members.length - 1; i >= 0; i--) {
+            let member = decl.members[i];
+            // we only need to know non-static field type
+            if (member.isAny(CommonFlags.STATIC)) {
+                continue;
+            }
+            if (member.kind != NodeKind.FIELDDECLARATION) {
+                continue;
+            }
+            // if not decorated with @variant we skip
+            if (!isVariantField(member as FieldDeclaration)) {
+                continue;
+            }
+
+            const variantDecl = VariantDeclaration.extractFrom(
+                this.program,
+                member as FieldDeclaration,
+            );
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const elem = clz!.members!.get(member.name.text);
+            assert(elem?.kind === ElementKind.FIELD);
+            const field = elem as Field;
+
+            const fieldClz = field.type.getClass();
+            const isTupleVaraint = fieldClz && isTuple(fieldClz);
+            const isEmpty = isEmptyVariantField(field);
+
+            let innerFields: Array<Type | Field> | null = null;
+
+            if (!isEmpty) {
+                // tuple variant
+                innerFields = isTupleVaraint
+                    ? this.resovleCompositeField(field.type).map((f) => f.type)
+                    : this.resovleCompositeField(field.type);
+            }
+            fields.push({ field, isEmpty, innerFields, variantDecl });
+        }
+
+        return fields;
     }
 
     private resovleCompositeField(type: Type): Field[] {
@@ -386,4 +455,21 @@ function getFirstValue<K, V>(map: Map<K, V>): V {
         return v;
     }
     return v;
+}
+
+function isTuple(clz: Class): bool {
+    return hasDecorator(clz.decoratorNodes, ContractDecoratorKind.Tuple);
+}
+
+function isEnumeration(clz: Class): bool {
+    return hasDecorator(clz.decoratorNodes, ContractDecoratorKind.Enumeration);
+}
+
+function isVariantField(member: FieldDeclaration): bool {
+    return hasDecorator(member.decorators, ContractDecoratorKind.Variant);
+}
+
+function isEmptyVariantField(field: Field): bool {
+    // TODO: better way to find empty variants
+    return isVariantField(field.declaration as FieldDeclaration) && field.type.isNumericValue;
 }
