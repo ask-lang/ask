@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
@@ -7,12 +8,10 @@ import {
     NodeKind,
     CommonFlags,
 } from "assemblyscript/dist/assemblyscript.js";
-import { mustBeLegalStorageField } from "../util";
-
-import { addDeserializeDecorator, addImplement, addSerializeDecorator } from "../astutil";
-import { AskConfig } from "../config";
-import { IKEY_TYPE_PATH, PACKED_LAYOUT_TYPE_PATH } from "../consts";
-import { uniqBy } from "lodash";
+import { mustBeLegalStorageField } from "../util.js";
+import { addDeserializeDecorator, addImplement, addSerializeDecorator } from "../astutil/index.js";
+import { AskConfig } from "../config.js";
+import { IKEY_TYPE_PATH, PACKED_LAYOUT_TYPE_PATH } from "../consts.js";
 
 /**
  * PackedLayoutVisitor traversal `@packedLayout` class and implements PackedLayout interface for it.
@@ -29,7 +28,7 @@ export class PackedLayoutVisitor extends TransformVisitor {
     visitClassDeclaration(node: ClassDeclaration): ClassDeclaration {
         this.hasBase = node.extendsType ? true : false;
         node = super.visitClassDeclaration(node);
-        this.fields = uniqBy(this.fields, (f) => f.range.toString());
+        this.fields = _.uniqBy(this.fields, (f) => f.range.toString());
         node.members.push(...this.genPackedLayout(node));
         addSerializeDecorator(node);
         addDeserializeDecorator(node);

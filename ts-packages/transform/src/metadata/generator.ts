@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import debug from "debug";
+import _ from "lodash";
 import {
     Program,
     FunctionPrototype,
@@ -36,24 +38,22 @@ import {
     VersionedContractMetadata,
 } from "ask-contract-metadata";
 import * as metadata from "ask-contract-metadata";
-import { ASK_VERSION } from "../consts";
-import { extractConfigFromDecorator, extractDecorator, hasDecorator } from "../util";
+import { ASK_VERSION } from "../consts.js";
+import { extractConfigFromDecorator, extractDecorator, hasDecorator } from "../util.js";
 import {
     ContractDecoratorKind,
     MessageDeclaration,
     ConstructorDeclaration,
     EventDeclaration,
-} from "../ast";
+} from "../ast.js";
 import {
     TypeResolver,
     PrimitiveTypeInfo,
     CompositeTypeInfo,
     SequenceTypeInfo,
     TypeInfoMap,
-} from ".";
-import debug from "debug";
-import { uniqBy } from "lodash";
-import { ArrayTypeInfo } from "./typeInfo";
+    ArrayTypeInfo,
+} from "./index.js";
 
 export const LANGUAGE = `Ask! ${ASK_VERSION}`;
 export const COMPILER = `asc-0.24`;
@@ -327,7 +327,7 @@ export class MetadataGenerator {
 
         log(`End ${this.genEvents.name}`);
 
-        const uniqEvents = uniqBy(eventSpecs, (event) => event.id);
+        const uniqEvents = _.uniqBy(eventSpecs, (event) => event.id);
         // TODO: check duplicated id
         if (eventSpecs.length != uniqEvents.length) {
             this.program.error(

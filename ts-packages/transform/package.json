@@ -21,11 +21,12 @@
   "scripts": {
     "checks": "tsc -p tsconfig.json --noEmit",
     "build": "rm -rf dist/* && tsc -p tsconfig.json",
-    "test": "yarn build && jest ."
+    "test": "mocha dist/tests/**/*.spec.js"
   },
   "peerDependencies": {
-    "assemblyscript": "^0.24",
-    "visitor-as": "^0.11.3"
+    "as-serde-transform": "^0.3.0",
+    "assemblyscript": "^0.25",
+    "visitor-as": "^0.11.4"
   },
   "dependencies": {
     "assemblyscript": "^0.25",
@@ -37,7 +38,8 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
-    "@types/lodash": "4.14"
+    "@types/lodash": "4.14",
+    "@types/mocha": "^10.0"
   },
   "files": [
     "asconfig.json",

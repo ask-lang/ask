@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { utils, TransformVisitor } from "visitor-as";
-import { defaultConfig, AskConfig } from "../config";
-import { hasDecorator, isEntry } from "../util";
-import { ContractDecoratorKind, EventDeclaration } from "../ast";
-import { CONFIG_NAME, LANG_LIB, LANG_LIB_PATH } from "../consts";
-import { genImportStatement } from "../astutil";
-import { DiagnosticMode } from "../diagnostic";
 import {
     EnvTypeVisitor,
     ContractVisitor,
@@ -13,7 +7,7 @@ import {
     ExportEraser,
     PackedLayoutVisitor,
     SpreadLayoutVisitor,
-} from ".";
+} from "./index.js";
 import debug from "debug";
 import * as fs from "fs";
 import * as path from "path";
@@ -28,7 +22,13 @@ import {
     Module,
     DiagnosticCode,
 } from "assemblyscript/dist/assemblyscript.js";
-import { MetadataGenerator } from "../metadata/generator";
+import { MetadataGenerator } from "../metadata/generator.js";
+import { defaultConfig, AskConfig } from "../config.js";
+import { hasDecorator, isEntry } from "../util.js";
+import { ContractDecoratorKind, EventDeclaration } from "../ast.js";
+import { CONFIG_NAME, LANG_LIB, LANG_LIB_PATH } from "../consts.js";
+import { genImportStatement } from "../astutil/index.js";
+import { DiagnosticMode } from "../diagnostic.js";
 
 const log = debug("AskTransform");
 

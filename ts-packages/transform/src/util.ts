@@ -23,7 +23,7 @@ import {
     StringLiteralExpression,
     Range,
 } from "assemblyscript/dist/assemblyscript.js";
-import { ContractDecoratorKind } from "./ast";
+import { ContractDecoratorKind } from "./ast.js";
 
 // TODO: maybe we can extract it as a common util package.
 

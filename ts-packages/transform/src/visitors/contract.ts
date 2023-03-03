@@ -18,18 +18,18 @@ import {
     MessageDeclaration,
     ConstructorDeclaration,
     hexToArrayString,
-} from "../ast";
-import { extractDecorator, extractConfigFromDecorator, mustBeVoidReturn } from "../util";
-import { AskConfig } from "../config";
-import { mustBePublicMethod, mustBeNonStaticMethod } from "../util";
+} from "../ast.js";
+import { extractDecorator, extractConfigFromDecorator, mustBeVoidReturn } from "../util.js";
+import { AskConfig } from "../config.js";
+import { mustBePublicMethod, mustBeNonStaticMethod } from "../util.js";
 import {
     KEY_TYPE_PATH,
     LANG_LIB,
     ICONTRACT_TYPE_PATH,
     IMESSAGE_TYPE_PATH,
     DENY_PAYMENT_CALL,
-} from "../consts";
-import { addImplement } from "../astutil";
+} from "../consts.js";
+import { addImplement } from "../astutil/index.js";
 
 const MESSAGE = "message";
 

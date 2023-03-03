@@ -1,5 +1,5 @@
-import { ToMetadata } from ".";
 import {
+    ToMetadata,
     IVariant,
     IVariantDef,
     ICompositeDef,
@@ -9,7 +9,7 @@ import {
     IPrimitiveDef,
     IField,
     ITypeDef,
-} from "./specs";
+} from "./index.js";
 
 export enum TypeKind {
     Primitive = "Primitive",

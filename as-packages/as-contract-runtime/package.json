@@ -5,6 +5,7 @@
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "main": "index.ts",
+  "type": "module",
   "keywords": [
     "substrate",
     "blockchain",

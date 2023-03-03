@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import debug from "debug";
+import { PrimitiveType } from "ask-contract-metadata";
 import {
     ClassPrototype,
     FunctionPrototype,
@@ -12,18 +14,18 @@ import {
     Function,
     Program,
     CommonNames,
+    DeclaredElement,
+    PropertyPrototype,
+    Property,
 } from "assemblyscript/dist/assemblyscript.js";
-import { isMessage, isConstructor } from "./generator";
-import debug from "debug";
-import { PrimitiveType } from "ask-contract-metadata";
 import {
+    isMessage, isConstructor,
     PrimitiveTypeInfo,
     CompositeTypeInfo,
     TypeInfo,
     ArrayTypeInfo,
     SequenceTypeInfo,
-} from "./typeInfo";
-import { DeclaredElement, Property, PropertyPrototype } from "types:assemblyscript/src/program";
+} from "./index.js";
 
 const log = debug("TypeResolver");
 
@@ -50,7 +52,7 @@ export class TypeResolver {
     ) {}
 
     /**
-     * 
+     *
      * @returns Resovled types
      */
     resolvedTypes(): TypeInfoMap {

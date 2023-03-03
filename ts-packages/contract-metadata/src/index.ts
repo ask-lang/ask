@@ -1,7 +1,7 @@
-export * from "./specs";
-export * from "./types";
-export * from "./layouts";
-export * from "./api";
+export * from "./specs.js";
+export * from "./types.js";
+export * from "./layouts.js";
+export * from "./api.js";
 
 /**
  * Versioned ask! project metadata.

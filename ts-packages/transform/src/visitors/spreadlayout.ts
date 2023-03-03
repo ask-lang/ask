@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
@@ -7,12 +8,11 @@ import {
     NodeKind,
     CommonFlags,
 } from "assemblyscript/dist/assemblyscript.js";
-import { mustBeLegalStorageField } from "../util";
+import { mustBeLegalStorageField } from "../util.js";
 
-import { addImplement } from "../astutil";
-import { AskConfig } from "../config";
-import { IKEY_TYPE_PATH, SPREAD_LAYOUT_TYPE_PATH } from "../consts";
-import { uniqBy } from "lodash";
+import { addImplement } from "../astutil/index.js";
+import { AskConfig } from "../config.js";
+import { IKEY_TYPE_PATH, SPREAD_LAYOUT_TYPE_PATH } from "../consts.js";
 
 /**
  * SpreadLayoutVisitor traversal `@spreadLayout` class and implements SpreadLayout interface for it. The fields must be Codec types.
@@ -30,7 +30,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
         this.hasBase = node.extendsType ? true : false;
 
         node = super.visitClassDeclaration(node);
-        this.fields = uniqBy(this.fields, (f) => f.range.toString());
+        this.fields = _.uniqBy(this.fields, (f) => f.range.toString());
         node.members.push(...this.genSpreadLayout(node));
         // we assume that base class also implements SpreadLayout
         if (!this.hasBase) {

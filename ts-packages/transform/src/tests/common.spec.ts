@@ -1,4 +1,5 @@
-import { hexSelector } from "../ast";
+import * as assert from "assert";
+import { hexSelector } from "../ast.js";
 
 describe("hexSelector", () => {
     it("selector should be blake2-256", () => {
@@ -11,7 +12,7 @@ describe("hexSelector", () => {
 
         for (let c of cases) {
             let res = hexSelector(null, c[0]);
-            expect(res).toBe(c[1]);
+            assert.equal(res, c[1]);
         }
     });
 });

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
@@ -8,11 +9,10 @@ import {
     NodeKind,
     CommonFlags,
 } from "assemblyscript/dist/assemblyscript.js";
-import { EventDeclaration } from "../ast";
-import { EventConfig } from "../config";
-import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil";
-import { IEVENT_TYPE_PATH } from "../consts";
-import { uniqBy } from "lodash";
+import { EventDeclaration } from "../ast.js";
+import { EventConfig } from "../config.js";
+import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil/index.js";
+import { IEVENT_TYPE_PATH } from "../consts.js";
 
 const METHOD_EVENT_ID = "eventId";
 
@@ -59,8 +59,8 @@ export class EventVisitor extends TransformVisitor {
             );
         }
         this.visit(node.members);
-        this.data = uniqBy(this.data, (data) => data.range.toString());
-        this.topics = uniqBy(this.topics, (topic) => topic.range.toString());
+        this.data = _.uniqBy(this.data, (data) => data.range.toString());
+        this.topics = _.uniqBy(this.topics, (topic) => topic.range.toString());
         node.members.push(...this.genEvent(node));
         addSerializeDecorator(node);
         addDeserializeDecorator(node);

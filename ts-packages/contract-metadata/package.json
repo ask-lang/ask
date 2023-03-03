@@ -4,13 +4,8 @@
   "description": "Metadata specs about substrate smart contract for assemblyscript",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "main": "dist/index.js",
-  "devDependencies": {
-    "@types/blake2": "^4.0.1",
-    "@types/node": "18.11.18",
-    "ts-jest": "^27",
-    "ts-node": "^10.7",
-    "typescript": "^4.8"
-  },
+  "type": "module",
+
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -19,7 +14,10 @@
   "scripts": {
     "checks": "tsc -p tsconfig.json --noEmit",
     "build": "rm -rf dist/* && tsc -p tsconfig.json",
-    "test": "yarn build && jest ."
+    "test": "mocha dist/tests/**/*.spec.js"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.18"
   },
   "files": [
     "tsconfig.json",
