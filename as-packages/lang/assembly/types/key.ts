@@ -1,4 +1,4 @@
-import { u256 } from "as-bignum";
+import { u256 } from "../index";
 import { IKey } from "../interfaces";
 
 /**

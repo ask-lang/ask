@@ -147,6 +147,7 @@ export class TypeResolver {
 
         const program = this.program;
 
+        // TODO: we could define a decorator to catch this type.
         // It's other primitive type
         if (
             clz.prototype.internalName.match(/~lib\/as-bignum/) &&

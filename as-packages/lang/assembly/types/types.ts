@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { u128 } from "as-bignum/assembly";
+import { u128 } from "../index";
 import { StringBuffer } from "as-buffers";
 import { FixedArray32 } from "../fixedArrays";
 

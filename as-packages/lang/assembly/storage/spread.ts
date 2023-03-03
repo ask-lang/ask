@@ -1,4 +1,4 @@
-import { i128, u128 } from "as-bignum";
+import { i128, u128 } from "../index";
 import { instantiateRaw } from "..";
 import { SpreadLayout, IKey } from "../interfaces";
 import { FixedArray } from "../fixedArrays";
