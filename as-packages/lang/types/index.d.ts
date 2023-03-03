@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/// <reference types="@as-pect/assembly/types/as-pect" />
+/// <reference types="assemblyscript/std/assembly" />
+/// <reference types="as-serde/index.d.ts" />
 
 /** Annotates an type declaration be a env type which could be configurable. */
 declare function envType(...args: unknown[]): any;

@@ -2,7 +2,7 @@
   "name": "ask-lang",
   "version": "0.4.0",
   "description": "Ask lang sdk",
-  "main": "index.ts",
+  "main": "./assembly/index.ts",
   "type": "module",
   "license": "MIT",
   "author": "Ask! Authors <https://github.com/ask-lang>",
@@ -39,6 +39,6 @@
     "README.md",
     "assembly",
     "index.ts",
-    "index.d.ts"
+    "types"
   ]
 }

@@ -1,9 +1,9 @@
+// @ts-nocheck
 import { u128 } from "as-bignum";
 import { StringBuffer } from "as-buffers";
 import { FixedArray32 } from "../fixedArrays";
 
 // TODO: need to redesign something
-// @ts-ignore
 @lazy const ACCOUNT_BUF = new StringBuffer(68);
 
 @serialize({ omitName: true })

@@ -1,3 +1,29 @@
 {
-    "extends": "ask-lang/asconfig.json"
-}
+    "targets": {
+        "debug": {
+          "outFile": "build/debug/output.wasm",
+          "textFile": "build/debug/output.wat",
+            "sourceMap": true,
+            "debug": true
+        },
+        "release": {
+          "outFile": "build/release/output.wasm",
+          "textFile": "build/release/output.wat",
+            "sourceMap": false,
+            "optimizeLevel": 3,
+            "shrinkLevel": 2,
+            "converge": false,
+            "noAssert": false
+        }
+    },
+    "options": {
+        "transform": ["ask-transform", "as-serde-transform"],
+        "importMemory": true,
+        "initialMemory": 2,
+        "maximumMemory": 16,
+        "noExportMemory": true,
+        "runtime": "stub",
+        "use": "abort=",
+        "disable": ["Sign-extension"]
+    }
+  }

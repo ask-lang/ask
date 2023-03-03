@@ -1,9 +1,8 @@
+// @ts-nocheck
 import { seal0 } from "ask-contract-runtime";
 import { FixedArray } from "../fixedArrays";
 import { IHash128, IHash256 } from "../interfaces";
 
-// @ts-ignore
-// prettier-ignore
 @lazy
     const ERR_INPUT_TYPE = "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
 
