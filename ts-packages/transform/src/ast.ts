@@ -184,7 +184,7 @@ export class MessageDeclaration implements ContractMethodNode {
         if (payable) {
             if (payable === "true") {
                 msgPayable = true;
-            } else if (mutates === "false") {
+            } else if (payable === "false") {
                 msgPayable = false;
             } else {
                 emitter.errorRelated(

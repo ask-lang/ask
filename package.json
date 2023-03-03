@@ -1,6 +1,6 @@
 {
   "name": "@ask-lang/ask",
-  "version": "0.4.0-rc3",
+  "version": "0.4.0",
   "description": "compile assemblyscript to substrate wasm contract",
   "type": "module",
   "keywords": [

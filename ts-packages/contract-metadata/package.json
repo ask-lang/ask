@@ -1,12 +1,12 @@
 {
   "name": "ask-contract-metadata",
-  "version": "0.4.0-rc3",
+  "version": "0.4.0",
   "description": "Metadata specs about substrate smart contract for assemblyscript",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "main": "dist/index.js",
   "devDependencies": {
     "@types/blake2": "^4.0.1",
-    "@types/node": "18.11.9",
+    "@types/node": "18.11.18",
     "ts-jest": "^27",
     "ts-node": "^10.7",
     "typescript": "^4.8"
