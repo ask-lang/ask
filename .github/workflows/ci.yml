@@ -10,8 +10,8 @@ jobs:
   lint:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        node-version: ["16.x", "18.x"]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
     name: "lint in ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
@@ -27,8 +27,8 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        node-version: ["16.x", "18.x"]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
     name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
@@ -40,12 +40,13 @@ jobs:
       - name: test
         run: |
           yarn install --immutable
+          yarn build
           yarn test
   build-example:
     strategy:
       matrix:
         node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
     name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
