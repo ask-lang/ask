@@ -1,4 +1,4 @@
-export default {
+const config = {
     /**
    * A set of globs passed to the glob package that qualify typescript files for testing.
    */
@@ -30,3 +30,5 @@ export default {
    */
     outputBinary: false,
 };
+
+export default config;
