@@ -1,9 +1,0 @@
-{
-    "options": {
-        "transform": ["as-serde-transform"],
-        "importMemory": true,
-        "runtime": "none",
-        "use": "abort=",
-        "disable": ["Sign-extension"]
-    }
-}
