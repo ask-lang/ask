@@ -45,7 +45,7 @@ jobs:
   build-example:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
+        node-version: ["16.x", "18.x"]
         platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
     name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
