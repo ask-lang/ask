@@ -19,7 +19,8 @@ import {
     Property,
 } from "assemblyscript/dist/assemblyscript.js";
 import {
-    isMessage, isConstructor,
+    isMessage,
+    isConstructor,
     PrimitiveTypeInfo,
     CompositeTypeInfo,
     TypeInfo,
