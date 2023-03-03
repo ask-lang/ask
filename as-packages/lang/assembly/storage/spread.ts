@@ -71,7 +71,7 @@ export function clearSpreadRoot<T extends SpreadLayout, K extends IKey>(
 }
 
 export function pullSpread<T extends SpreadLayout, K extends IKey>(key: K): T {
-    let dummy: T;
+    let dummy: T = changetype<T>(0);
     if (!isReference<T>() || false) {
         return forwardPullPacked<T, K>(key);
     } else if (

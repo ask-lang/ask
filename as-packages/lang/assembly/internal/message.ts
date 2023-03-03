@@ -14,7 +14,7 @@ const SELECTOR_BUFFER_SIZE: i32 = 4;
  */
 export class Message implements IMessage {
     // This contains input first 4 bytes as selector.
-    private readonly selector: StaticArray<u8> = new StaticArray<u8>(SELECTOR_BUFFER_SIZE);
+    private readonly selector: StaticArray<u8>;
 
     // The rest bytes for message args.
     @unsafe
@@ -22,15 +22,19 @@ export class Message implements IMessage {
 
     // TODO: add fillFromEnv method instead of constructor
     constructor() {
+        const selector = new StaticArray<u8>(SELECTOR_BUFFER_SIZE);
         GLOBAL_BUFFER.input();
 
         memory.copy(
-            changetype<usize>(this.selector),
+            changetype<usize>(selector),
             changetype<usize>(GLOBAL_BUFFER.bufferPtr),
             SELECTOR_BUFFER_SIZE,
         );
-        this.argsBytes = BytesBuffer.wrap(GLOBAL_BUFFER.buffer);
-        this.argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
+        const argsBytes = BytesBuffer.wrap(GLOBAL_BUFFER.buffer);
+        argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
+        
+        this.selector = selector;
+        this.argsBytes = argsBytes;
     }
 
     /**

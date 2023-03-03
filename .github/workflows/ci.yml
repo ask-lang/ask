@@ -13,7 +13,7 @@ jobs:
         node-version: ["16.x", "18.x"]
         platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "lint in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Checkout ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,7 +30,7 @@ jobs:
         node-version: ["16.x", "18.x"]
         platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Checkout ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -48,14 +48,14 @@ jobs:
         node-version: ["16.x", "18.x"]
         platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Checkout ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: test
+      - name: Build Example
         run: |
           yarn install --immutable
           yarn build
