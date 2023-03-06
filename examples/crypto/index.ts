@@ -1,7 +1,6 @@
 import {
     env,
     BlockNumber,
-    RandomResult,
     FixedArray16,
     FixedArray32,
     blake2x256,

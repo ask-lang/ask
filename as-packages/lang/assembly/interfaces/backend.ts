@@ -1,5 +1,5 @@
 import { IEvent, IKey } from ".";
-import { StorageResult, RandomResult } from "../types";
+import { StorageResult } from "../types";
 
 /**
  * It's backend interface for ask.

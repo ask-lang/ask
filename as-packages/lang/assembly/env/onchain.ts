@@ -1,7 +1,7 @@
 import { seal0, seal1, ReturnCode } from "ask-contract-runtime";
 import { ScaleSerializer, ScaleDeserializer, BytesBuffer } from "as-serde-scale";
 import { IEvent, IKey, TypedEnvBackend } from "../interfaces";
-import { RandomResult, StorageResult } from "../types";
+import { StorageResult } from "../types";
 import { StaticBuffer } from "../internal";
 
 // @ts-ignore
