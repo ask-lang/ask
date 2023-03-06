@@ -122,11 +122,5 @@ export interface TypedEnvBackend extends EnvBackend {
      */
     weightToFee<T>(gas: u64): T;
 
-    /**
-     * Returns a random hash seed.
-     * @param input
-     */
-    random<H, B, Input extends ArrayLike<u8>>(input: Input): RandomResult<H, B>;
-
     // TODO: add more methods for host functions
 }

@@ -19,11 +19,6 @@ export class Contract {
     default(): void {}
 
     @message()
-    random(input: Array<u8>): RandomResult<Hash, BlockNumber> {
-        return env().random<Hash, BlockNumber>(input);
-    }
-
-    @message()
     blake2x256(input: Array<u8>): FixedArray32<u8> {
         return blake2x256<Array<u8>, FixedArray32<u8>>(input);
     }
