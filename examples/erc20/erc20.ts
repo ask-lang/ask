@@ -222,7 +222,7 @@ export class ERC20 {
         assert(recipient != ZERO_ACCOUNT, "ERC20: transfer to the zero address");
 
         const spenderBalance = this.storage.balances.getOrNull(sender);
-        assert(spenderBalance !== null);
+        assert(spenderBalance != null);
         assert(spenderBalance! >= amount, "ERC20: transfer amount exceeds balance");
 
         // @ts-ignore
@@ -230,14 +230,15 @@ export class ERC20 {
         this.storage.balances.set(sender, senderLeft);
 
         let recipientLeft = this.storage.balances.getOrNull(recipient);
+        let newRecipientLeft: u128;
         if (recipientLeft !== null) {
             // @ts-ignore
-            recipientLeft = recipientLeft + amount;
+            newRecipientLeft = recipientLeft as u128 + amount;
         } else {
-            recipientLeft = amount;
+            newRecipientLeft = amount;
         }
         // @ts-ignore
-        this.storage.balances.set(recipient, recipientLeft);
+        this.storage.balances.set(recipient, newRecipientLeft);
         const event = new Transfer(sender, recipient, amount);
         // @ts-ignore
         env().emitEvent(event);

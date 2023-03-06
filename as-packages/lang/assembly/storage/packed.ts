@@ -91,7 +91,6 @@ export function pushPackedRoot<T extends PackedLayout, K extends IKey>(value: T,
 // Note: it's recursive by calling `value.pullPacked(key)`.
 // prettier-ignore
 export function pullPacked<T, K extends IKey>(value: T, key: K): void {
-    let dummy: T;
     if (!isReference<T>()) {
         return;
     } else if (
@@ -116,7 +115,9 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (
+    } 
+    let dummy: T = changetype<T>(0);
+    if (
         isArray<T>() ||
         value instanceof StaticArray ||
         isArrayLike<T>() ||
