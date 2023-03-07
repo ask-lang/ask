@@ -1,5 +1,5 @@
 import { IEvent, IKey } from ".";
-import { StorageResult, RandomResult } from "../types";
+import { StorageResult } from "../types";
 
 /**
  * It's backend interface for ask.
@@ -121,12 +121,6 @@ export interface TypedEnvBackend extends EnvBackend {
      * @param gas
      */
     weightToFee<T>(gas: u64): T;
-
-    /**
-     * Returns a random hash seed.
-     * @param input
-     */
-    random<H, B, Input extends ArrayLike<u8>>(input: Input): RandomResult<H, B>;
 
     // TODO: add more methods for host functions
 }
