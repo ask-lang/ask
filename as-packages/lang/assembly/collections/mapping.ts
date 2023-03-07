@@ -61,6 +61,20 @@ export class Mapping<K1, V, H extends IHash256> implements SpreadLayout {
     }
 
     /**
+     * Gets the value at the give index. Return defaultValue if not exist.
+     * @param index
+     * @returns
+     */
+    getOrDefault(key: K1, defaultVal: V): V {
+        let k = this.keyAt(key);
+        let res = env().getContractStorageResult<Key, V>(k);
+        if (res.code == ReturnCode.KeyNotFound) {
+            return defaultVal;
+        }
+        return res.value;
+    }
+
+    /**
      * Sets the new value at the given index.
      * @param index
      * @param value
