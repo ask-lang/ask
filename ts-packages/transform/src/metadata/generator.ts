@@ -11,10 +11,7 @@ import {
     SourceKind,
     MethodDeclaration,
     NodeKind,
-    FieldDeclaration,
     Function,
-    // TODO:
-    // Field,
     Class,
     ClassDeclaration,
     DiagnosticCode,
@@ -352,26 +349,27 @@ export class MetadataGenerator {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const field = event.members!.get(member.name.text)!;
-            assert(field != null);
-            const fieldDecl = field.declaration as FieldDeclaration;
+            const eventMember = event.members!.get(member.name.text)!;
+            assert(eventMember != null);
+            assert(eventMember.declaration.kind == NodeKind.MethodDeclaration);
+            const fieldMethodDecl = eventMember.declaration as MethodDeclaration;
             const indexed: boolean = extractDecorator(
                 this.program,
-                fieldDecl,
+                fieldMethodDecl,
                 ContractDecoratorKind.Topic,
             )
                 ? true
                 : false;
 
-            let property = TypeResolver.getPropertyField(field);
+            let property = TypeResolver.getPropertyField(eventMember);
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const typeInfo = types.get(property.type)!;
             const typeSpec = new TypeSpec(
                 typeInfo.index,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                fieldDecl.type!.range.toString(),
+                typeInfo.type?.toString() || "unknown",
             );
-            args.push(new EventParamSpec(field.name, typeSpec, indexed));
+            args.push(new EventParamSpec(eventMember.name, typeSpec, indexed));
         });
 
         log(`End ${this.genEventSpec.name}: ${event.name}`);
