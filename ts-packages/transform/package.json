@@ -24,14 +24,15 @@
     "test": "mocha dist/tests/**/*.spec.js"
   },
   "peerDependencies": {
-    "as-serde-transform": "^0.3.0",
     "assemblyscript": "^0.25",
+    "as-serde-transform": "^0.3.0",
     "visitor-as": "^0.11.4"
   },
   "dependencies": {
     "assemblyscript": "^0.25",
-    "ask-contract-metadata": "0.4.0",
+    "as-serde-transform": "^0.3.0",
     "visitor-as": "^0.11.4",
+    "ask-contract-metadata": "0.4.0",
     "blakejs": "^1.1.0",
     "debug": "^4.3.2",
     "lodash": "4.17"

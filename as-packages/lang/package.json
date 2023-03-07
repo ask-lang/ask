@@ -22,7 +22,8 @@
     "ask-contract-runtime": "0.4.0",
     "as-buffers": "^0.3",
     "as-serde": "^0.3",
-    "as-serde-scale": "^0.3"
+    "as-serde-scale": "^0.3",
+    "as-bignum": "^0.2.30"
   },
   "devDependencies": {
     "@types/blake2": "^4.0.1",
