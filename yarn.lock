@@ -2017,6 +2017,11 @@ as-buffers@^0.1.3:
   resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.1.3.tgz#af135c3762a949ebf8c9ce4135107947607c10fb"
   integrity sha512-NwGbA3YRsbA0OYegzDG4bLiMPtRKZcmq9r/WLnEuhaJD/M6dk7VUV5MrC1ni9Rjnbf5Zq9Kn5vjujtWYVXXVEA==
 
+as-buffers@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.3.0.tgz#70344bb56fe1edb593a997e33bc24e3a261a8d89"
+  integrity sha512-vhnRBO7JsFhs54d0BnmA9sbhtmexsvuqDON5u+0tkH8JLTp7tPETtZp+FG/RhJTZpXZ8GT75F36v/ZPPd33/hw==
+
 as-serde-scale@^0.2:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/as-serde-scale/-/as-serde-scale-0.2.0.tgz#67fe476df6c59c91b4562365052d2548b65ab8d3"
