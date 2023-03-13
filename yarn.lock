@@ -2007,6 +2007,11 @@ arrify@^2.0.1:
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
   integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
+as-base64@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/as-base64/-/as-base64-0.2.0.tgz#b4bed937c93bfb6524b932b517e1b8571a0dd518"
+  integrity sha512-j6JxprAVN4SXUcZiSChuMBf0JJOCdh5OfrHAepluxmFWuDZZm+YjmfNSk8djUHRPEB+Ui5HGvrz46GLvTJf3ig==
+
 as-bignum@^0.2, as-bignum@^0.2.23:
   version "0.2.23"
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.23.tgz#626e358721504291d35db4ce5c80693630048ad3"
@@ -2017,14 +2022,19 @@ as-buffers@^0.1.3:
   resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.1.3.tgz#af135c3762a949ebf8c9ce4135107947607c10fb"
   integrity sha512-NwGbA3YRsbA0OYegzDG4bLiMPtRKZcmq9r/WLnEuhaJD/M6dk7VUV5MrC1ni9Rjnbf5Zq9Kn5vjujtWYVXXVEA==
 
-as-serde-scale@^0.2:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/as-serde-scale/-/as-serde-scale-0.2.0.tgz#67fe476df6c59c91b4562365052d2548b65ab8d3"
-  integrity sha512-R//bh5Isyj555yYpx6YScKobzGy2Pe7NpQ38kgDclznlD1yb7BHiWNDvxIAMJex+DTM2HRJ34szGkcrOXMY5pw==
+as-buffers@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-buffers/-/as-buffers-0.3.0.tgz#70344bb56fe1edb593a997e33bc24e3a261a8d89"
+  integrity sha512-vhnRBO7JsFhs54d0BnmA9sbhtmexsvuqDON5u+0tkH8JLTp7tPETtZp+FG/RhJTZpXZ8GT75F36v/ZPPd33/hw==
+
+as-serde-scale@^0.3:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-serde-scale/-/as-serde-scale-0.3.0.tgz#51b6ec25c0cfb392d8a8cbbf6787f684298d6e21"
+  integrity sha512-Vm8tb0ODieF+3GBdMCx8bu76HYRUz6p7qy5gTEei+K7stsVGST3nloxoaOusJY2KF3ThFTkHGj12nMsI5IpLMw==
   dependencies:
     as-bignum "^0.2"
-    as-buffers "^0.1.3"
-    as-serde "^0.2.0"
+    as-buffers "^0.3.0"
+    as-serde "^0.3.0"
 
 as-serde-transform@^0.2.0:
   version "0.2.0"
@@ -2036,12 +2046,30 @@ as-serde-transform@^0.2.0:
     lodash "4.17"
     visitor-as "0.8"
 
-as-serde@^0.2, as-serde@^0.2.0:
+as-serde-transform@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-serde-transform/-/as-serde-transform-0.3.0.tgz#ae381fac7b901ead116c94bdb90db2a2840a78b1"
+  integrity sha512-fgP0Ld6E5YpqmGNGEZwL94kl9pmTtmN6IaSXyGfoLgUUZfUqH29UDSGD4ZjHnI3Toaj5BL8KPKx9mWxDZ+PGiQ==
+  dependencies:
+    assemblyscript "^0.25"
+    debug "^4.3.2"
+    lodash "4.17"
+    visitor-as "^0.11.4"
+
+as-serde@^0.2:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/as-serde/-/as-serde-0.2.0.tgz#79051b5e4d5eb98f853323eb199b65ad1ec8bf7c"
   integrity sha512-t6HK/AefRBJOKhDlf+E524hPPLrM17/YDRSH0lTvdwk/1xT9AZlwsYwMKKklq7O9+//wjwu3l4Oy1dfbSVzkAg==
   dependencies:
     as-serde-transform "^0.2.0"
+
+as-serde@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-serde/-/as-serde-0.3.0.tgz#6484fe552ba15df8bc784846c555877e3884ebb4"
+  integrity sha512-VsGq5+1UUbe8AzZFaoYP8rZndGNpYyr2KcojkqmWiJAmeMSyqFU74tHxQ/BQ5dvA5qVzUZxO3WS/L0PyHJWAyA==
+  dependencies:
+    as-base64 "^0.2.0"
+    as-serde-transform "^0.3.0"
 
 asap@^2.0.0:
   version "2.0.6"
@@ -2063,6 +2091,14 @@ assemblyscript@^0.19:
     binaryen "102.0.0-nightly.20211028"
     long "^5.2.0"
     source-map-support "^0.5.20"
+
+assemblyscript@^0.25:
+  version "0.25.2"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.25.2.tgz#49de9cac3d2657d6419f4214e33c3de6253daa83"
+  integrity sha512-67TQOMvKo23htvSK6lhOzsoQjnplNKkdwgq925uBvQZLDbg9pHfAWhg/R8i8tqKrtk6GH8haOJbQY4oNSQqehA==
+  dependencies:
+    binaryen "110.0.0-nightly.20221105"
+    long "^5.2.0"
 
 assert-plus@1.0.0, assert-plus@^1.0.0:
   version "1.0.0"
@@ -2176,6 +2212,11 @@ binaryen@102.0.0-nightly.20211028:
   version "102.0.0-nightly.20211028"
   resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-102.0.0-nightly.20211028.tgz#8f1efb0920afd34509e342e37f84313ec936afb2"
   integrity sha512-GCJBVB5exbxzzvyt8MGDv/MeUjs6gkXDvf4xOIItRBptYl0Tz5sm1o/uG95YK0L0VeG5ajDu3hRtkBP2kzqC5w==
+
+binaryen@110.0.0-nightly.20221105:
+  version "110.0.0-nightly.20221105"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-110.0.0-nightly.20221105.tgz#9e3c47e8ffa31521acd125013dca3ceea143d0bf"
+  integrity sha512-OBESOc51q3SwgG8Uv8nMzGnSq7LJpSB/Fu8B3AjlZg6YtCEwRnlDWlnwNB6mdql+VdexfKmNcsrs4K7MYidmdQ==
 
 blakejs@^1.1.0:
   version "1.2.1"
@@ -6650,6 +6691,11 @@ ts-mixer@^5.4.1:
   resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-5.4.1.tgz#b90db9ced48531aa17ce9184a2890d1e3c99b1e5"
   integrity sha512-Zo9HgPCtNouDgJ+LGtrzVOjSg8+7WGQktIKLwAfaNrlOK1mWGlz1ejsAF/YqUEqAGjUTeB5fEg8gH9Aui6w9xA==
 
+ts-mixer@^6.0.2:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ts-mixer/-/ts-mixer-6.0.3.tgz#69bd50f406ff39daa369885b16c77a6194c7cae6"
+  integrity sha512-k43M7uCG1AkTyxgnmI5MPwKoUvS/bRvLvUb7+Pgpdlmok8AoqmUaZxUUw8zKM5B1lqZrt41GjYgnvAi0fppqgQ==
+
 ts-node@^10, ts-node@^10.7:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
@@ -6887,6 +6933,14 @@ visitor-as@0.8:
   dependencies:
     lodash.clonedeep "^4.5.0"
     ts-mixer "^5.4.1"
+
+visitor-as@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.11.4.tgz#7b2d7b7ac8be86d4741796aa0630af5e471a4744"
+  integrity sha512-uih7AooY2V3LhzobjLqyEQzhYYBGeq0y/rZk295foM1Ko498f24NNXBDyM1SgzcLMFCAT/fpmSRco1BpTIdKNQ==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+    ts-mixer "^6.0.2"
 
 visitor-as@^0.6.0:
   version "0.6.0"
