@@ -22,7 +22,10 @@ export class StaticBuffer {
     @unsafe
     readonly buffer: StaticArray<u8>;
 
-    constructor(bufferSize: u32 = StaticBuffer.DEFAULT_BUFFER_SIZE) {
+    constructor(bufferSize: u32) {
+        if(bufferSize == 0) {
+            bufferSize = StaticBuffer.DEFAULT_BUFFER_SIZE;
+        }
         this.buffer = new StaticArray<u8>(bufferSize as i32);
     }
 

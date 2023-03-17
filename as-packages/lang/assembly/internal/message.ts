@@ -1,9 +1,11 @@
+// @ts-nocheck
 import { BytesBuffer, ScaleDeserializer } from "as-serde-scale";
 import { StaticBuffer } from ".";
 import { IMessage } from "../interfaces/message";
 
 // A global static buffer for storing transaction message or host function io.
-const GLOBAL_BUFFER = new StaticBuffer();
+// @lazy
+// const GLOBAL_BUFFER = new StaticBuffer();
 // Selector is 4 bytes.
 const SELECTOR_BUFFER_SIZE: i32 = 4;
 
@@ -22,6 +24,8 @@ export class Message implements IMessage {
 
     // TODO: add fillFromEnv method instead of constructor
     constructor() {
+        const GLOBAL_BUFFER = new StaticBuffer(0);
+
         const selector = new StaticArray<u8>(SELECTOR_BUFFER_SIZE);
         GLOBAL_BUFFER.input();
 

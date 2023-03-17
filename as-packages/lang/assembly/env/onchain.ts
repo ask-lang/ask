@@ -4,18 +4,18 @@ import { IEvent, IKey, TypedEnvBackend } from "../interfaces";
 import { RandomResult, StorageResult } from "../types";
 import { StaticBuffer } from "../internal";
 
-// @ts-ignore
-@lazy const storageBuffer = new StaticBuffer();
-
 // TODO: Should we direct use defaultEnv?
 // @ts-ignore
 @inline
 export function env(): EnvInstance {
+    if (changetype<usize>(defaultEnv) == 0) {
+        defaultEnv = new EnvInstance();
+    }
     return defaultEnv;
 }
 
 // @ts-ignore
-@lazy const defaultEnv: EnvInstance = new EnvInstance();
+let defaultEnv: EnvInstance = changetype<EnvInstance>(0);
 
 /**
  * When a message payable is false, transform will call this function to deny payment.
@@ -28,27 +28,33 @@ export function denyPayment<B>(): void {
 }
 
 export class EnvInstance implements TypedEnvBackend {
-
+    storageBuffer: StaticBuffer = new StaticBuffer(0);
+    private readonly scale: ScaleSerializer = new ScaleSerializer();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() { }
 
     @inline
+    serialize<T>(value: T): StaticArray<u8> {
+        this.scale.clear();
+        return this.scale.serialize<T>(value).toStaticArray();
+    }
+    @inline
     protected getProperty<T>(
         fn: (valueBuf: u32, sizeBuf: u32) => void
     ): T {
-        storageBuffer.resetBufferSize();
+        this.storageBuffer.resetBufferSize();
         fn(
-            storageBuffer.bufferPtr,
-            storageBuffer.sizePtr,
+            this.storageBuffer.bufferPtr,
+            this.storageBuffer.sizePtr,
         );
-        return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(storageBuffer.buffer));
+        return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(this.storageBuffer.buffer));
     }
 
     setContractStorage<K extends IKey, V>(
         key: K,
         value: V
     ): void {
-        const valBytes = ScaleSerializer.serialize<V>(value);
+        const valBytes = this.serialize<V>(value);
         seal0.seal_set_storage(
             changetype<u32>(key.toBytes()),
             changetype<u32>(valBytes),
@@ -57,16 +63,16 @@ export class EnvInstance implements TypedEnvBackend {
     }
 
     getContractStorage<K extends IKey, V>(key: K): V {
-        storageBuffer.resetBufferSize();
+        this.storageBuffer.resetBufferSize();
         const code = seal0.seal_get_storage(
             changetype<u32>(key.toBytes()),
-            storageBuffer.bufferPtr,
-            storageBuffer.sizePtr,
+            this.storageBuffer.bufferPtr,
+            this.storageBuffer.sizePtr,
         );
         assert(code == ReturnCode.Success, code.toString());
 
-        if (!storageBuffer.isFull()) {
-            return ScaleDeserializer.deserialize<V>(BytesBuffer.wrap(storageBuffer.buffer));
+        if (!this.storageBuffer.isFull()) {
+            return ScaleDeserializer.deserialize<V>(BytesBuffer.wrap(this.storageBuffer.buffer));
         } else {
             // TODO: reserve more bytes and call again getContractStorage
         }
@@ -74,15 +80,15 @@ export class EnvInstance implements TypedEnvBackend {
     }
 
     getContractStorageResult<K extends IKey, V>(key: K): StorageResult<V> {
-        storageBuffer.resetBufferSize();
+        this.storageBuffer.resetBufferSize();
         let code = seal0.seal_get_storage(
             changetype<u32>(key.toBytes()),
-            storageBuffer.bufferPtr,
-            storageBuffer.sizePtr,
+            this.storageBuffer.bufferPtr,
+            this.storageBuffer.sizePtr,
         );
 
-        if (code == ReturnCode.Success && !storageBuffer.isFull()) {
-            return new StorageResult<V>(code, ScaleDeserializer.deserialize<V>(BytesBuffer.wrap(storageBuffer.buffer)));
+        if (code == ReturnCode.Success && !this.storageBuffer.isFull()) {
+            return new StorageResult<V>(code, ScaleDeserializer.deserialize<V>(BytesBuffer.wrap(this.storageBuffer.buffer)));
         } else {
             return new StorageResult<V>(code);
         }
@@ -95,7 +101,7 @@ export class EnvInstance implements TypedEnvBackend {
 
     @inline
     returnValue<V>(flags: u32, value: V): void {
-        const valBytes = ScaleSerializer.serialize<V>(value);
+        const valBytes = this.serialize<V>(value);
         seal0.seal_return(flags, changetype<u32>(valBytes), valBytes.length);
     }
 
@@ -110,8 +116,8 @@ export class EnvInstance implements TypedEnvBackend {
     }
 
     transfer<A, B>(dest: A, value: B): void {
-        const destBytes = ScaleSerializer.serialize<A>(dest);
-        const valueBytes = ScaleSerializer.serialize<B>(value);
+        const destBytes = this.serialize<A>(dest);
+        const valueBytes = this.serialize<B>(value);
         seal0.seal_transfer(
             changetype<u32>(destBytes),
             destBytes.length,
@@ -162,20 +168,20 @@ export class EnvInstance implements TypedEnvBackend {
 
     @inline
     setRentAllowance<T>(newValue: T): void {
-        const bytes = ScaleSerializer.serialize<T>(newValue);
+        const bytes = this.serialize<T>(newValue);
         seal0.seal_rent_allowance(changetype<u32>(bytes), bytes.length);
     }
 
     @inline
     terminateContract<T>(beneficiary: T): void {
-        const bytes = ScaleSerializer.serialize<T>(beneficiary);
+        const bytes = this.serialize<T>(beneficiary);
         seal1.seal_terminate(changetype<u32>(bytes));
     }
 
     weightToFee<T>(gas: u64): T {
-        storageBuffer.resetBufferSize();
-        seal0.seal_weight_to_fee(gas, storageBuffer.bufferPtr, storageBuffer.sizePtr);
-        return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(storageBuffer.buffer));
+        this.storageBuffer.resetBufferSize();
+        seal0.seal_weight_to_fee(gas, this.storageBuffer.bufferPtr, this.storageBuffer.sizePtr);
+        return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(this.storageBuffer.buffer));
     }
 
     emitEvent<E extends IEvent>(event: E): void {
@@ -199,23 +205,23 @@ export class EnvInstance implements TypedEnvBackend {
         B,
         Input extends ArrayLike<u8> = Array<u8>,
         >(input: Input): RandomResult<H, B> {
-        storageBuffer.resetBufferSize();
+        this.storageBuffer.resetBufferSize();
         if (input instanceof Array) {
             seal1.seal_random(
                 changetype<u32>(input.dataStart),
                 input.length,
-                storageBuffer.bufferPtr,
-                storageBuffer.sizePtr,
+                this.storageBuffer.bufferPtr,
+                this.storageBuffer.sizePtr,
             );
         } else if (input instanceof StaticArray) {
             seal1.seal_random(
                 changetype<u32>(input),
                 input.length,
-                storageBuffer.bufferPtr,
-                storageBuffer.sizePtr,
+                this.storageBuffer.bufferPtr,
+                this.storageBuffer.sizePtr,
             );
         }
-        return ScaleDeserializer.deserialize<RandomResult<H, B>>(BytesBuffer.wrap(storageBuffer.buffer));
+        return ScaleDeserializer.deserialize<RandomResult<H, B>>(BytesBuffer.wrap(this.storageBuffer.buffer));
     }
 }
 
