@@ -39,7 +39,7 @@
     "@types/jest": "^27.4.1",
     "@types/lodash": "4.14",
     "jest": "^27",
-    "ts-jest": "^27"
+    "ts-jest": "^29"
   },
   "files": [
     "asconfig.json",
