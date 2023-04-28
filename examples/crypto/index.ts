@@ -1,7 +1,6 @@
 import {
     env,
     BlockNumber,
-    RandomResult,
     FixedArray16,
     FixedArray32,
     blake2x256,
@@ -17,11 +16,6 @@ export class Contract {
 
     @constructor()
     default(): void {}
-
-    @message()
-    random(input: Array<u8>): RandomResult<Hash, BlockNumber> {
-        return env().random<Hash, BlockNumber>(input);
-    }
 
     @message()
     blake2x256(input: Array<u8>): FixedArray32<u8> {

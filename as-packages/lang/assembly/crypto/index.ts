@@ -53,7 +53,7 @@ export function sha2x256<
     Input extends ArrayLike<u8> = Array<u8>,
     Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
-    return cryptoHash<Input, Output>(input, seal0.seal_hash_sha2_256);
+    return cryptoHash<Input, Output>(input, seal0.hash_sha2_256);
 }
 
 /**
@@ -65,7 +65,7 @@ export function keccak256<
     Input extends ArrayLike<u8> = Array<u8>,
     Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
-    return cryptoHash<Input, Output>(input, seal0.seal_hash_keccak_256);
+    return cryptoHash<Input, Output>(input, seal0.hash_keccak_256);
 }
 
 /**
@@ -77,7 +77,7 @@ export function blake2x256<
     Input extends ArrayLike<u8> = Array<u8>,
     Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
-    return cryptoHash<Input, Output>(input, seal0.seal_hash_blake2_256);
+    return cryptoHash<Input, Output>(input, seal0.hash_blake2_256);
 }
 
 /**
@@ -89,7 +89,7 @@ export function blake2x128<
     Input extends ArrayLike<u8> = Array<u8>,
     Output extends ArrayLike<u8> = Array<u8>,
 >(input: Input): Output {
-    return cryptoHash<Input, Output>(input, seal0.seal_hash_blake2_128, 16);
+    return cryptoHash<Input, Output>(input, seal0.hash_blake2_128, 16);
 }
 
 // prettier-ignore
