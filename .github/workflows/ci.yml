@@ -59,10 +59,4 @@ jobs:
         run: |
           yarn install --immutable
           yarn build
-          yarn example ./examples/crypto
-          yarn example ./examples/erc20
-          yarn example ./examples/flipper
-          yarn example ./examples/inherent-flipper
-          yarn example ./examples/lazy
-          yarn example ./examples/mapping
-          yarn example ./examples/vector
+          bash ./scripts/build-examples.sh
