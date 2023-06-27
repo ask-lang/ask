@@ -49,7 +49,7 @@ export class EnvInstance implements TypedEnvBackend {
         value: V
     ): void {
         const valBytes = ScaleSerializer.serialize<V>(value);
-        seal0.set_storage(
+        seal0.seal_set_storage(
             changetype<u32>(key.toBytes()),
             changetype<u32>(valBytes),
             valBytes.length
@@ -58,7 +58,7 @@ export class EnvInstance implements TypedEnvBackend {
 
     getContractStorage<K extends IKey, V>(key: K): V {
         storageBuffer.resetBufferSize();
-        const code = seal0.get_storage(
+        const code = seal0.seal_get_storage(
             changetype<u32>(key.toBytes()),
             storageBuffer.bufferPtr,
             storageBuffer.sizePtr,
@@ -75,7 +75,7 @@ export class EnvInstance implements TypedEnvBackend {
 
     getContractStorageResult<K extends IKey, V>(key: K): StorageResult<V> {
         storageBuffer.resetBufferSize();
-        let code = seal0.get_storage(
+        let code = seal0.seal_get_storage(
             changetype<u32>(key.toBytes()),
             storageBuffer.bufferPtr,
             storageBuffer.sizePtr,
@@ -90,7 +90,7 @@ export class EnvInstance implements TypedEnvBackend {
 
     @inline
     clearContractStroage<K extends IKey>(key: K): void {
-        seal0.clear_storage(changetype<u32>(key.toBytes()));
+        seal0.seal_clear_storage(changetype<u32>(key.toBytes()));
     }
 
     @inline
@@ -101,18 +101,18 @@ export class EnvInstance implements TypedEnvBackend {
 
     @inline
     caller<A>(): A {
-        return this.getProperty<A>(seal0.caller);
+        return this.getProperty<A>(seal0.seal_caller);
     }
 
     @inline
     transferredBalance<B>(): B {
-        return this.getProperty<B>(seal0.value_transferred);
+        return this.getProperty<B>(seal0.seal_value_transferred);
     }
 
     transfer<A, B>(dest: A, value: B): void {
         const destBytes = ScaleSerializer.serialize<A>(dest);
         const valueBytes = ScaleSerializer.serialize<B>(value);
-        seal0.transfer(
+        seal0.seal_transfer(
             changetype<u32>(destBytes),
             destBytes.length,
             changetype<u32>(valueBytes),
@@ -122,32 +122,32 @@ export class EnvInstance implements TypedEnvBackend {
 
     @inline
     gasLeft(): u64 {
-        return this.getProperty<u64>(seal0.gas_left);
+        return this.getProperty<u64>(seal0.seal_gas_left);
     }
 
     @inline
     blockTimestamp<T>(): T {
-        return this.getProperty<T>(seal0.now);
+        return this.getProperty<T>(seal0.seal_now);
     }
 
     @inline
     accountId<T>(): T {
-        return this.getProperty<T>(seal0.address);
+        return this.getProperty<T>(seal0.seal_address);
     }
 
     @inline
     balance<T>(): T {
-        return this.getProperty<T>(seal0.balance);
+        return this.getProperty<T>(seal0.seal_balance);
     }
 
     @inline
     minimumBalance<T>(): T {
-        return this.getProperty<T>(seal0.minimum_balance);
+        return this.getProperty<T>(seal0.seal_minimum_balance);
     }
 
     @inline
     blockNumber<T>(): T {
-        return this.getProperty<T>(seal0.block_number);
+        return this.getProperty<T>(seal0.seal_block_number);
     }
 
     @inline
@@ -158,7 +158,7 @@ export class EnvInstance implements TypedEnvBackend {
 
     weightToFee<T>(gas: u64): T {
         storageBuffer.resetBufferSize();
-        seal0.weight_to_fee(gas, storageBuffer.bufferPtr, storageBuffer.sizePtr);
+        seal0.seal_weight_to_fee(gas, storageBuffer.bufferPtr, storageBuffer.sizePtr);
         return ScaleDeserializer.deserialize<T>(BytesBuffer.wrap(storageBuffer.buffer));
     }
 
@@ -170,7 +170,7 @@ export class EnvInstance implements TypedEnvBackend {
         serializer.serialize<u32>(id);
         const datasBytes = serializer.serialize<E>(event).toStaticArray();
 
-        seal0.deposit_event(
+        seal0.seal_deposit_event(
             0,
             0,
             changetype<u32>(datasBytes),

@@ -28,7 +28,7 @@ export class StaticBuffer {
 
     input(): void {
         this.resetBufferSize();
-        seal0.input(this.bufferPtr, this.sizePtr);
+        seal0.seal_input(this.bufferPtr, this.sizePtr);
     }
 
     /**
