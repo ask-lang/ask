@@ -24,6 +24,6 @@
         "noExportMemory": true,
         "runtime": "stub",
         "use": "abort=",
-        "disable": ["Sign-extension"]
+        "disable": ["sign-extension", "bulk-memory", "mutable-globals"]
     }
   }
