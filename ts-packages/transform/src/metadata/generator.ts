@@ -190,8 +190,6 @@ export class MetadataGenerator {
                 }
             }
         });
-        // type index is starting from 1
-        // typeSpecs.splice(0, 1);
         return typeSpecs;
     }
 
@@ -202,25 +200,6 @@ export class MetadataGenerator {
         );
         const types = resolver.resolvedTypes();
         const fields: metadata.Field[] = info.fields.map((field) => {
-            // field is named
-            // if (field instanceof Field) {
-            //     const fieldDecl = field.prototype.declaration as FieldDeclaration;
-            //     const fieldTypeInfo = types.get(field.type);
-            //     assert(
-            //         fieldTypeInfo != null,
-            //         `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
-            //     );
-            //     const ret = new metadata.Field(
-            //         fieldDecl.name.range.toString(),
-            //         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            //         fieldTypeInfo!.index,
-            //         // we make sure all fields gived a type explicitly
-            //         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            //         fieldDecl.type!.range.toString(),
-            //     );
-            //     return ret;
-            // } else {
-            // type is unnamed
             const fieldTypeInfo = types.get(field);
             assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
             const ret = new metadata.Field(
@@ -231,7 +210,6 @@ export class MetadataGenerator {
                 field.toString(),
             );
             return ret;
-            // }
         });
         let path = info.type ? info.type.toString() : "unknown";
         return new CompositeDef(fields).setPath([path]);

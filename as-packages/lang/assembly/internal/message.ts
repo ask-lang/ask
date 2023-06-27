@@ -32,7 +32,7 @@ export class Message implements IMessage {
         );
         const argsBytes = BytesBuffer.wrap(GLOBAL_BUFFER.buffer);
         argsBytes.resetReadOffset(SELECTOR_BUFFER_SIZE);
-        
+
         this.selector = selector;
         this.argsBytes = argsBytes;
     }
