@@ -65,3 +65,4 @@ jobs:
           yarn example ./examples/lazy
           yarn example ./examples/mapping
           yarn example ./examples/vector
+          yarn example ./examples/incrementer
