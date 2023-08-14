@@ -37,7 +37,7 @@
     "@as-pect/cli": "^6.2",
     "@assemblyscript/loader": "^0.27",
     "@types/jest": "27",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.5.0",
     "@typescript-eslint/eslint-plugin": "^5.16",
     "@typescript-eslint/parser": "^5.16",
     "assemblyscript": "^0.19",
