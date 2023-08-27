@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
-yarn example ./examples/crypto
-yarn example ./examples/erc20
-yarn example ./examples/flipper
-yarn example ./examples/inherent-flipper
-yarn example ./examples/lazy
-yarn example ./examples/mapping
-yarn example ./examples/vector
+declare -a DIRS=(
+    "./examples/crypto"
+    "./examples/erc20"
+    "./examples/flipper"
+    "./examples/incrementer"
+    "./examples/inherent-flipper"
+    "./examples/lazy"
+    "./examples/vector"
+)
+
+for dir in ${DIRS[@]}; do
+    echo $dir
+    yarn example $dir
+done
