@@ -13,6 +13,5 @@ declare -a DIRS=(
 )
 
 for dir in ${DIRS[@]}; do
-    echo $dir
     yarn example $dir
 done
