@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
@@ -7,12 +8,11 @@ import {
     DiagnosticCode,
     NodeKind,
     CommonFlags,
-} from "assemblyscript";
-import { EventDeclaration } from "../ast";
-import { EventConfig } from "../config";
-import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil";
-import { IEVENT_TYPE_PATH } from "../consts";
-import { uniqBy } from "lodash";
+} from "assemblyscript/dist/assemblyscript.js";
+import { EventDeclaration } from "../ast.js";
+import { EventConfig } from "../config.js";
+import { addSerializeDecorator, addDeserializeDecorator, addImplement } from "../astutil/index.js";
+import { IEVENT_TYPE_PATH } from "../consts.js";
 
 const METHOD_EVENT_ID = "eventId";
 
@@ -59,8 +59,8 @@ export class EventVisitor extends TransformVisitor {
             );
         }
         this.visit(node.members);
-        this.data = uniqBy(this.data, (data) => data.range.toString());
-        this.topics = uniqBy(this.topics, (topic) => topic.range.toString());
+        this.data = _.uniqBy(this.data, (data) => data.range.toString());
+        this.topics = _.uniqBy(this.topics, (topic) => topic.range.toString());
         node.members.push(...this.genEvent(node));
         addSerializeDecorator(node);
         addDeserializeDecorator(node);
@@ -72,7 +72,7 @@ export class EventVisitor extends TransformVisitor {
 
     visitFieldDeclaration(node: FieldDeclaration): FieldDeclaration {
         // ignore static fields
-        if (node.is(CommonFlags.STATIC)) {
+        if (node.is(CommonFlags.Static)) {
             return node;
         }
         this.visitNonTopicField(node);
@@ -134,7 +134,7 @@ export class EventVisitor extends TransformVisitor {
         // TODO: use u8 for compatible with ink!
         const methodDecl = `${METHOD_EVENT_ID}(): u32 { return ${this.eventId}; }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 }

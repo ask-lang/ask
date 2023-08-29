@@ -1,4 +1,4 @@
-import { i128, u128 } from "as-bignum";
+import { i128, u128 } from "../index";
 import { instantiateRaw } from "..";
 import { SpreadLayout, IKey } from "../interfaces";
 import { FixedArray } from "../fixedArrays";
@@ -71,7 +71,7 @@ export function clearSpreadRoot<T extends SpreadLayout, K extends IKey>(
 }
 
 export function pullSpread<T extends SpreadLayout, K extends IKey>(key: K): T {
-    let dummy: T;
+    let dummy: T = changetype<T>(0);
     if (!isReference<T>() || false) {
         return forwardPullPacked<T, K>(key);
     } else if (

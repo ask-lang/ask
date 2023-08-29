@@ -4,11 +4,11 @@ import {
     FunctionTypeNode,
     DiagnosticCode,
     DiagnosticEmitter,
-} from "visitor-as/as";
-import { DecoratorConfig, extractConfigFromDecorator, extractDecorator } from "./util";
-import { utils } from "visitor-as/dist";
-import { DecoratorNode } from "assemblyscript";
+    DecoratorNode,
+} from "assemblyscript/dist/assemblyscript.js";
+import { utils } from "visitor-as";
 import blake from "blakejs";
+import { DecoratorConfig, extractConfigFromDecorator, extractDecorator } from "./util.js";
 
 /**
  * Ask supported decorators.

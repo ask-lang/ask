@@ -1,7 +1,7 @@
-import { newProgram, newOptions } from "assemblyscript";
-import { defaultConfig } from "../config";
-import { PackedLayoutVisitor } from "../visitors";
-import { checkVisitor } from "./testutil";
+import { newProgram, newOptions } from "assemblyscript/dist/assemblyscript.js";
+import { defaultConfig } from "../config.js";
+import { PackedLayoutVisitor } from "../visitors/index.js";
+import { checkVisitor } from "./testutil.js";
 
 // Note: in tests we have to use two spaces as ident because of ASTBuilder.
 function checkPackedLayoutVisitor(

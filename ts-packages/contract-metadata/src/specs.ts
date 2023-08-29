@@ -1,4 +1,4 @@
-import { MetadataVersion } from ".";
+import { MetadataVersion } from "./index.js";
 
 /**
  * Describes a contract.

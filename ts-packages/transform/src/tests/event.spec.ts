@@ -1,7 +1,7 @@
-import { newProgram, newOptions } from "assemblyscript";
-import { defaultEventConfig } from "../config";
-import { EventVisitor } from "../visitors";
-import { checkVisitor } from "./testutil";
+import { newProgram, newOptions } from "assemblyscript/dist/assemblyscript.js";
+import { defaultEventConfig } from "../config.js";
+import { EventVisitor } from "../visitors/index.js";
+import { checkVisitor } from "./testutil.js";
 
 // Note: in tests we have to use two spaces as ident because of ASTBuilder.
 function checkEventVisitor(code: string, expected: string, warn = false, error = false): void {

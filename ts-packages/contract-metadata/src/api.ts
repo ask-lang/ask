@@ -1,5 +1,5 @@
-import { Layout } from "./layouts";
 import {
+    Layout,
     IConstructorSpec,
     IContract,
     IContractMetadata,
@@ -10,10 +10,11 @@ import {
     IMessageSpec,
     IMetadataVersioned,
     ITypeSpec,
-} from "./specs";
-import { TypeWithId } from "./types";
-import { ISource } from "./specs";
-import { MetadataVersion, ToMetadata } from ".";
+    TypeWithId,
+    ISource,
+    MetadataVersion,
+    ToMetadata,
+} from "./index.js";
 
 export class VersionedContractMetadata implements ToMetadata {
     constructor(

@@ -11,8 +11,8 @@ import {
     InterfaceDeclaration,
     TypeDeclaration,
     VariableDeclaration,
-} from "assemblyscript";
-import { removeExported } from "../util";
+} from "assemblyscript/dist/assemblyscript.js";
+import { removeExported } from "../util.js";
 
 /**
  * ExportEraser remove all `export` flags for current source.

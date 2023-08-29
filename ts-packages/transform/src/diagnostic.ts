@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DiagnosticEmitter, DiagnosticCategory } from "visitor-as/as";
+import { DiagnosticEmitter, DiagnosticCategory } from "assemblyscript/dist/assemblyscript.js";
 
 /**
  * A util class to control diagnostic mode.
@@ -30,7 +30,7 @@ export class DiagnosticMode {
  * @returns return true if emitter have ERROR message
  */
 export function hasErrorMessage(emitter: DiagnosticEmitter): boolean {
-    return hasMessage(emitter, DiagnosticCategory.ERROR);
+    return hasMessage(emitter, DiagnosticCategory.Error);
 }
 
 /**
@@ -39,7 +39,7 @@ export function hasErrorMessage(emitter: DiagnosticEmitter): boolean {
  * @returns return true if emitter have WARNING message
  */
 export function hasWarningMessage(emitter: DiagnosticEmitter): boolean {
-    return hasMessage(emitter, DiagnosticCategory.WARNING);
+    return hasMessage(emitter, DiagnosticCategory.Warning);
 }
 
 function hasMessage(emitter: DiagnosticEmitter, category: DiagnosticCategory): boolean {

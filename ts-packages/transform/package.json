@@ -3,6 +3,7 @@
   "version": "0.4.0",
   "description": "AssemblyScript transformer for building ask projects",
   "main": "dist/index.js",
+  "type": "module",
   "author": "Ask! Authors <https://github.com/ask-lang>",
   "license": "MIT",
   "keywords": [
@@ -20,26 +21,26 @@
   "scripts": {
     "checks": "tsc -p tsconfig.json --noEmit",
     "build": "rm -rf dist/* && tsc -p tsconfig.json",
-    "test": "yarn build && jest ."
+    "test": "mocha dist/tests/**/*.spec.js"
   },
   "peerDependencies": {
-    "assemblyscript": "^0.19",
-    "visitor-as": "0.8"
+    "assemblyscript": "=0.25",
+    "as-serde-transform": "^0.3.0",
+    "visitor-as": "^0.11.4"
   },
   "dependencies": {
-    "assemblyscript": "^0.19",
-    "blakejs": "^1.1.0",
+    "assemblyscript": "=0.25",
+    "as-serde-transform": "^0.3.0",
+    "visitor-as": "^0.11.4",
     "ask-contract-metadata": "0.4.0",
-    "debug": "^4.3",
-    "lodash": "4.17",
-    "visitor-as": "0.8"
+    "blakejs": "^1.1.0",
+    "debug": "^4.3.2",
+    "lodash": "^4.17"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
-    "@types/jest": "^27.4.1",
     "@types/lodash": "4.14",
-    "jest": "^27",
-    "ts-jest": "^27"
+    "@types/mocha": "^10.0"
   },
   "files": [
     "asconfig.json",

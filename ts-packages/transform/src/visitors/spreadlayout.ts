@@ -1,3 +1,5 @@
+import _ from "lodash";
+import { SimpleParser, TransformVisitor } from "visitor-as";
 import {
     ClassDeclaration,
     FieldDeclaration,
@@ -5,14 +7,12 @@ import {
     MethodDeclaration,
     NodeKind,
     CommonFlags,
-} from "assemblyscript";
-import { SimpleParser, TransformVisitor } from "visitor-as";
-import { mustBeLegalStorageField } from "../util";
+} from "assemblyscript/dist/assemblyscript.js";
+import { mustBeLegalStorageField } from "../util.js";
 
-import { addImplement } from "../astutil";
-import { AskConfig } from "../config";
-import { IKEY_TYPE_PATH, SPREAD_LAYOUT_TYPE_PATH } from "../consts";
-import { uniqBy } from "lodash";
+import { addImplement } from "../astutil/index.js";
+import { AskConfig } from "../config.js";
+import { IKEY_TYPE_PATH, SPREAD_LAYOUT_TYPE_PATH } from "../consts.js";
 
 /**
  * SpreadLayoutVisitor traversal `@spreadLayout` class and implements SpreadLayout interface for it. The fields must be Codec types.
@@ -30,7 +30,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
         this.hasBase = node.extendsType ? true : false;
 
         node = super.visitClassDeclaration(node);
-        this.fields = uniqBy(this.fields, (f) => f.range.toString());
+        this.fields = _.uniqBy(this.fields, (f) => f.range.toString());
         node.members.push(...this.genSpreadLayout(node));
         // we assume that base class also implements SpreadLayout
         if (!this.hasBase) {
@@ -41,7 +41,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
 
     visitFieldDeclaration(node: FieldDeclaration): FieldDeclaration {
         // ignore static fields
-        if (node.is(CommonFlags.STATIC)) {
+        if (node.is(CommonFlags.Static)) {
             return node;
         }
 
@@ -72,7 +72,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_PULL}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -91,7 +91,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_PUSH}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 
@@ -110,7 +110,7 @@ export class SpreadLayoutVisitor extends TransformVisitor {
 
         const methodDecl = `${METHOD_CLEAR}<__K extends ${IKEY_TYPE_PATH}>(key: __K): void { ${superCall} ${stmts} }`;
         const methodNode = SimpleParser.parseClassMember(methodDecl, clz);
-        assert(methodNode.kind == NodeKind.METHODDECLARATION);
+        assert(methodNode.kind == NodeKind.MethodDeclaration);
         return methodNode as MethodDeclaration;
     }
 }

@@ -1,6 +1,13 @@
-import { ToMetadata } from "./index";
-import { IHashLayout, IArrayLayout, ILayout } from "./specs";
-import { IFieldLayout, IStructLayout, ICellLayout, IHashingStrategy } from "./specs";
+import {
+    ToMetadata,
+    IHashLayout,
+    IArrayLayout,
+    ILayout,
+    IFieldLayout,
+    IStructLayout,
+    ICellLayout,
+    IHashingStrategy,
+} from "./index.js";
 
 export enum LayoutKind {
     Cell,

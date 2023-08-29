@@ -1,3 +1,3 @@
-import { AskTransform } from "./visitors";
+import { AskTransform } from "./visitors/index.js";
 
-export = AskTransform;
+export default AskTransform;

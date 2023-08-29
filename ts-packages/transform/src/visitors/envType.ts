@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { TransformVisitor } from "visitor-as";
-import { DiagnosticCode, DiagnosticEmitter, TypeDeclaration } from "assemblyscript";
-import { EnvConfig, EnvType } from "../config";
-import { genNamedTypeNode } from "../astutil";
 import debug from "debug";
-import { extractDecorator } from "../util";
-import { ContractDecoratorKind } from "../ast";
+import {
+    DiagnosticCode,
+    DiagnosticEmitter,
+    TypeDeclaration,
+} from "assemblyscript/dist/assemblyscript.js";
+import { EnvConfig, EnvType } from "../config.js";
+import { genNamedTypeNode } from "../astutil/index.js";
+import { extractDecorator } from "../util.js";
+import { ContractDecoratorKind } from "../ast.js";
 
 const log = debug("EnvTypeVisitor");
 

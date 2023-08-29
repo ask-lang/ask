@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import debug from "debug";
+import _ from "lodash";
 import {
     Program,
     FunctionPrototype,
@@ -9,14 +11,11 @@ import {
     SourceKind,
     MethodDeclaration,
     NodeKind,
-    FieldDeclaration,
     Function,
-    Field,
     Class,
     ClassDeclaration,
     DiagnosticCode,
-} from "assemblyscript";
-import { version } from "visitor-as/as";
+} from "assemblyscript/dist/assemblyscript.js";
 import {
     ArgumentSpec,
     ContractMetadata,
@@ -36,27 +35,25 @@ import {
     VersionedContractMetadata,
 } from "ask-contract-metadata";
 import * as metadata from "ask-contract-metadata";
-import { ASK_VERSION } from "../consts";
-import { extractConfigFromDecorator, extractDecorator, hasDecorator } from "../util";
+import { ASK_VERSION } from "../consts.js";
+import { extractConfigFromDecorator, extractDecorator, hasDecorator } from "../util.js";
 import {
     ContractDecoratorKind,
     MessageDeclaration,
     ConstructorDeclaration,
     EventDeclaration,
-} from "../ast";
+} from "../ast.js";
 import {
     TypeResolver,
     PrimitiveTypeInfo,
     CompositeTypeInfo,
     SequenceTypeInfo,
     TypeInfoMap,
-} from ".";
-import debug from "debug";
-import { uniqBy } from "lodash";
-import { ArrayTypeInfo } from "./typeInfo";
+    ArrayTypeInfo,
+} from "./index.js";
 
 export const LANGUAGE = `Ask! ${ASK_VERSION}`;
-export const COMPILER = `asc ${version}`;
+export const COMPILER = `asc-0.24`;
 
 const log = debug("MetadataGenerator");
 
@@ -193,8 +190,6 @@ export class MetadataGenerator {
                 }
             }
         });
-        // type index is starting from 1
-        // typeSpecs.splice(0, 1);
         return typeSpecs;
     }
 
@@ -205,36 +200,16 @@ export class MetadataGenerator {
         );
         const types = resolver.resolvedTypes();
         const fields: metadata.Field[] = info.fields.map((field) => {
-            // field is named
-            if (field instanceof Field) {
-                const fieldDecl = field.prototype.declaration as FieldDeclaration;
-                const fieldTypeInfo = types.get(field.type);
-                assert(
-                    fieldTypeInfo != null,
-                    `Ask-lang: '${field.name}: ${field.type.toString()}' not found`,
-                );
-                const ret = new metadata.Field(
-                    fieldDecl.name.range.toString(),
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // we make sure all fields gived a type explicitly
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldDecl.type!.range.toString(),
-                );
-                return ret;
-            } else {
-                // type is unnamed
-                const fieldTypeInfo = types.get(field);
-                assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
-                const ret = new metadata.Field(
-                    null,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    fieldTypeInfo!.index,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    field.toString(),
-                );
-                return ret;
-            }
+            const fieldTypeInfo = types.get(field);
+            assert(fieldTypeInfo != null, `Ask-lang: type '${field.toString()}' not found`);
+            const ret = new metadata.Field(
+                null,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                fieldTypeInfo!.index,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                field.toString(),
+            );
+            return ret;
         });
         let path = info.type ? info.type.toString() : "unknown";
         return new CompositeDef(fields).setPath([path]);
@@ -255,7 +230,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
+            assert(func.prototype.declaration.kind == NodeKind.MethodDeclaration);
             const msgDecl = MessageDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -299,7 +274,7 @@ export class MetadataGenerator {
             )!;
             log(name, decorator.range.toString());
             const cfg = extractConfigFromDecorator(this.program, decorator);
-            assert(func.prototype.declaration.kind == NodeKind.METHODDECLARATION);
+            assert(func.prototype.declaration.kind == NodeKind.MethodDeclaration);
             const decl = ConstructorDeclaration.extractFrom(
                 this.program,
                 func.prototype.declaration as MethodDeclaration,
@@ -327,7 +302,7 @@ export class MetadataGenerator {
 
         log(`End ${this.genEvents.name}`);
 
-        const uniqEvents = uniqBy(eventSpecs, (event) => event.id);
+        const uniqEvents = _.uniqBy(eventSpecs, (event) => event.id);
         // TODO: check duplicated id
         if (eventSpecs.length != uniqEvents.length) {
             this.program.error(
@@ -348,29 +323,31 @@ export class MetadataGenerator {
         // we need to keep args in order.
         log(eventDecl.members.map((member) => member.name.text));
         eventDecl.members.forEach((member) => {
-            if (member.kind != NodeKind.FIELDDECLARATION) {
+            if (member.kind != NodeKind.FieldDeclaration) {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const field = event.members!.get(member.name.text)! as Field;
-            assert(field != null);
-            const fieldDecl = field.declaration as FieldDeclaration;
+            const eventMember = event.members!.get(member.name.text)!;
+            assert(eventMember != null);
+            assert(eventMember.declaration.kind == NodeKind.MethodDeclaration);
+            const fieldMethodDecl = eventMember.declaration as MethodDeclaration;
             const indexed: boolean = extractDecorator(
                 this.program,
-                fieldDecl,
+                fieldMethodDecl,
                 ContractDecoratorKind.Topic,
             )
                 ? true
                 : false;
 
+            let property = TypeResolver.getPropertyField(eventMember);
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const typeInfo = types.get(field.type)!;
+            const typeInfo = types.get(property.type)!;
             const typeSpec = new TypeSpec(
                 typeInfo.index,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                fieldDecl.type!.range.toString(),
+                typeInfo.type?.toString() || "unknown",
             );
-            args.push(new EventParamSpec(field.name, typeSpec, indexed));
+            args.push(new EventParamSpec(eventMember.name, typeSpec, indexed));
         });
 
         log(`End ${this.genEventSpec.name}: ${event.name}`);
@@ -404,7 +381,7 @@ export class MetadataGenerator {
 export function isEntrypointContract(elem: Element): boolean {
     const prototype = <ClassPrototype>elem;
     return (
-        prototype.declaration.range.source.sourceKind == SourceKind.USER_ENTRY && isContract(elem)
+        prototype.declaration.range.source.sourceKind == SourceKind.UserEntry && isContract(elem)
     );
 }
 
@@ -425,7 +402,7 @@ export function isEvent(elem: Element): boolean {
 }
 
 function isClass(elem: Element, kind: ContractDecoratorKind): boolean {
-    if (elem.kind == ElementKind.CLASS_PROTOTYPE) {
+    if (elem.kind == ElementKind.ClassPrototype) {
         const prototype = <ClassPrototype>elem;
         return hasDecorator(prototype.declaration.decorators, kind);
     }
@@ -433,7 +410,7 @@ function isClass(elem: Element, kind: ContractDecoratorKind): boolean {
 }
 
 function isMethod(elem: Element, kind: ContractDecoratorKind): boolean {
-    if (elem.kind == ElementKind.FUNCTION_PROTOTYPE) {
+    if (elem.kind == ElementKind.FunctionPrototype) {
         const prototype = <FunctionPrototype>elem;
         return hasDecorator(prototype.declaration.decorators, kind);
     }

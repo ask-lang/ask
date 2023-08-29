@@ -10,7 +10,7 @@ class Constants {
 @spreadLayout
 class ERC20Storage {
     balances: Mapping<AccountId, u128, HashKeccak256> = new Mapping();
-    // Note: Account in Map's key is ref, so we should use string.
+    // Note: Account as key in `Map` use ref equality, so we should use string there.
     allowances: Mapping<AccountId, Map<string, u128>, HashKeccak256> = new Mapping();
 
     _totalSupply: Lazy<u128> = instantiate<Lazy<u128>>();
@@ -20,7 +20,6 @@ class ERC20Storage {
 class Transfer {
     from: AccountId;
     to: AccountId;
-
     value: u128;
 
     constructor(from: AccountId, to: AccountId, value: u128) {
@@ -165,7 +164,7 @@ export class ERC20 {
     }
 
     protected _setupDecimals(decimal: u8): void {
-        this.storage._decimal.set(decimal);
+        this.storage.constants.unwrap()._decimal = decimal;
     }
 
     protected _mint(account: AccountId, amount: u128): void {
@@ -221,23 +220,23 @@ export class ERC20 {
         assert(sender != ZERO_ACCOUNT, "ERC20: transfer from the zero address");
         assert(recipient != ZERO_ACCOUNT, "ERC20: transfer to the zero address");
 
-        const spenderBalance = this.storage.balances.getOrNull(sender);
-        assert(spenderBalance !== null);
-        assert(spenderBalance! >= amount, "ERC20: transfer amount exceeds balance");
+        const spenderBalance = this.storage.balances.getOrDefault(sender, u128.Zero);
+        assert(spenderBalance >= amount, "ERC20: transfer amount exceeds balance");
 
         // @ts-ignore
-        const senderLeft: u128 = spenderBalance! - amount;
+        const senderLeft: u128 = spenderBalance - amount;
         this.storage.balances.set(sender, senderLeft);
 
-        let recipientLeft = this.storage.balances.getOrNull(recipient);
-        if (recipientLeft !== null) {
+        let recipientLeft = this.storage.balances.getOrDefault(recipient, u128.Zero);
+        let newRecipientLeft: u128;
+        if (recipientLeft != u128.Zero) {
             // @ts-ignore
-            recipientLeft = recipientLeft + amount;
+            newRecipientLeft = recipientLeft + amount;
         } else {
-            recipientLeft = amount;
+            newRecipientLeft = amount;
         }
         // @ts-ignore
-        this.storage.balances.set(recipient, recipientLeft);
+        this.storage.balances.set(recipient, newRecipientLeft);
         const event = new Transfer(sender, recipient, amount);
         // @ts-ignore
         env().emitEvent(event);

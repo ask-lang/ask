@@ -1,8 +1,13 @@
-import { ASTBuilder } from "visitor-as";
-import { FunctionDeclaration, newProgram, newOptions } from "assemblyscript";
-import { ContractVisitor } from "../visitors";
-import { defaultConfig } from "../config";
-import { checkVisitor } from "./testutil";
+import * as assert from "assert";
+import {
+    FunctionDeclaration,
+    newProgram,
+    newOptions,
+    ASTBuilder,
+} from "assemblyscript/dist/assemblyscript.js";
+import { ContractVisitor } from "../visitors/index.js";
+import { defaultConfig } from "../config.js";
+import { checkVisitor } from "./testutil.js";
 
 // Note: in tests we have to use two spaces as ident because of ASTBuilder.
 describe("ContractVisitor", () => {
@@ -97,12 +102,12 @@ export class Contract implements __lang.IContract {
 }`.trim();
         const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
-        expect(visitor.messageDecls).toHaveLength(2);
-        expect(visitor.constructorDecls).toHaveLength(1);
+        assert.equal(visitor.messageDecls.length, 2);
+        assert.equal(visitor.constructorDecls.length, 1);
         const deployFunction = visitor.deployFunction as FunctionDeclaration;
         const callFunction = visitor.callFunction as FunctionDeclaration;
-        expect(deployFunction != null).toBe(true);
-        expect(callFunction != null).toBe(true);
+        assert.ok(deployFunction);
+        assert.ok(callFunction);
 
         const expectedDeploy = `
 export function deploy(): i32 {
@@ -119,8 +124,8 @@ export function call(): i32 {
 }
 `.trim();
 
-        expect(ASTBuilder.build(deployFunction)).toBe(expectedDeploy);
-        expect(ASTBuilder.build(callFunction)).toBe(expectedCall);
+        assert.equal(ASTBuilder.build(deployFunction), expectedDeploy);
+        assert.equal(ASTBuilder.build(callFunction), expectedCall);
     });
 
     it("@contract inheritance", () => {
@@ -195,8 +200,8 @@ export class Contract extends OtherContract {
 
         const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
-        expect(visitor.messageDecls).toHaveLength(1);
-        expect(visitor.constructorDecls).toHaveLength(1);
+        assert.equal(visitor.messageDecls.length, 1);
+        assert.equal(visitor.constructorDecls.length, 1);
     });
 
     it("mutates @message has return value", () => {
@@ -269,8 +274,8 @@ export class Contract implements __lang.IContract {
 
         const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, expected);
-        expect(visitor.messageDecls).toHaveLength(1);
-        expect(visitor.constructorDecls).toHaveLength(1);
+        assert.equal(visitor.messageDecls.length, 1);
+        assert.equal(visitor.constructorDecls.length, 1);
     });
 
     it("parse @contract without @constructor", () => {
@@ -300,7 +305,7 @@ export class Contract {
 
         const visitor = new ContractVisitor(newProgram(newOptions()), defaultConfig());
         checkVisitor(visitor, code, "", false, true);
-        expect(visitor.messageDecls).toHaveLength(2);
-        expect(visitor.constructorDecls).toHaveLength(0);
+        assert.equal(visitor.messageDecls.length, 2);
+        assert.equal(visitor.constructorDecls.length, 0);
     });
 });

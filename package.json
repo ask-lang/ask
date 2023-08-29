@@ -2,6 +2,7 @@
   "name": "@ask-lang/ask",
   "version": "0.4.0",
   "description": "compile assemblyscript to substrate wasm contract",
+  "type": "module",
   "keywords": [
     "assemblyscript",
     "ask",
@@ -23,8 +24,8 @@
   "scripts": {
     "example": "ASK_CONFIG=./examples/askconfig.json asc --config ./examples/asconfig.json",
     "lint": "eslint .",
-    "fmt": "prettier -w './**/*.ts' --config ./.prettierrc.js",
-    "fmt-check": "prettier -w './**/*.ts' --config ./.prettierrc.js --check",
+    "fmt": "prettier -w './**/*.ts' --config ./.prettierrc.cjs",
+    "fmt-check": "prettier -w './**/*.ts' --config ./.prettierrc.cjs --check",
     "checks": "yarn workspaces run checks",
     "test": "yarn workspaces run test",
     "test:as": "asp --verbose",
@@ -34,21 +35,16 @@
   },
   "private": true,
   "devDependencies": {
-    "@as-pect/cli": "^6.2",
-    "@assemblyscript/loader": "^0.27",
-    "@types/jest": "27",
-    "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.16",
-    "@typescript-eslint/parser": "^5.16",
-    "assemblyscript": "^0.19",
-    "eslint": "^8.12",
-    "jest": "^27",
-    "lerna": "^4.0.0",
+    "@as-pect/cli": "^8.1",
+    "@types/node": "^18.16",
+    "@typescript-eslint/eslint-plugin": "^5.60",
+    "@typescript-eslint/parser": "^5.60",
+    "assemblyscript": "=0.25",
+    "eslint": "^8.48",
     "prettier": "^3.0",
-    "source-map-support": "^0.5.21",
-    "ts-jest": "^27",
-    "ts-node": "^10.7",
-    "typescript": "^4.6"
+    "ts-node": "^10.9",
+    "mocha": "^10.0",
+    "typescript": "~5.1"
   },
   "publishConfig": {
     "access": "public"

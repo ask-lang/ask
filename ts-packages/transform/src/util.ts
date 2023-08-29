@@ -22,17 +22,17 @@ import {
     Node,
     StringLiteralExpression,
     Range,
-} from "assemblyscript";
-import { ContractDecoratorKind } from "./ast";
+} from "assemblyscript/dist/assemblyscript.js";
+import { ContractDecoratorKind } from "./ast.js";
 
 // TODO: maybe we can extract it as a common util package.
 
 export function removeExported(node: { flags: CommonFlags }): void {
-    node.flags = node.flags & ~CommonFlags.EXPORT;
+    node.flags = node.flags & ~CommonFlags.Export;
 }
 
 export function isEntry(node: Node): boolean {
-    return node.range.source.sourceKind == SourceKind.USER_ENTRY;
+    return node.range.source.sourceKind == SourceKind.UserEntry;
 }
 
 export function mustBeVoidReturn(emitter: DiagnosticEmitter, node: FunctionDeclaration): boolean {
@@ -56,7 +56,7 @@ export function mustBeLegalStorageField(
 ): boolean {
     let ret = true;
 
-    if (node.is(CommonFlags.READONLY)) {
+    if (node.is(CommonFlags.Readonly)) {
         emitter.error(
             DiagnosticCode.User_defined_0,
             node.range,
@@ -108,7 +108,7 @@ export function shouldBeNoParamDecorator(
  */
 export function mustBePublicMethod(emitter: DiagnosticEmitter, node: MethodDeclaration): boolean {
     // `public` by default, so we check `protected` and `private`
-    if (node.is(CommonFlags.PROTECTED) || node.is(CommonFlags.PRIVATE)) {
+    if (node.is(CommonFlags.Protected) || node.is(CommonFlags.Private)) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
             node.range,
@@ -132,7 +132,7 @@ export function mustBeNonStaticMethod(
     node: MethodDeclaration,
     kind: ContractDecoratorKind,
 ): boolean {
-    if (node.is(CommonFlags.STATIC)) {
+    if (node.is(CommonFlags.Static)) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
             node.range,
@@ -289,7 +289,7 @@ export function extractLiteralObject(
     const args = decorator.args ? decorator.args : [];
     const literals: ObjectLiteralExpression[] = [];
     for (const arg of args) {
-        if (arg.kind !== NodeKind.LITERAL) {
+        if (arg.kind !== NodeKind.Literal) {
             emitter.errorRelated(
                 DiagnosticCode.User_defined_0,
                 decorator.range,
@@ -298,7 +298,7 @@ export function extractLiteralObject(
             );
         }
         const literalArg = arg as LiteralExpression;
-        if (literalArg.literalKind !== LiteralKind.OBJECT) {
+        if (literalArg.literalKind !== LiteralKind.Object) {
             emitter.errorRelated(
                 DiagnosticCode.User_defined_0,
                 decorator.range,
@@ -335,7 +335,7 @@ export function extractLiteralString(
         return null;
     }
     let arg = args[0];
-    if (arg.kind !== NodeKind.LITERAL) {
+    if (arg.kind !== NodeKind.Literal) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
             decorator.range,
@@ -345,7 +345,7 @@ export function extractLiteralString(
         return null;
     }
     const literal = arg as StringLiteralExpression;
-    if (literal.literalKind !== LiteralKind.STRING) {
+    if (literal.literalKind !== LiteralKind.String) {
         emitter.errorRelated(
             DiagnosticCode.User_defined_0,
             decorator.range,
@@ -377,10 +377,10 @@ export function extractConfigFromLiteral(
         const value = node.values[i];
         // we only support the folllowing literals
         if (
-            value.isLiteralKind(LiteralKind.INTEGER) ||
-            value.isLiteralKind(LiteralKind.STRING) ||
-            value.kind === NodeKind.TRUE ||
-            value.kind === NodeKind.FALSE
+            value.isLiteralKind(LiteralKind.Integer) ||
+            value.isLiteralKind(LiteralKind.String) ||
+            value.kind === NodeKind.True ||
+            value.kind === NodeKind.False
         ) {
             config.set(key, value.range.toString());
         } else {

@@ -10,7 +10,7 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
     ],
     parserOptions: {
-        ecmaVersion: 2020,
+        ecmaVersion: 2022,
         sourceType: "module",
         ecmaFeatures: {}
     },

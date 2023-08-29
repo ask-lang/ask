@@ -1,4 +1,4 @@
-import { i128, u128 } from "as-bignum";
+import { i128, u128 } from "../index";
 import { PackedLayout, IKey } from "../interfaces";
 import { env } from "../env";
 import { FixedArray } from "../fixedArrays";
@@ -91,7 +91,6 @@ export function pushPackedRoot<T extends PackedLayout, K extends IKey>(value: T,
 // Note: it's recursive by calling `value.pullPacked(key)`.
 // prettier-ignore
 export function pullPacked<T, K extends IKey>(value: T, key: K): void {
-    let dummy: T;
     if (!isReference<T>()) {
         return;
     } else if (
@@ -116,7 +115,9 @@ export function pullPacked<T, K extends IKey>(value: T, key: K): void {
         false
     ) {
         return;
-    } else if (
+    } 
+    let dummy: T = changetype<T>(0);
+    if (
         isArray<T>() ||
         value instanceof StaticArray ||
         isArrayLike<T>() ||

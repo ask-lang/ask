@@ -1,9 +1,8 @@
+// @ts-nocheck
 import { seal0 } from "ask-contract-runtime";
 import { FixedArray } from "../fixedArrays";
 import { IHash128, IHash256 } from "../interfaces";
 
-// @ts-ignore
-// prettier-ignore
 @lazy
     const ERR_INPUT_TYPE = "Input type must be Array<u8>, StaticArray<u8> or FixedArray";
 
@@ -13,7 +12,7 @@ function invoke_hash<Output = Array<u8>>(
     outputSize: i32,
     fn: (inputPtr: u32, inputSize: u32, outputPtr: u32) => void,
 ): Output {
-    let output: Output;
+    let output: Output = changetype<Output>(0);
     let outputPtr: u32;
     // @ts-ignore
     if (output instanceof FixedArray) {

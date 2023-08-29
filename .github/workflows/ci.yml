@@ -10,10 +10,10 @@ jobs:
   lint:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        node-version: ["16.x", "18.x"]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "lint in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Lint ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -27,10 +27,10 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        node-version: ["16.x", "18.x"]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Test ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -40,29 +40,23 @@ jobs:
       - name: test
         run: |
           yarn install --immutable
+          yarn build
           yarn test
   build-example:
     strategy:
       matrix:
-        node-version: ["14.x", "16.x"]
-        platform: [ubuntu-latest]
+        node-version: ["16.x", "18.x"]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
-    name: "test in ${{ matrix.platform }} ${{ matrix.node-version }}"
+    name: "Build example ${{ matrix.platform }} ${{ matrix.node-version }}"
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: test
+      - name: Build Example
         run: |
           yarn install --immutable
           yarn build
-          yarn example ./examples/crypto
-          yarn example ./examples/erc20
-          yarn example ./examples/flipper
-          yarn example ./examples/inherent-flipper
-          yarn example ./examples/lazy
-          yarn example ./examples/mapping
-          yarn example ./examples/vector
-          yarn example ./examples/incrementer
+          bash ./scripts/build-examples.sh

@@ -1,28 +1,32 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import debug from "debug";
+import { PrimitiveType } from "ask-contract-metadata";
 import {
     ClassPrototype,
     FunctionPrototype,
     Class,
     Type,
     ElementKind,
-    Field,
+    // Field,
     NodeKind,
     ClassDeclaration,
     CommonFlags,
     Function,
     Program,
     CommonNames,
-} from "visitor-as/as";
-import { isMessage, isConstructor } from "./generator";
-import debug from "debug";
-import { PrimitiveType } from "ask-contract-metadata";
+    DeclaredElement,
+    PropertyPrototype,
+    Property,
+} from "assemblyscript/dist/assemblyscript.js";
 import {
+    isMessage,
+    isConstructor,
     PrimitiveTypeInfo,
     CompositeTypeInfo,
     TypeInfo,
     ArrayTypeInfo,
     SequenceTypeInfo,
-} from "./typeInfo";
+} from "./index.js";
 
 const log = debug("TypeResolver");
 
@@ -48,6 +52,10 @@ export class TypeResolver {
         private readonly eventPrototypes: ClassPrototype[],
     ) {}
 
+    /**
+     *
+     * @returns Resovled types
+     */
     resolvedTypes(): TypeInfoMap {
         return this.types;
     }
@@ -139,6 +147,7 @@ export class TypeResolver {
 
         const program = this.program;
 
+        // TODO: we could define a decorator to catch this type.
         // It's other primitive type
         if (
             clz.prototype.internalName.match(/~lib\/as-bignum/) &&
@@ -258,28 +267,34 @@ export class TypeResolver {
         }
     }
 
-    private resovleCompositeField(type: Type): Field[] {
+    private resovleCompositeField(type: Type): Type[] {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const clz: Class = type.getClass()!;
-        assert(clz.declaration.kind === NodeKind.CLASSDECLARATION);
-        const fields: Field[] = [];
+        assert(clz.declaration.kind === NodeKind.ClassDeclaration);
+        const fields: Type[] = [];
         for (let curClass: Class | null = clz; curClass != null; curClass = curClass.base) {
             const decl = curClass.declaration as ClassDeclaration;
             for (let i = decl.members.length - 1; i >= 0; i--) {
                 let member = decl.members[i];
                 // we only need to know non-static field type
-                if (member.isAny(CommonFlags.STATIC)) {
+                if (member.isAny(CommonFlags.Static)) {
                     continue;
                 }
-                if (member.kind != NodeKind.FIELDDECLARATION) {
+                if (member.kind != NodeKind.FieldDeclaration) {
                     continue;
                 }
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const elem = curClass!.members!.get(member.name.text);
-                assert(elem?.kind === ElementKind.FIELD);
-                const field = elem as Field;
-                this.resolveScaleType(field.type);
-                fields.push(field);
+                const elem = curClass!.members!.get(member.name.text)!;
+                assert(elem != null);
+                if (!TypeResolver.isPropertyField(elem)) {
+                    continue;
+                }
+                let elemType = TypeResolver.getPropertyFieldType(elem);
+                this.resolveScaleType(elemType);
+                fields.push(elemType);
+                // const field = elem as Field;
+                // this.resolveScaleType(field.type);
+                // fields.push(field);
             }
         }
         // we need to keep the field order.
@@ -305,7 +320,7 @@ export class TypeResolver {
         );
 
         let instance: Class = getFirstValue(instances);
-        assert(instance.declaration.kind === NodeKind.CLASSDECLARATION);
+        assert(instance.declaration.kind === NodeKind.ClassDeclaration);
 
         log(instance.members?.keys());
         // TODO: do some filterings for contract inheritance
@@ -332,6 +347,7 @@ export class TypeResolver {
                     }
                 });
             } else if (isConstructor(member) && isEntry) {
+                // Only support entrypoint
                 log("constructor method:", name);
                 const func = member as FunctionPrototype;
                 assert(func.instances?.size == 1, `instances num: ${func.instances?.size}`);
@@ -349,26 +365,55 @@ export class TypeResolver {
                         this.constructors.set(name, member);
                     }
                 });
-            } else if (member.kind == ElementKind.FIELD) {
+            } else if (TypeResolver.isPropertyField(member)) {
                 // TODO: now don't support storage metadata
-                // log("storage field:", name);
-                // const field = member as Field;
-                // this.resolveCodecType(field.type);
             }
         });
         log(`End ${this.resolveContract.name}: ${contract.name}`);
     }
 
+    static isPropertyPrototype(clz: DeclaredElement): bool {
+        return clz.kind === ElementKind.PropertyPrototype;
+    }
+
+    static isPropertyField(clz: DeclaredElement): bool {
+        return TypeResolver.isPropertyPrototype(clz) && (clz as PropertyPrototype).isField;
+    }
+
+    /**
+     * Get the field instance from the element property.
+     *
+     * It assumes the field instance exists.
+     * @param element The element in a class.
+     * @returns
+     */
+    static getPropertyField(element: DeclaredElement): Property {
+        return (element as PropertyPrototype).instance as Property;
+    }
+
+    /**
+     * Get the field instance type from the element property.
+     *
+     * It assumes the field instance exists.
+     * @param element The element in a class.
+     * @returns
+     */
+    static getPropertyFieldType(element: DeclaredElement): Type {
+        return TypeResolver.getPropertyField(element).type;
+    }
+
     private resolveEvent(event: ClassPrototype) {
         log(`Start ${this.resolveEvent.name}: ${event.name}`);
+        // Normally, we only have one instance for one kind event.
         event.instances?.forEach((instance: Class) => {
             log(instance.members?.keys());
             instance.members?.forEach((member, name) => {
-                if (member.kind == ElementKind.FIELD) {
-                    log("event field:", name);
-                    const field = member as Field;
-                    this.resolveScaleType(field.type);
+                if (!TypeResolver.isPropertyField(member)) {
+                    return;
                 }
+                log("event field:", name);
+                let memberType = TypeResolver.getPropertyFieldType(member);
+                this.resolveScaleType(memberType);
             });
 
             this.events.set(instance.internalName, instance);
