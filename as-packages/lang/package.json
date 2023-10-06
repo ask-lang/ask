@@ -23,7 +23,7 @@
     "as-buffers": "^0.3",
     "as-serde": "^0.3",
     "as-serde-scale": "^0.3",
-    "as-bignum": "^0.2.40"
+    "as-bignum": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {

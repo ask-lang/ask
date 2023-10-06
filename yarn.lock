@@ -612,10 +612,15 @@ as-base64@^0.2.0:
   resolved "https://registry.yarnpkg.com/as-base64/-/as-base64-0.2.0.tgz#b4bed937c93bfb6524b932b517e1b8571a0dd518"
   integrity sha512-j6JxprAVN4SXUcZiSChuMBf0JJOCdh5OfrHAepluxmFWuDZZm+YjmfNSk8djUHRPEB+Ui5HGvrz46GLvTJf3ig==
 
-as-bignum@^0.2, as-bignum@^0.2.40:
+as-bignum@^0.2:
   version "0.2.40"
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.40.tgz#d4dc94d77d2e781219d25a9cb408a61eb272f7c6"
   integrity sha512-fql9j63qUCmWwgWB3qW7+S8vp1DUrqSgFnpn/L3O2bjHMW52GZ0H/DfwLCQUAgQS15gsMsjwzMT14A2KCxu0cA==
+
+as-bignum@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.3.0.tgz#6d5489a423a5a8f12b4f9c9cc95e8f77e8ee2215"
+  integrity sha512-zbedAmhYWe3VRcd7gVQ5JqquySAo/xjhISWN2m3WZL7flBmKFjE9WykCXOQ0ePRyPDu7GEdxCzCG6b0G6Z5pnQ==
 
 as-buffers@^0.3, as-buffers@^0.3.0:
   version "0.3.0"
