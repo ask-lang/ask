@@ -43,7 +43,7 @@
     "eslint": "^8.56",
     "prettier": "^3.1",
     "ts-node": "^10.9",
-    "mocha": "^10.0",
+    "mocha": "^10.3",
     "typescript": "~5.3"
   },
   "publishConfig": {
